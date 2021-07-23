@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings
+	xsi:schemaLocation="http://www.tvd12.com/schema/ezyfox/settings
+  		ezy-zone-settings-1.0.0.xsd"
+	xmlns="http://www.tvd12.com/schema/ezyfox/settings" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<max-users>10000</max-users>
+    
+    <streaming>
+        <enable>true</enable>
+    </streaming>
+	
+	<user-management>
+		<allow-guest-login>true</allow-guest-login>
+		<guest-name-prefix>Guest#</guest-name-prefix>
+		<user-max-idle-time>15</user-max-idle-time>
+		<max-session-per-user>15</max-session-per-user>
+		<user-name-pattern>^[a-zA-Z0-9_.#]{3,36}$</user-name-pattern>
+	</user-management>
+	
+	<applications>
+        <application>
+			<name>EzyTank</name>
+			<folder>EzyTank-app-entry</folder>
+			<entry-loader>com.vuluong.app.AppEntryLoader</entry-loader>
+			<config-file>config/config.properties</config-file>
+		</application>
+	</applications>
+	
+	<plugins>
+        <plugin>
+			<name>EzyTank</name>
+			<folder>EzyTank-plugin</folder>
+			<priority>-1</priority>
+			<entry-loader>com.vuluong.plugin.PluginEntryLoader</entry-loader>
+			<config-file>config/config.properties</config-file>
+			<listen-events>
+				<event>USER_LOGIN</event>
+				<event>USER_ADDED</event>
+				<event>USER_REMOVED</event>
+			</listen-events>
+		</plugin>
+	</plugins>
+</settings>
