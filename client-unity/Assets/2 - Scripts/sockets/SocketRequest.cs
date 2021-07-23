@@ -1,5 +1,4 @@
-﻿using com.tvd12.ezyfoxserver.client.constant;
-using com.tvd12.ezyfoxserver.client.factory;
+﻿using com.tvd12.ezyfoxserver.client.request;
 using com.tvd12.ezyfoxserver.client.util;
 
 public class SocketRequest : EzyLoggable
@@ -11,14 +10,10 @@ public class SocketRequest : EzyLoggable
         return INSTANCE;
     }
 
-    public void SendPluginInfoRequest(string pluginName)
+    public void sendAppAccessRequest()
     {
         var client = SocketProxy.getInstance().Client;
-
-        var request = EzyEntityFactory.newArrayBuilder()
-            .append(pluginName)
-            .build();
-
-        client.send(EzyCommand.PLUGIN_INFO, request);
+        var request = new EzyAppAccessRequest(SocketProxy.APP_NAME);
+        client.send(request);
     }
 }

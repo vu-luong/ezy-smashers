@@ -24,21 +24,33 @@ class LoginSuccessHandler : EzyLoginSuccessHandler
     protected override void handleLoginSuccess(EzyData responseData)
     {
         logger.debug("Log in successfully");
-        SocketRequest.getInstance().SendPluginInfoRequest(SocketProxy.PLUGIN_NAME);
+        // connect to udp port
+        client.udpConnect(2611);
     }
 }
 
-class PluginInfoHandler : EzyPluginInfoHandler
+class UdpHandshakeHandler : EzyUdpHandshakeHandler
+{
+    protected override void onAuthenticated(EzyArray data)
+    {
+        logger.debug("UdpHandshakeHandler den day roi");
+        SocketRequest.getInstance().sendAppAccessRequest();
+    }
+}
+
+class AppAccessHandler : EzyAppAccessHandler
 {
     public static event Action socketSetupCompletedEvent;
-    protected override void postHandle(EzyPlugin plugin, EzyArray data)
+    protected override void postHandle(EzyApp app, EzyArray data)
     {
-        logger.debug("Completed setting up socket client!");
+        logger.debug("Completed setting up socket client");
         socketSetupCompletedEvent?.Invoke();
     }
 }
 
-#region Plugin Data Handler
+#region App Data Handler
+
+
 
 #endregion
 
@@ -46,15 +58,15 @@ public class SocketProxy : EzyLoggable
 {
     private static readonly SocketProxy INSTANCE = new SocketProxy();
 
-    public const string ZONE_NAME = "ezytank";
-    public const string PLUGIN_NAME = "ezytank";
+    public const string ZONE_NAME = "EzyTank";
+    public const string APP_NAME = "EzyTank";
 
-    private EzyClient client;
+    private EzyUTClient client;
     private User userAuthenInfo = new User("test", "test1234");
     private string host;
     private int port;
 
-    public EzyClient Client { get => client; }
+    public EzyUTClient Client { get => client; }
     public User UserAuthenInfo { get => userAuthenInfo; set => userAuthenInfo = value; }
     public string Host { get => host; }
     public int Port { get => port; }
@@ -64,7 +76,7 @@ public class SocketProxy : EzyLoggable
         return INSTANCE;
     }
 
-    public EzyClient setup(string host, int port)
+    public EzyUTClient setup(string host, int port)
     {
         this.host = host;
         this.port = port;
@@ -75,14 +87,18 @@ public class SocketProxy : EzyLoggable
             .build();
 
         var clients = EzyClients.getInstance();
-        client = clients.newDefaultClient(config);
+        client = new EzyUTClient(config);
+        clients.addClient(client);
+
         var setup = client.setup();
 
         setup.addDataHandler(EzyCommand.HANDSHAKE, new HandshakeHandler());
         setup.addDataHandler(EzyCommand.LOGIN, new LoginSuccessHandler());
-        setup.addDataHandler(EzyCommand.PLUGIN_INFO, new PluginInfoHandler());
+        setup.addDataHandler(EzyCommand.UDP_HANDSHAKE, new UdpHandshakeHandler());
+        setup.addDataHandler(EzyCommand.APP_ACCESS, new AppAccessHandler());
 
         // Set up ezytank app
+        var appSetup = setup.setupApp(APP_NAME);
 
         return client;
     }

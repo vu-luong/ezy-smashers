@@ -8,7 +8,7 @@ public class LoginController : MonoBehaviour
 
     private void Awake()
     {
-        PluginInfoHandler.socketSetupCompletedEvent += OnSocketSetupCompleted;
+        AppAccessHandler.socketSetupCompletedEvent += OnSocketSetupCompleted;
     }
 
     public void OnLogin()
