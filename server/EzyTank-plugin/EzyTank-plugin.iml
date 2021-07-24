@@ -14,14 +14,18 @@
     <orderEntry type="module" module-name="EzyTank-common" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-server-support:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-core:2.1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-bean:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-binding:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-server-core:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-codec:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-common:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-security:1.1.9" level="project" />
-    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-io:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-concurrent:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-mapping:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-json:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezydata-mongodb:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezydata-database:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-database:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-io:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-util:1.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:properties-file:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.tvd12:reflections:1.0.0" level="project" />
@@ -29,8 +33,9 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
-    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-mapping:1.1.9" level="project" />
-    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-json:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.12.8" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-bean:1.1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.tvd12:ezyfox-boot-autoconfigure:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.16" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.tvd12:test-util:1.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.10.19" level="project" />
