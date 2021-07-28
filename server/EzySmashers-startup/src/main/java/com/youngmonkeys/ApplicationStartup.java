@@ -1,25 +1,18 @@
 package com.youngmonkeys;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import com.tvd12.ezyfoxserver.constant.EzyEventType;
 import com.tvd12.ezyfoxserver.embedded.EzyEmbeddedServer;
 import com.tvd12.ezyfoxserver.ext.EzyAppEntry;
 import com.tvd12.ezyfoxserver.ext.EzyPluginEntry;
-import com.tvd12.ezyfoxserver.setting.EzyAppSetting;
-import com.tvd12.ezyfoxserver.setting.EzyAppSettingBuilder;
-import com.tvd12.ezyfoxserver.setting.EzyPluginSetting;
-import com.tvd12.ezyfoxserver.setting.EzyPluginSettingBuilder;
-import com.tvd12.ezyfoxserver.setting.EzySettingsBuilder;
-import com.tvd12.ezyfoxserver.setting.EzySimpleSettings;
-import com.tvd12.ezyfoxserver.setting.EzyZoneSettingBuilder;
-import com.youngmonkeys.plugin.PluginEntry;
-import com.youngmonkeys.plugin.PluginEntryLoader;
+import com.tvd12.ezyfoxserver.setting.*;
 import com.youngmonkeys.app.AppEntry;
 import com.youngmonkeys.app.AppEntryLoader;
+import com.youngmonkeys.plugin.PluginEntry;
+import com.youngmonkeys.plugin.PluginEntryLoader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ApplicationStartup {
 	
@@ -41,8 +34,24 @@ public class ApplicationStartup {
 				.application(appSettingBuilder.build())
 				.plugin(pluginSettingBuilder.build());
 		
+		EzyWebSocketSettingBuilder webSocketSettingBuilder = new EzyWebSocketSettingBuilder()
+				.active(false);
+		
+		EzyUdpSettingBuilder udpSettingBuilder = new EzyUdpSettingBuilder()
+				.active(true);
+		
+		EzySessionManagementSettingBuilder sessionManagementSettingBuilder = new EzySessionManagementSettingBuilder()
+				.sessionMaxRequestPerSecond(
+						new EzySessionManagementSettingBuilder.EzyMaxRequestPerSecondBuilder()
+								.value(250)
+								.build()
+				);
+		
 		EzySimpleSettings settings = new EzySettingsBuilder()
 				.zone(zoneSettingBuilder.build())
+				.websocket(webSocketSettingBuilder.build())
+				.udp(udpSettingBuilder.build())
+				.sessionManagement(sessionManagementSettingBuilder.build())
 				.build();
 		
 		EzyEmbeddedServer server = EzyEmbeddedServer.builder()
