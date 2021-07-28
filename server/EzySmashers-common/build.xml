@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EzySmashers-common" default="install" basedir=".">
+	<import file="../build.xml" />
+
+	<target name="install">
+		<copy todir="${ezyfox.home.common}">
+			<fileset dir="target">
+				<filename name="${project.name}-${project.version}.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+</project>

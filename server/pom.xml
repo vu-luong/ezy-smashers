@@ -8,12 +8,12 @@
 		<version>1.0.0</version>
 	</parent>
 	
-	<groupId>com.vuluong</groupId>
-	<artifactId>EzyTank</artifactId>
-	<version>1.0.0</version>
+	<groupId>com.youngmonkeys</groupId>
+	<artifactId>EzySmashers</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
-	<name>EzyTank</name>
+	<name>EzySmashers</name>
 	<url>https://youngmonkeys.org/</url>
 
 	<properties>
@@ -67,10 +67,10 @@
 		</profile>
 	</profiles>
 	<modules>
-		<module>EzyTank-common</module>
-	 	<module>EzyTank-plugin</module>
-	 	<module>EzyTank-app-api</module>
-		<module>EzyTank-app-entry</module>
-    	<module>EzyTank-startup</module>
+		<module>EzySmashers-common</module>
+	 	<module>EzySmashers-plugin</module>
+	 	<module>EzySmashers-app-api</module>
+		<module>EzySmashers-app-entry</module>
+    	<module>EzySmashers-startup</module>
     </modules>
 </project>

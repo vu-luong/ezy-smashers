@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EzySmashers-app-entry" default="install" basedir=".">
+
+	<import file="../build.xml" />
+
+	<target name="install">
+		<delete dir="${ezyfox.home.apps.entries}/${project.name}" />
+		<mkdir dir="${ezyfox.home.apps.entries}/${project.name}" />
+		<mkdir dir="${ezyfox.home.apps.entries}/${project.name}/config" />
+		<copy todir="${ezyfox.home.apps.entries}/${project.name}">
+			<fileset dir="target">
+				<filename name="${project.name}-${project.version}.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${ezyfox.home.apps.entries}/${project.name}/config">
+			<fileset dir="config" />
+		</copy>
+	</target>
+</project>

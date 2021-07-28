@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="EzyTank" default="install" basedir=".">
+<project name="EzySmashers" default="install" basedir=".">
 	<property environment="env" />
 	<property name="project.name" value="${ant.project.name}" />
-	<property name="project.version" value="1.0.0" />
+	<property name="project.version" value="1.0-SNAPSHOT" />
 	<property name="ezyfox.home" value="${env.EZYFOX_SERVER_HOME}" />
 	<property name="ezyfox.home.lib" value="${ezyfox.home}/lib" />
 	<property name="ezyfox.home.common" value="${ezyfox.home}/common" />

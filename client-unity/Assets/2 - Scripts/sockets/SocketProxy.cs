@@ -58,8 +58,8 @@ public class SocketProxy : EzyLoggable
 {
     private static readonly SocketProxy INSTANCE = new SocketProxy();
 
-    public const string ZONE_NAME = "EzyTank";
-    public const string APP_NAME = "EzyTank";
+    public const string ZONE_NAME = "EzySmashers";
+    public const string APP_NAME = "EzySmashers";
 
     private EzyUTClient client;
     private User userAuthenInfo = new User("test", "test1234");

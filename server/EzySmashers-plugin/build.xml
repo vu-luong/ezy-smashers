@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EzySmashers-plugin" default="install" basedir=".">
+	<import file="../build.xml" />
+
+	<target name="install">
+		<delete dir="${ezyfox.home.plugins}/${project.name}" />
+		<mkdir dir="${ezyfox.home.plugins}/${project.name}"/>
+		<mkdir dir="${ezyfox.home.plugins}/${project.name}/config"/>
+		<copy todir="${ezyfox.home.plugins}/${project.name}">
+			<fileset dir="target">
+				<filename name="${project.name}-${project.version}.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${ezyfox.home.plugins}/${project.name}/config">
+			<fileset dir="config" />
+		</copy>	
+	</target>
+
+</project>
