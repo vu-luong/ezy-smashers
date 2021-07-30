@@ -34,6 +34,8 @@ public class PluginEntry extends EzyDefaultPluginEntry {
 		EzyPluginSetting setting = context.getPlugin().getSetting();
 		builder.addProperties("EzySmashers-common-config.properties");
 		builder.addProperties(getConfigFile(setting));
+		// this function will be removed when lucky-wheel update ezyfox-server to 1.2.0
+		builder.scan(getScanablePackages());
 		Properties properties = builder.getProperties();
 		EzyZoneContext zoneContext = context.getParent();
 		zoneContext.setProperty(CommonConstants.PLUGIN_PROPERTIES, properties);
