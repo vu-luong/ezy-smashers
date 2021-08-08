@@ -18,5 +18,10 @@
 			<artifactId>EzySmashers-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.tvd12</groupId>
+			<artifactId>game-box</artifactId>
+			<version>1.0.4</version>
+		</dependency>
 	</dependencies>
 </project>

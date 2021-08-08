@@ -14,6 +14,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="EzySmashers-app-api" />
     <orderEntry type="module" module-name="EzySmashers-common" />
+    <orderEntry type="library" name="Maven: com.tvd12:game-box:1.0.4" level="project" />
     <orderEntry type="module" module-name="EzySmashers-app-entry" />
     <orderEntry type="module" module-name="EzySmashers-plugin" />
     <orderEntry type="library" name="Maven: com.tvd12:ezyfox-server-embedded:1.1.9" level="project" />
