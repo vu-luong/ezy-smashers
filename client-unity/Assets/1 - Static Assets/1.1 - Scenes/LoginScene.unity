@@ -481,5 +481,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6629603123810551308, guid: 818b471666ac4421a896185299158b3a, type: 3}
+      propertyPath: m_Text
+      value: 'Login to EzySmashers
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 818b471666ac4421a896185299158b3a, type: 3}

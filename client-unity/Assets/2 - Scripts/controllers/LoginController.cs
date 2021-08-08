@@ -20,6 +20,6 @@ public class LoginController : MonoBehaviour
     void OnJoinedLobby()
     {
         // Change scene here
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("LobbyScene");
     }
 }
