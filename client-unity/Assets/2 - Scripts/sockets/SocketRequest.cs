@@ -1,4 +1,6 @@
-﻿using com.tvd12.ezyfoxserver.client.request;
+﻿using System;
+using com.tvd12.ezyfoxserver.client.factory;
+using com.tvd12.ezyfoxserver.client.request;
 using com.tvd12.ezyfoxserver.client.util;
 
 public class SocketRequest : EzyLoggable
@@ -15,5 +17,11 @@ public class SocketRequest : EzyLoggable
         var client = SocketProxy.getInstance().Client;
         var request = new EzyAppAccessRequest(SocketProxy.APP_NAME);
         client.send(request);
+    }
+
+    public void sendJoinLobbyRequest()
+    {
+        var client = SocketProxy.getInstance().Client;
+        client.getApp().send(Commands.JOIN_LOBBY);
     }
 }

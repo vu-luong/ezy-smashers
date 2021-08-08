@@ -40,16 +40,22 @@ class UdpHandshakeHandler : EzyUdpHandshakeHandler
 
 class AppAccessHandler : EzyAppAccessHandler
 {
-    public static event Action socketSetupCompletedEvent;
     protected override void postHandle(EzyApp app, EzyArray data)
     {
-        logger.debug("Completed setting up socket client");
-        socketSetupCompletedEvent?.Invoke();
+        logger.debug("App access successfully");
+        SocketRequest.getInstance().sendJoinLobbyRequest();
     }
 }
 
 #region App Data Handler
-
+class JoinedLobbyHandler : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action joinedLobbyEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        joinedLobbyEvent?.Invoke();
+    }
+}
 
 
 #endregion
@@ -99,6 +105,7 @@ public class SocketProxy : EzyLoggable
 
         // Set up ezytank app
         var appSetup = setup.setupApp(APP_NAME);
+        appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinedLobbyHandler());
 
         return client;
     }

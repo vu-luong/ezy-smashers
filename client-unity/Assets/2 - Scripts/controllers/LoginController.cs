@@ -8,7 +8,7 @@ public class LoginController : MonoBehaviour
 
     private void Awake()
     {
-        AppAccessHandler.socketSetupCompletedEvent += OnSocketSetupCompleted;
+        JoinedLobbyHandler.joinedLobbyEvent += OnJoinedLobby;
     }
 
     public void OnLogin()
@@ -17,7 +17,7 @@ public class LoginController : MonoBehaviour
         SocketProxy.getInstance().login(username.Value, password.Value);
     }
 
-    void OnSocketSetupCompleted()
+    void OnJoinedLobby()
     {
         // Change scene here
         SceneManager.LoadScene("MainScene");
