@@ -29,8 +29,8 @@ public class GameRoom {
 
     public void removePlayer(MMOPlayer player) {
         PlayerManager<MMOPlayer> playerManager = mmoRoom.getPlayerManager();
-        playerManager.removePlayer(player);
         synchronized (this) {
+            playerManager.removePlayer(player);
             if(master == player && !playerManager.isEmpty()) {
                 master = playerManager.getPlayerByIndex(0);
             }
