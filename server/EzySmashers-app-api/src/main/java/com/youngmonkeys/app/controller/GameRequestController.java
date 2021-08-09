@@ -7,8 +7,9 @@ import com.tvd12.ezyfox.io.EzyLists;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
-import com.tvd12.gamebox.entity.NormalRoom;
 import com.youngmonkeys.app.constant.Commands;
+import com.youngmonkeys.app.game.GameRoom;
+import com.youngmonkeys.app.service.GameService;
 import com.youngmonkeys.app.service.LobbyService;
 import lombok.Setter;
 
@@ -20,6 +21,9 @@ public class GameRequestController extends EzyLoggable {
 	
 	@EzyAutoBind
 	private LobbyService lobbyService;
+	
+	@EzyAutoBind
+	private GameService gameService;
 	
 	@EzyAutoBind
 	private EzyResponseFactory responseFactory;
@@ -50,4 +54,19 @@ public class GameRequestController extends EzyLoggable {
 				.execute();
 	}
 	
+	@EzyDoHandle(Commands.CREATE_MMO_ROOM)
+	public void createMMORoom(EzyUser user) {
+		logger.info("user {} create an MMO room", user);
+		GameRoom room;
+		synchronized (gameService) {
+			room = gameService.newGameRoom(user);
+		}
+		
+		responseFactory.newObjectResponse()
+				.command(Commands.CREATE_MMO_ROOM)
+				.param("roomId", room.getId())
+				.param("master", true)
+				.user(user)
+				.execute();
+	}
 }

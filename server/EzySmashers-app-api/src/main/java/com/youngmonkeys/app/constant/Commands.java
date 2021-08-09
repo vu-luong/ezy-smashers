@@ -8,6 +8,7 @@ public final class Commands {
 	public static final String JOIN_LOBBY = "joinLobby";
 	public static final String PLAYER_JOINED_LOBBY = "playerJoinedLobby";
 	public static final String PLAYER_EXIT_GAME = "playerExitGame";
+	public static final String CREATE_MMO_ROOM = "createMMORoom";
 	
 	
 	private Commands() {}

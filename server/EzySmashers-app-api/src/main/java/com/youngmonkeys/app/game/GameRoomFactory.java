@@ -10,6 +10,9 @@ public class GameRoomFactory {
 
     @EzyProperty("game.room.max_players")
     private int maxPlayer;
+    
+    @EzyProperty("game.room.distance_of_interest")
+    private double distanceOfInterest;
 
     @EzyAutoBind
     private MMORoomUpdatedHandler roomUpdatedHandler;
@@ -17,6 +20,7 @@ public class GameRoomFactory {
     public GameRoom newGameRoom() {
         return (GameRoom) GameRoom.builder()
                 .defaultPlayerManager(maxPlayer)
+                .distanceOfInterest(distanceOfInterest)
                 .addRoomUpdatedHandler(roomUpdatedHandler)
                 .build();
     }
