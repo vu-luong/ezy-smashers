@@ -3,7 +3,6 @@ package com.youngmonkeys.app.game;
 import com.tvd12.ezyfox.annotation.EzyProperty;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
-import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
 
 @EzySingleton
@@ -16,11 +15,9 @@ public class GameRoomFactory {
     private MMORoomUpdatedHandler roomUpdatedHandler;
 
     public GameRoom newGameRoom() {
-        return new GameRoom(
-            MMORoom.builder()
+        return (GameRoom) GameRoom.builder()
                 .defaultPlayerManager(maxPlayer)
                 .addRoomUpdatedHandler(roomUpdatedHandler)
-                .build()
-        );
+                .build();
     }
 }
