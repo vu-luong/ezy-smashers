@@ -9,11 +9,9 @@ public class LobbyController : MonoBehaviour
         
     }
 
-    public void OnLogin()
+    public void OnCreateMMORoom()
     {
-    }
-
-    void OnJoinedLobby()
-    {
+        Debug.Log("LobbyController: OnCreateMMORoom!");
+        SocketRequest.getInstance().sendCreateMMORoomRequest();
     }
 }

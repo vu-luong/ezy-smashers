@@ -24,4 +24,10 @@ public class SocketRequest : EzyLoggable
         var client = SocketProxy.getInstance().Client;
         client.getApp().send(Commands.JOIN_LOBBY);
     }
+
+    public void sendCreateMMORoomRequest()
+    {
+        var client = SocketProxy.getInstance().Client;
+        client.getApp().send(Commands.CREATE_MMO_ROOM);
+    }
 }
