@@ -5,17 +5,16 @@ import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.manager.PlayerManager;
 import lombok.Getter;
 
-public class GameRoom {
+public class GameRoom extends MMORoom {
     @Getter
     private MMOPlayer master;
-    private final MMORoom mmoRoom;
-
-    public GameRoom(MMORoom mmoRoom) {
-        this.mmoRoom = mmoRoom;
+    
+    public GameRoom(Builder builder) {
+        super(builder);
     }
-
+    
     public void addPlayer(MMOPlayer player) {
-        PlayerManager<MMOPlayer> playerManager = mmoRoom.getPlayerManager();
+        PlayerManager<MMOPlayer> playerManager = this.getPlayerManager();
         if(playerManager.containsPlayer(player)) {
             return;
         }
@@ -28,7 +27,7 @@ public class GameRoom {
     }
 
     public void removePlayer(MMOPlayer player) {
-        PlayerManager<MMOPlayer> playerManager = mmoRoom.getPlayerManager();
+        PlayerManager<MMOPlayer> playerManager = this.getPlayerManager();
         synchronized (this) {
             playerManager.removePlayer(player);
             if(master == player && !playerManager.isEmpty()) {
@@ -38,6 +37,6 @@ public class GameRoom {
     }
 
     public boolean isEmpty() {
-        return mmoRoom.getPlayerManager().isEmpty();
+        return this.getPlayerManager().isEmpty();
     }
 }
