@@ -23,6 +23,9 @@ public class GameServiceImpl implements GameService {
 	@EzyAutoBind
 	private MMOVirtualWorld mmoVirtualWorld;
 	
+	@EzyAutoBind
+	private GameRoomFactory gameRoomFactory;
+	
 	private final PlayerManager<Player> playerManager
 			= new DefaultPlayerManager<>();
 	
@@ -57,7 +60,7 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public GameRoom newGameRoom(EzyUser user) {
 		MMOPlayer player = getPlayer(user.getName());
-		GameRoom room = new GameRoomFactory().newGameRoom();
+		GameRoom room = gameRoomFactory.newGameRoom();
 		room.addUser(user, player);
 		
 		mmoVirtualWorld.addRoom(room);
