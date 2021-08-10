@@ -11,6 +11,7 @@ import com.youngmonkeys.app.game.GameRoomFactory;
 import com.youngmonkeys.app.service.GameService;
 import lombok.Setter;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,8 +98,8 @@ public class GameServiceImpl implements GameService {
 				.getRoomList()
 				.stream()
 				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
+				.sorted(Comparator.comparingLong(Room::getId))
 				.map(Room::getName)
-				.sorted()
 				.collect(Collectors.toList());
 	}
 }
