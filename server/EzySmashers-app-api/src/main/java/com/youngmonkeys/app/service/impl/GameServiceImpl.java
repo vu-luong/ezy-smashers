@@ -93,13 +93,12 @@ public class GameServiceImpl implements GameService {
 	}
 	
 	@Override
-	public List<String> getMMORoomNames() {
+	public List<Long> getMMORoomIdList() {
 		return globalRoomManager
 				.getRoomList()
 				.stream()
 				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
-				.sorted(Comparator.comparingLong(Room::getId))
-				.map(Room::getName)
+				.map(Room::getId)
 				.collect(Collectors.toList());
 	}
 }
