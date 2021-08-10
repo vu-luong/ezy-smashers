@@ -98,6 +98,7 @@ public class GameServiceImpl implements GameService {
 				.stream()
 				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
 				.map(Room::getName)
+				.sorted()
 				.collect(Collectors.toList());
 	}
 }
