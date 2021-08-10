@@ -20,5 +20,5 @@ public interface GameService {
 	
 	void addRoom(NormalRoom room);
 	
-	List<String> getMMORoomNames();
+	List<Long> getMMORoomIdList();
 }
