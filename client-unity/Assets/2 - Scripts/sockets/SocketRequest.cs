@@ -31,9 +31,9 @@ public class SocketRequest : EzyLoggable
         client.getApp().send(Commands.CREATE_MMO_ROOM);
     }
 
-    public void sendGetMMORoomListRequest()
+    public void sendGetMMORoomNamesRequest()
     {
         var client = SocketProxy.getInstance().Client;
-        client.getApp().send(Commands.GET_MMO_ROOM_LIST);
+        client.getApp().send(Commands.GET_MMO_ROOM_NAMES);
     }
 }

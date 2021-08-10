@@ -4,8 +4,7 @@ public class ListUI : MonoBehaviour
 {
     public GameObject AddItem(GameObject gameObject)
     {
-        GameObject go = Instantiate(gameObject, transform);
-        return go;
+        return Instantiate(gameObject, transform);
     }
 
     public void RemoveById(int id)

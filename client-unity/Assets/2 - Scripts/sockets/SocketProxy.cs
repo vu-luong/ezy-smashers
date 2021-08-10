@@ -68,14 +68,14 @@ class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
     }
 }
 
-class GetMMORoomListResponse : EzyAbstractAppDataHandler<EzyArray>
+class GetMMORoomNamesResponse : EzyAbstractAppDataHandler<EzyArray>
 {
-    public static event Action<List<string>> mmoRoomListResponseEvent;
+    public static event Action<List<string>> mmoRoomNamesResponseEvent;
     protected override void process(EzyApp app, EzyArray data)
     {
-        logger.info("Room list: " + data.get<EzyArray>(0).ToString());
-        List<string> roomList = data.get<EzyArray>(0).toList<string>();
-        mmoRoomListResponseEvent?.Invoke(roomList);
+        logger.info("Room names: " + data.get<EzyArray>(0).ToString());
+        List<string> roomNames = data.get<EzyArray>(0).toList<string>();
+        mmoRoomNamesResponseEvent?.Invoke(roomNames);
     }
 }
 
@@ -128,7 +128,7 @@ public class SocketProxy : EzyLoggable
         var appSetup = setup.setupApp(APP_NAME);
         appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
         appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
-        appSetup.addDataHandler(Commands.GET_MMO_ROOM_LIST, new GetMMORoomListResponse());
+        appSetup.addDataHandler(Commands.GET_MMO_ROOM_NAMES, new GetMMORoomNamesResponse());
 
         return client;
     }

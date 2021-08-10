@@ -6,17 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
-    public UnityEvent<List<String>> mmoRoomListUpdateEvent;
+    public UnityEvent<List<String>> mmoRoomNamesUpdateEvent;
 
     private void Awake()
     {
         CreateRoomResponseHandler.roomCreatedEvent += OnRoomCreated;
-        GetMMORoomListResponse.mmoRoomListResponseEvent += OnMMORoomListResponse;
+        GetMMORoomNamesResponse.mmoRoomNamesResponseEvent += OnMMORoomNamesResponse;
     }
 
     private void Start()
     {
-        OnRefreshRoomList();
+        OnRefreshRoomNames();
     }
 
     public void OnCreateMMORoom()
@@ -28,16 +28,16 @@ public class LobbyController : MonoBehaviour
     public void OnRoomCreated()
     {
         // Change scene here
-        SceneManager.LoadScene("GameLoungeScene");
+        //SceneManager.LoadScene("GameLoungeScene");
     }
 
-    public void OnRefreshRoomList() 
+    public void OnRefreshRoomNames() 
     {
-        Debug.Log("LobbyController: OnRefreshRoomList");
-        SocketRequest.getInstance().sendGetMMORoomListRequest();
+        Debug.Log("LobbyController: OnRefreshRoomNames");
+        SocketRequest.getInstance().sendGetMMORoomNamesRequest();
     }
 
-    public void OnMMORoomListResponse(List<String> roomList) {
-        mmoRoomListUpdateEvent?.Invoke(roomList);
+    public void OnMMORoomNamesResponse(List<String> roomNames) {
+        mmoRoomNamesUpdateEvent?.Invoke(roomNames);
     }
 }
