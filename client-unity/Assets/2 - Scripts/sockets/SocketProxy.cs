@@ -67,6 +67,14 @@ class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
     }
 }
 
+class GetMMORoomListResponse : EzyAbstractAppDataHandler<EzyObject>
+{
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Room list {}", data);
+    }
+}
+
 #endregion
 
 public class SocketProxy : EzyLoggable
@@ -112,7 +120,7 @@ public class SocketProxy : EzyLoggable
         setup.addDataHandler(EzyCommand.UDP_HANDSHAKE, new UdpHandshakeHandler());
         setup.addDataHandler(EzyCommand.APP_ACCESS, new AppAccessHandler());
 
-        // Set up ezytank app
+        // Set up EzySmashers app
         var appSetup = setup.setupApp(APP_NAME);
         appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
         appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
