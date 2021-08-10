@@ -16,6 +16,8 @@ import com.youngmonkeys.app.game.GameRoomFactory;
 import com.youngmonkeys.app.service.GameService;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @EzySingleton
 public class GameServiceImpl implements GameService {
@@ -74,5 +76,12 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public MMOPlayer getPlayer(String playerName) {
 		return (MMOPlayer) playerManager.getPlayer(playerName);
+	}
+	
+	@Override
+	public List<String> getRoomPlayerNames(NormalRoom room) {
+		synchronized (room) {
+			return room.getPlayerManager().getPlayerNames();
+		}
 	}
 }

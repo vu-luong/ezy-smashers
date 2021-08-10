@@ -29,20 +29,14 @@ public class UserRemovedController
 	@Override
 	public void handle(EzyAppContext ctx, EzyUserRemovedEvent event) {
 		logger.info("EzySmashers app: user {} removed", event.getUser());
-		NormalRoom room;
-		List<String> playerNames;
 		String playerName = event.getUser().getName();
-		synchronized (gameService) {
-			room = gameService.removePlayer(playerName);
-		}
+		NormalRoom room = gameService.removePlayer(playerName);
 		
 		if (room == null) {
 			return;
 		}
 		
-		synchronized (room) {
-			playerNames = room.getPlayerManager().getPlayerNames();
-		}
+		List<String> playerNames = gameService.getRoomPlayerNames(room);
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.PLAYER_EXIT_GAME)
