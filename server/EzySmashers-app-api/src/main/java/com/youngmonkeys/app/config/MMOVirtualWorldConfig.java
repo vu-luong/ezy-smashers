@@ -7,11 +7,8 @@ import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
 import com.tvd12.gamebox.entity.MMOVirtualWorld;
 import com.tvd12.gamebox.entity.NormalRoom;
-import com.tvd12.gamebox.entity.Room;
 import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
 import com.tvd12.gamebox.handler.SyncPositionRoomUpdatedHandler;
-import com.tvd12.gamebox.manager.RoomManager;
-import com.tvd12.gamebox.manager.SynchronizedRoomManager;
 
 @EzyConfigurationBefore(priority = 0)
 public class MMOVirtualWorldConfig extends EzyLoggable {
