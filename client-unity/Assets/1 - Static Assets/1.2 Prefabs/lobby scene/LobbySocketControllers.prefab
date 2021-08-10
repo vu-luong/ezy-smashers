@@ -73,11 +73,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5802a93b4e1be43a7a8ef240b5a94064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mmoRoomNamesUpdateEvent:
+  mmoRoomIdListUpdateEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 24207838457bf4f1cad03423e49f09ba, type: 2}
-        m_TargetAssemblyTypeName: GameEvent`1[[System.Collections.Generic.List`1[[System.String,
+      - m_Target: {fileID: 11400000, guid: ffee179d89a8048e4abcd3620c15309f, type: 2}
+        m_TargetAssemblyTypeName: GameEvent`1[[System.Collections.Generic.List`1[[System.Int64,
           mscorlib
         m_MethodName: Raise
         m_Mode: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7733247471752395554}
         m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
-        m_MethodName: OnRefreshRoomNames
+        m_MethodName: OnRefreshRoomIdList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

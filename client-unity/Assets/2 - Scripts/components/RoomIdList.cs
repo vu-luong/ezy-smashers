@@ -2,19 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoomNames : MonoBehaviour
+public class RoomIdList : MonoBehaviour
 {
     [SerializeField]
     private GameObject roomButtonPrefab;
 
-    public void SetRoomNames(List<string> roomNames)
+    public void SetRoomIdList(List<long> roomIdList)
     {
-        Debug.Log("RoomNames.SetRoomNames: " + string.Join(",", roomNames));
+        roomIdList.Sort();
+        Debug.Log("RoomIdList.SetRoomIdList: " + string.Join(",", roomIdList));
         gameObject.GetComponent<ListUI>().RemoveAllItems();
-        foreach (string roomName in roomNames)
+        foreach (long roomId in roomIdList)
         {
             GameObject go = gameObject.GetComponent<ListUI>().AddItem(roomButtonPrefab);
-            go.GetComponentInChildren<Text>().text = roomName;
+            go.GetComponentInChildren<Text>().text = "Room #" + roomId;
         }
     }
 }
