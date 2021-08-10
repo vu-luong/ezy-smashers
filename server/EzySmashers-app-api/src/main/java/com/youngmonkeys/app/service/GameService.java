@@ -19,4 +19,6 @@ public interface GameService {
 	List<String> getRoomPlayerNames(NormalRoom room);
 	
 	void addRoom(NormalRoom room);
+	
+	List<String> getMMORoomNames();
 }

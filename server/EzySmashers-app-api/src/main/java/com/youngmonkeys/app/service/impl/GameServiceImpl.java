@@ -12,9 +12,11 @@ import com.youngmonkeys.app.service.GameService;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter
 @EzySingleton
+@SuppressWarnings("unchecked")
 public class GameServiceImpl implements GameService {
 	
 	@EzyAutoBind
@@ -28,6 +30,9 @@ public class GameServiceImpl implements GameService {
 	
 	@EzyAutoBind
 	private RoomManager<NormalRoom> globalRoomManager;
+	
+	@EzyAutoBind
+	private NormalRoom lobbyRoom;
 	
 	@Override
 	public NormalRoom removePlayer(String username) {
@@ -84,5 +89,15 @@ public class GameServiceImpl implements GameService {
 			}
 		}
 		globalRoomManager.addRoom(room);
+	}
+	
+	@Override
+	public List<String> getMMORoomNames() {
+		return globalRoomManager
+				.getRoomList()
+				.stream()
+				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
+				.map(Room::getName)
+				.collect(Collectors.toList());
 	}
 }
