@@ -8,7 +8,6 @@ public class RoomButtonUI : MonoBehaviour
     private void Start()
     {
         int currentRoomIndex = GetIndex() + 1;
-        gameObject.GetComponentInChildren<Text>().text = "Room " + currentRoomIndex;
     }
 
     public int GetIndex()

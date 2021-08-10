@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using com.tvd12.ezyfoxserver.client;
 using com.tvd12.ezyfoxserver.client.config;
 using com.tvd12.ezyfoxserver.client.constant;
@@ -33,7 +34,7 @@ class UdpHandshakeHandler : EzyUdpHandshakeHandler
 {
     protected override void onAuthenticated(EzyArray data)
     {
-        logger.debug("UdpHandshakeHandler den day roi");
+        logger.debug("UdpHandshakeHandler authenticated");
         SocketRequest.getInstance().sendAppAccessRequest();
     }
 }
@@ -62,8 +63,19 @@ class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
     public static event Action roomCreatedEvent;
     protected override void process(EzyApp app, EzyObject data)
     {
-        logger.info("Room created successfully {}", data);
+        logger.info("Room created successfully: " + data.ToString());
         roomCreatedEvent?.Invoke();
+    }
+}
+
+class GetMMORoomNamesResponse : EzyAbstractAppDataHandler<EzyArray>
+{
+    public static event Action<List<string>> mmoRoomNamesResponseEvent;
+    protected override void process(EzyApp app, EzyArray data)
+    {
+        logger.info("Room names: " + data.get<EzyArray>(0).ToString());
+        List<string> roomNames = data.get<EzyArray>(0).toList<string>();
+        mmoRoomNamesResponseEvent?.Invoke(roomNames);
     }
 }
 
@@ -112,10 +124,11 @@ public class SocketProxy : EzyLoggable
         setup.addDataHandler(EzyCommand.UDP_HANDSHAKE, new UdpHandshakeHandler());
         setup.addDataHandler(EzyCommand.APP_ACCESS, new AppAccessHandler());
 
-        // Set up ezytank app
+        // Set up EzySmashers app
         var appSetup = setup.setupApp(APP_NAME);
         appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
         appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
+        appSetup.addDataHandler(Commands.GET_MMO_ROOM_NAMES, new GetMMORoomNamesResponse());
 
         return client;
     }

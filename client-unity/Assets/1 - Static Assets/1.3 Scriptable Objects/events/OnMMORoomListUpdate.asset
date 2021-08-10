@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234c38fa95c304515b5867a9a7e9a07a, type: 3}
-  m_Name: PasswordString
+  m_Script: {fileID: 11500000, guid: a8fd956175dab417bb8621f28bcaed28, type: 3}
+  m_Name: OnMMORoomListUpdate
   m_EditorClassIdentifier: 
-  DeveloperDescription: 
-  Value: test1234

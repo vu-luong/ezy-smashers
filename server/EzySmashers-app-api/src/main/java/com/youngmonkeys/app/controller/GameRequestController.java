@@ -62,4 +62,15 @@ public class GameRequestController extends EzyLoggable {
 				.user(user)
 				.execute();
 	}
+	
+	@EzyDoHandle(Commands.GET_MMO_ROOM_NAMES)
+	public void getMMORoomNames(EzyUser user) {
+		logger.info("user {} get MMO room list", user);
+		List<String> mmoRoomNames = gameService.getMMORoomNames();
+		responseFactory.newArrayResponse()
+				.command(Commands.GET_MMO_ROOM_NAMES)
+				.param(mmoRoomNames)
+				.user(user)
+				.execute();
+	}
 }

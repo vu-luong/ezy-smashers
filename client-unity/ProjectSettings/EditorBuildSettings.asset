@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1 - Static Assets/1.1 - Scenes/MainScene.unity
     guid: 402eb1a88861c4cb4bec1520fbac1c62
+  - enabled: 1
+    path: Assets/1 - Static Assets/1.1 - Scenes/GameLoungeScene.unity
+    guid: 7a215aad1cbab447db252b576352bec0
   m_configObjects: {}
