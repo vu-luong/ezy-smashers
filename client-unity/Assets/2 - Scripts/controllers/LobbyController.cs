@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
@@ -23,10 +24,10 @@ public class LobbyController : MonoBehaviour
         SocketRequest.getInstance().sendCreateMMORoomRequest();
     }
 
-    public void OnRoomCreated()
+    public void OnRoomCreated(long roomId, bool master)
     {
         // Change scene here
-        //SceneManager.LoadScene("GameLoungeScene");
+        SceneManager.LoadScene("GameLoungeScene");
     }
 
     public void OnRefreshRoomNames() 

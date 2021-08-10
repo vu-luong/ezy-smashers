@@ -1,5 +1,4 @@
-﻿using System;
-public class User
+﻿public class User
 {
     private string username = "";
     private string password = "";

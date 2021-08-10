@@ -60,11 +60,11 @@ class JoinLobbyResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 
 class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-    public static event Action roomCreatedEvent;
+    public static event Action<long, bool> roomCreatedEvent;
     protected override void process(EzyApp app, EzyObject data)
     {
         logger.info("Room created successfully: " + data.ToString());
-        roomCreatedEvent?.Invoke();
+        roomCreatedEvent?.Invoke(data.get<long>("roomId"), data.get<bool>("master"));
     }
 }
 
@@ -129,6 +129,9 @@ public class SocketProxy : EzyLoggable
         appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
         appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_NAMES, new GetMMORoomNamesResponse());
+
+        // Init Gamemanager
+        GameManager.getInstance();
 
         return client;
     }
