@@ -3,10 +3,7 @@ package com.youngmonkeys.app.service.impl;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
-import com.tvd12.gamebox.entity.MMOPlayer;
-import com.tvd12.gamebox.entity.MMOVirtualWorld;
-import com.tvd12.gamebox.entity.NormalRoom;
-import com.tvd12.gamebox.entity.Player;
+import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
 import com.tvd12.gamebox.manager.SynchronizedPlayerManager;
@@ -31,7 +28,8 @@ public class GameServiceImpl implements GameService {
 	private final PlayerManager<Player> playerManager
 			= new SynchronizedPlayerManager<>();
 	
-	private final RoomManager<NormalRoom> roomManager
+	@EzyAutoBind
+	private RoomManager<NormalRoom> globalRoomManager
 			= new SynchronizedRoomManager<>();
 	
 	@Override
@@ -40,12 +38,12 @@ public class GameServiceImpl implements GameService {
 		if (player == null) {
 			return null;
 		}
-		NormalRoom room = roomManager.getRoom(player.getCurrentRoomId());
+		NormalRoom room = globalRoomManager.getRoom(player.getCurrentRoomId());
 		if (room != null) {
 			synchronized (room) {
 				room.removePlayer(player);
 				if (room.getPlayerManager().isEmpty()) {
-					roomManager.removeRoom(room);
+					globalRoomManager.removeRoom(room);
 				}
 			}
 		}
@@ -65,11 +63,7 @@ public class GameServiceImpl implements GameService {
 		GameRoom room = gameRoomFactory.newGameRoom();
 		room.addUser(user, player);
 		
-		synchronized (mmoVirtualWorld) {
-			mmoVirtualWorld.addRoom(room);
-		}
-		
-		roomManager.addRoom(room);
+		this.addRoom(room);
 		return room;
 	}
 	
@@ -83,5 +77,15 @@ public class GameServiceImpl implements GameService {
 		synchronized (room) {
 			return room.getPlayerManager().getPlayerNames();
 		}
+	}
+	
+	@Override
+	public void addRoom(NormalRoom room) {
+		if (room instanceof MMORoom) {
+			synchronized (mmoVirtualWorld) {
+				mmoVirtualWorld.addRoom((MMORoom) room);
+			}
+		}
+		globalRoomManager.addRoom(room);
 	}
 }

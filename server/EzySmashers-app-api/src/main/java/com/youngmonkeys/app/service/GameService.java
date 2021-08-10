@@ -12,10 +12,11 @@ public interface GameService {
 	
 	void addPlayer(MMOPlayer player);
 	
-	
 	GameRoom newGameRoom(EzyUser user);
 	
 	MMOPlayer getPlayer(String playerName);
 	
 	List<String> getRoomPlayerNames(NormalRoom room);
+	
+	void addRoom(NormalRoom room);
 }
