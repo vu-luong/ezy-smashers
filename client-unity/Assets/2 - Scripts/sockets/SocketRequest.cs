@@ -1,6 +1,4 @@
-﻿using System;
-using com.tvd12.ezyfoxserver.client.factory;
-using com.tvd12.ezyfoxserver.client.request;
+﻿using com.tvd12.ezyfoxserver.client.request;
 using com.tvd12.ezyfoxserver.client.util;
 
 public class SocketRequest : EzyLoggable

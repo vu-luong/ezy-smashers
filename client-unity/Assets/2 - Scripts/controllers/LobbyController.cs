@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
-    public UnityEvent<List<String>> mmoRoomNamesUpdateEvent;
+    public UnityEvent<List<string>> mmoRoomNamesUpdateEvent;
 
     private void Awake()
     {
@@ -37,7 +35,7 @@ public class LobbyController : MonoBehaviour
         SocketRequest.getInstance().sendGetMMORoomNamesRequest();
     }
 
-    public void OnMMORoomNamesResponse(List<String> roomNames) {
+    public void OnMMORoomNamesResponse(List<string> roomNames) {
         mmoRoomNamesUpdateEvent?.Invoke(roomNames);
     }
 }
