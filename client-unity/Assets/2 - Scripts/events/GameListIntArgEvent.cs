@@ -2,6 +2,6 @@
 using UnityEngine;
 
 [CreateAssetMenu]
-public class GameListLongArgEvent : GameEvent<List<long>>
+public class GameListIntArgEvent : GameEvent<List<int>>
 {
 }

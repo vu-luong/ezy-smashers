@@ -77,7 +77,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: ffee179d89a8048e4abcd3620c15309f, type: 2}
-        m_TargetAssemblyTypeName: GameEvent`1[[System.Collections.Generic.List`1[[System.Int64,
+        m_TargetAssemblyTypeName: GameEvent`1[[System.Collections.Generic.List`1[[System.Int32,
           mscorlib
         m_MethodName: Raise
         m_Mode: 0

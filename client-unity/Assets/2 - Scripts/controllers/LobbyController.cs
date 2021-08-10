@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
-    public UnityEvent<List<long>> mmoRoomIdListUpdateEvent;
+    public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class LobbyController : MonoBehaviour
     public void OnRoomCreated(long roomId, bool master)
     {
         // Change scene here
-        SceneManager.LoadScene("GameLoungeScene");
+        //SceneManager.LoadScene("GameLoungeScene");
     }
 
     public void OnRefreshRoomIdList() 
@@ -36,7 +36,7 @@ public class LobbyController : MonoBehaviour
         SocketRequest.getInstance().sendGetMMORoomIdListRequest();
     }
 
-    public void OnMMORoomIdListResponse(List<long> roomIdList) {
+    public void OnMMORoomIdListResponse(List<int> roomIdList) {
         mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
     }
 }

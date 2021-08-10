@@ -70,12 +70,12 @@ class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 
 class GetMMORoomIdListResponse : EzyAbstractAppDataHandler<EzyArray>
 {
-    public static event Action<List<long>> mmoRoomIdListResponseEvent;
+    public static event Action<List<int>> mmoRoomIdListResponseEvent;
     protected override void process(EzyApp app, EzyArray data)
     {
         logger.info("Room id list: " + data.get<EzyArray>(0).ToString());
-        List<long> roomIdList = data.get<EzyArray>(0).toList<long>();
-        logger.info("Room id list: " + string.Join(",", roomIdList));
+        // TODO: should change to toList<long>() in the next version
+        List<int> roomIdList = data.get<EzyArray>(0).toList<int>();
         mmoRoomIdListResponseEvent?.Invoke(roomIdList);
     }
 }
