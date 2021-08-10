@@ -530,9 +530,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7139358508056653905}
   - component: {fileID: 7139358508056653917}
-  - component: {fileID: 7139358508056653918}
-  - component: {fileID: 7139358508056653919}
   - component: {fileID: 7139358508056653904}
+  - component: {fileID: 7139358508056653918}
   - component: {fileID: 7139358507979859521}
   - component: {fileID: 7695442998857594323}
   m_Layer: 5
@@ -587,46 +586,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7139358508056653918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139358508056653906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7cdfddb8caa43f1b6357116ef3f6b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7139358508056653919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139358508056653906}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65edee7a3f14a4148b6069ff5269afdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: b481760232aac44cea01498bbfc709c9, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7139358508056653918}
-        m_TargetAssemblyTypeName: ListUI, Assembly-CSharp
-        m_MethodName: AddItem
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7139358508056653904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +600,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &7139358508056653918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139358508056653906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a7cdfddb8caa43f1b6357116ef3f6b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7139358507979859521
 MonoBehaviour:
   m_ObjectHideFlags: 0
