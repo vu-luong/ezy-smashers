@@ -23,7 +23,7 @@ public class GameRoomFactory {
     private AppConfig appConfig;
 
     public GameRoom newGameRoom() {
-        return GameRoom.builder()
+        return (GameRoom) GameRoom.builder()
                 .defaultPlayerManager(maxPlayers)
                 .distanceOfInterest(distanceOfInterest)
                 .addRoomUpdatedHandler(roomUpdatedHandler)

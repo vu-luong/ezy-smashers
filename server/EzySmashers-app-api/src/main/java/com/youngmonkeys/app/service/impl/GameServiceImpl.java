@@ -7,10 +7,10 @@ import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.MMOVirtualWorld;
 import com.tvd12.gamebox.entity.NormalRoom;
 import com.tvd12.gamebox.entity.Player;
-import com.tvd12.gamebox.manager.DefaultPlayerManager;
-import com.tvd12.gamebox.manager.DefaultRoomManager;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.tvd12.gamebox.manager.SynchronizedPlayerManager;
+import com.tvd12.gamebox.manager.SynchronizedRoomManager;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
 import com.youngmonkeys.app.service.GameService;
@@ -27,10 +27,10 @@ public class GameServiceImpl implements GameService {
 	private GameRoomFactory gameRoomFactory;
 	
 	private final PlayerManager<Player> playerManager
-			= new DefaultPlayerManager<>();
+			= new SynchronizedPlayerManager<>();
 	
 	private final RoomManager<NormalRoom> roomManager
-			= new DefaultRoomManager<>();
+			= new SynchronizedRoomManager<>();
 	
 	@Override
 	public NormalRoom removePlayer(String username) {
@@ -63,7 +63,10 @@ public class GameServiceImpl implements GameService {
 		GameRoom room = gameRoomFactory.newGameRoom();
 		room.addUser(user, player);
 		
-		mmoVirtualWorld.addRoom(room);
+		synchronized (mmoVirtualWorld) {
+			mmoVirtualWorld.addRoom(room);
+		}
+		
 		roomManager.addRoom(room);
 		return room;
 	}

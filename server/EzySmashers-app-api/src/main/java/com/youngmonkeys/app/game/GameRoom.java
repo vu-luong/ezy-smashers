@@ -48,25 +48,9 @@ public class GameRoom extends MMORoom {
     
     public static class Builder extends MMORoom.Builder {
         
-        public Builder addRoomUpdatedHandler(MMORoomUpdatedHandler handler) {
-            return (Builder) super.addRoomUpdatedHandler(handler);
-        }
-    
-        public Builder distanceOfInterest(double distance) {
-            return (Builder) super.distanceOfInterest(distance);
-        }
-    
-        public Builder defaultPlayerManager(int maxPlayer) {
-            return (Builder) super.defaultPlayerManager(maxPlayer);
-        }
-    
-        public Builder playerManager(PlayerManager playerManager) {
-            return (Builder) super.playerManager(playerManager);
-        }
-    
         @Override
         protected GameRoom newProduct() {
-            return (GameRoom) super.newProduct();
+            return new GameRoom(this);
         }
     
         @Override

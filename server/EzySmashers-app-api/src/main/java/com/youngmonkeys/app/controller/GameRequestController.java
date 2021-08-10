@@ -31,14 +31,10 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.JOIN_LOBBY)
 	public void joinLobby(EzyUser user) {
 		logger.info("user {} join lobby room", user);
-		List<String> playerNames;
-		long lobbyRoomId;
 		
-		synchronized (lobbyService) {
-			lobbyService.addUser(user);
-			playerNames = lobbyService.getPlayerNames();
-			lobbyRoomId = lobbyService.getRoomId();
-		}
+		lobbyService.addUser(user);
+		List<String> playerNames = lobbyService.getPlayerNames();
+		long lobbyRoomId = lobbyService.getRoomId();
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.JOIN_LOBBY)
@@ -57,10 +53,7 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.CREATE_MMO_ROOM)
 	public void createMMORoom(EzyUser user) {
 		logger.info("user {} create an MMO room", user);
-		GameRoom room;
-		synchronized (gameService) {
-			room = gameService.newGameRoom(user);
-		}
+		GameRoom room = gameService.newGameRoom(user);
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.CREATE_MMO_ROOM)
