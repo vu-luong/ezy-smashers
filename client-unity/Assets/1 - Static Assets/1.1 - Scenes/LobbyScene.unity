@@ -279,29 +279,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1655935840, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 711476511271621524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 711476511271621524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 11400000, guid: ea371b31714d4458c94a9e8825b14e27, type: 2}
-    - target: {fileID: 1655935840, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Raise
+      objectReference: {fileID: 711476511271621523}
+    - target: {fileID: 711476511271621524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetRoomNames
       objectReference: {fileID: 0}
-    - target: {fileID: 1655935840, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameNoArgsEvent, Assembly-CSharp
+    - target: {fileID: 711476511271621524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RoomList, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: 1655935840, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+    - target: {fileID: 711476511271621524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 711476511271621525, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+      propertyPath: roomButtonPrefab
+      value: 
+      objectReference: {fileID: 8667648906873614523, guid: 8133629b42421407897ffc24b646e7cf, type: 3}
     - target: {fileID: 711476511345821060, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 711476511345821066, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 711476512474900238, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -309,22 +317,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 711476512474900238, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187586297434112524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.4355425
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187586297434112524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.17569281
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187586297434112524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187586297434112524, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6187586298007988674, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
@@ -417,6 +409,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+--- !u!114 &711476511271621523 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 711476511271621525, guid: 65852b7b25ea145bd931b355ed90e9a0, type: 3}
+  m_PrefabInstance: {fileID: 711476511271621522}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35973a5899f134164b96ec1148fa97f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5330564622591848877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -424,6 +427,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5330564624166874032, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7733247471752395552, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -467,6 +474,34 @@ PrefabInstance:
     - target: {fileID: 7733247471752395552, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733247471752395554, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: mmoRoomListUpdateEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733247471752395554, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: mmoRoomListUpdateEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733247471752395554, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: mmoRoomListUpdateEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: 24207838457bf4f1cad03423e49f09ba, type: 2}
+    - target: {fileID: 7733247471752395554, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: mmoRoomListUpdateEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733247471752395554, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: mmoRoomListUpdateEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Raise
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733247471752395554, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: mmoRoomListUpdateEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameEvent`1[[System.Collections.Generic.List`1[[System.String, mscorlib
+      objectReference: {fileID: 0}
+    - target: {fileID: 7733247471752395554, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
+      propertyPath: mmoRoomListUpdateEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7733247471752395555, guid: 5eb20f155476a47f0b94054cabbcb3d2, type: 3}
       propertyPath: m_Name

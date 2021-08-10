@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class ListUI : MonoBehaviour
 {
-    public void AddItem(GameObject gameObject)
+    public GameObject AddItem(GameObject gameObject)
     {
-        Instantiate(gameObject, transform);
+        GameObject go = Instantiate(gameObject, transform);
+        return go;
     }
 
     public void RemoveById(int id)

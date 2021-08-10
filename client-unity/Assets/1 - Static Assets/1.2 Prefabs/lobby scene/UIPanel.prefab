@@ -200,13 +200,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 11400000, guid: ea371b31714d4458c94a9e8825b14e27, type: 2}
+        m_TargetAssemblyTypeName: GameNoArgsEvent, Assembly-CSharp
+        m_MethodName: Raise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -225,6 +225,8 @@ GameObject:
   - component: {fileID: 711476511345821067}
   - component: {fileID: 711476511345821066}
   - component: {fileID: 711476511345821061}
+  - component: {fileID: 711476511271621524}
+  - component: {fileID: 711476511271621525}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -289,6 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7cdfddb8caa43f1b6357116ef3f6b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 8667648906873614523, guid: 8133629b42421407897ffc24b646e7cf, type: 3}
 --- !u!114 &711476511345821066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +299,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711476511345821063}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65edee7a3f14a4148b6069ff5269afdf, type: 3}
   m_Name: 
@@ -308,10 +311,10 @@ MonoBehaviour:
       - m_Target: {fileID: 711476511345821067}
         m_TargetAssemblyTypeName: ListUI, Assembly-CSharp
         m_MethodName: AddItem
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 8667648906873614523, guid: 8133629b42421407897ffc24b646e7cf, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -331,6 +334,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &711476511271621524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711476511345821063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eea69312479146b08f0a80164931d73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 24207838457bf4f1cad03423e49f09ba, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 711476511345821063}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &711476511271621525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711476511345821063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35973a5899f134164b96ec1148fa97f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &711476511366013242
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,9 +1001,9 @@ RectTransform:
   m_Father: {fileID: 6187586298007988674}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.3706584, y: 0.047851965}
-  m_AnchorMax: {x: 0.63100004, y: 0.127}
-  m_AnchoredPosition: {x: -149, y: 0}
+  m_AnchorMin: {x: 0.17569281, y: 0.047851965}
+  m_AnchorMax: {x: 0.4355425, y: 0.127}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6187586297434112627
