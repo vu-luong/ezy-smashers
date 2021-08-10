@@ -2,7 +2,9 @@ package com.youngmonkeys.app.game;
 
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.MMORoom;
+import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
 import com.tvd12.gamebox.manager.PlayerManager;
+import com.tvd12.gamebox.manager.SynchronizedPlayerManager;
 import lombok.Getter;
 
 public class GameRoom extends MMORoom {
@@ -38,5 +40,22 @@ public class GameRoom extends MMORoom {
 
     public boolean isEmpty() {
         return this.getPlayerManager().isEmpty();
+    }
+    
+    public static Builder builder() {
+        return new Builder();
+    }
+    
+    public static class Builder extends MMORoom.Builder {
+        
+        @Override
+        protected GameRoom newProduct() {
+            return new GameRoom(this);
+        }
+    
+        @Override
+        public GameRoom build() {
+            return (GameRoom) super.build();
+        }
     }
 }

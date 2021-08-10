@@ -10,7 +10,7 @@ import com.tvd12.gamebox.entity.NormalRoom;
 import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
 import com.tvd12.gamebox.handler.SyncPositionRoomUpdatedHandler;
 
-@EzyConfigurationBefore
+@EzyConfigurationBefore(priority = 0)
 public class MMOVirtualWorldConfig extends EzyLoggable {
 
 	@EzyAutoBind

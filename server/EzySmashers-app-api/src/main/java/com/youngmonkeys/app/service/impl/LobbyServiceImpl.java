@@ -24,22 +24,28 @@ public class LobbyServiceImpl implements LobbyService {
 	@Override
 	public void addUser(EzyUser user) {
 		MMOPlayer player = new MMOPlayer(user.getName());
-		if (lobbyRoom.getPlayerManager().containsPlayer(player)) {
-			return;
+		synchronized (lobbyRoom) {
+			if (lobbyRoom.getPlayerManager().containsPlayer(player)) {
+				return;
+			}
+			lobbyRoom.addUser(user, player);
+			player.setCurrentRoomId(lobbyRoom.getId());
 		}
 		
-		lobbyRoom.addUser(user, player);
-		player.setCurrentRoomId(lobbyRoom.getId());
 		gameService.addPlayer(player);
 	}
 	
 	@Override
 	public List<String> getPlayerNames() {
-		return lobbyRoom.getPlayerManager().getPlayerNames();
+		synchronized (lobbyRoom) {
+			return lobbyRoom.getPlayerManager().getPlayerNames();
+		}
 	}
 	
 	@Override
 	public long getRoomId() {
-		return lobbyRoom.getId();
+		synchronized (lobbyRoom) {
+			return lobbyRoom.getId();
+		}
 	}
 }

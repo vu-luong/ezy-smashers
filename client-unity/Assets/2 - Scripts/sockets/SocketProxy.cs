@@ -48,7 +48,7 @@ class AppAccessHandler : EzyAppAccessHandler
 }
 
 #region App Data Handler
-class JoinedLobbyHandler : EzyAbstractAppDataHandler<EzyObject>
+class JoinLobbyResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
     public static event Action joinedLobbyEvent;
     protected override void process(EzyApp app, EzyObject data)
@@ -57,6 +57,15 @@ class JoinedLobbyHandler : EzyAbstractAppDataHandler<EzyObject>
     }
 }
 
+class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action roomCreatedEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Room created successfully {}", data);
+        roomCreatedEvent?.Invoke();
+    }
+}
 
 #endregion
 
@@ -105,7 +114,8 @@ public class SocketProxy : EzyLoggable
 
         // Set up ezytank app
         var appSetup = setup.setupApp(APP_NAME);
-        appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinedLobbyHandler());
+        appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
+        appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
 
         return client;
     }

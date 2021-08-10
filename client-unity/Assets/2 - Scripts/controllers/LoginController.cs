@@ -8,7 +8,7 @@ public class LoginController : MonoBehaviour
 
     private void Awake()
     {
-        JoinedLobbyHandler.joinedLobbyEvent += OnJoinedLobby;
+        JoinLobbyResponseHandler.joinedLobbyEvent += OnJoinedLobby;
     }
 
     public void OnLogin()
