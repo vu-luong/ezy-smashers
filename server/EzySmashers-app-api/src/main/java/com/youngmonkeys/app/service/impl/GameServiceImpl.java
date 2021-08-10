@@ -6,8 +6,6 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
-import com.tvd12.gamebox.manager.SynchronizedPlayerManager;
-import com.tvd12.gamebox.manager.SynchronizedRoomManager;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
 import com.youngmonkeys.app.service.GameService;
@@ -25,16 +23,15 @@ public class GameServiceImpl implements GameService {
 	@EzyAutoBind
 	private GameRoomFactory gameRoomFactory;
 	
-	private final PlayerManager<Player> playerManager
-			= new SynchronizedPlayerManager<>();
+	@EzyAutoBind
+	private PlayerManager<Player> globalPlayerManager;
 	
 	@EzyAutoBind
-	private RoomManager<NormalRoom> globalRoomManager
-			= new SynchronizedRoomManager<>();
+	private RoomManager<NormalRoom> globalRoomManager;
 	
 	@Override
 	public NormalRoom removePlayer(String username) {
-		Player player = playerManager.getPlayer(username);
+		Player player = globalPlayerManager.getPlayer(username);
 		if (player == null) {
 			return null;
 		}
@@ -48,13 +45,13 @@ public class GameServiceImpl implements GameService {
 			}
 		}
 		
-		playerManager.removePlayer(player);
+		globalPlayerManager.removePlayer(player);
 		return room;
 	}
 	
 	@Override
 	public void addPlayer(MMOPlayer player) {
-		playerManager.addPlayer(player);
+		globalPlayerManager.addPlayer(player);
 	}
 	
 	@Override
@@ -69,7 +66,7 @@ public class GameServiceImpl implements GameService {
 	
 	@Override
 	public MMOPlayer getPlayer(String playerName) {
-		return (MMOPlayer) playerManager.getPlayer(playerName);
+		return (MMOPlayer) globalPlayerManager.getPlayer(playerName);
 	}
 	
 	@Override
