@@ -139,5 +139,4 @@ public class SocketProxy : EzyLoggable
         userAuthenInfo.Password = password;
         client.connect(host, port);
     }
-
 }

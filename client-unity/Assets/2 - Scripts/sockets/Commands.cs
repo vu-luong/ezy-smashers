@@ -1,5 +1,4 @@
 ﻿using System;
-using com.tvd12.ezyfoxserver.client.request;
 
 public sealed class Commands
 {
@@ -13,4 +12,3 @@ public sealed class Commands
     {
     }
 }
-
