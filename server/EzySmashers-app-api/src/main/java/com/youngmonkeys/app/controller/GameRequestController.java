@@ -61,7 +61,6 @@ public class GameRequestController extends EzyLoggable {
 		responseFactory.newObjectResponse()
 				.command(Commands.CREATE_MMO_ROOM)
 				.param("roomId", room.getId())
-				.param("master", true)
 				.user(user)
 				.execute();
 	}
