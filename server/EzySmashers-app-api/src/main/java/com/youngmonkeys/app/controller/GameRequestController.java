@@ -36,20 +36,12 @@ public class GameRequestController extends EzyLoggable {
 		logger.info("user {} join lobby room", user);
 		
 		lobbyService.addUser(user);
-		List<String> playerNames = lobbyService.getPlayerNames();
 		long lobbyRoomId = lobbyService.getRoomId();
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.JOIN_LOBBY)
 				.param("lobbyRoomId", lobbyRoomId)
-				.param("playerNames", playerNames)
 				.user(user)
-				.execute();
-		
-		responseFactory.newObjectResponse()
-				.command(Commands.PLAYER_JOINED_LOBBY)
-				.param("playerName", user.getName())
-				.usernames(EzyLists.filter(playerNames, it -> !it.equals(user.getName())))
 				.execute();
 	}
 	

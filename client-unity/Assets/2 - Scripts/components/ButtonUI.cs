@@ -1,19 +1,31 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ButtonUI : MonoBehaviour
 {
+    public UnityEvent<int> onClickEvent;
+    private int index = -1;
+
+    public int Index { get => index; set => index = value; }
+
     private void Start()
     {
-        int currentRoomIndex = GetIndex() + 1;
     }
 
     public int GetIndex()
     {
-        return transform.GetSiblingIndex();
+        if (index == -1) 
+        { 
+            return transform.GetSiblingIndex();
+        } else
+        {
+            return index;
+        }
     }
 
     public void OnClick()
     {
         Debug.Log("Room " + GetIndex());
+        onClickEvent.Invoke(GetIndex());
     }
 }

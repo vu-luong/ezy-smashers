@@ -60,11 +60,11 @@ class JoinLobbyResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 
 class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-    public static event Action<long> roomCreatedEvent;
+    public static event Action<int> roomCreatedEvent;
     protected override void process(EzyApp app, EzyObject data)
     {
         logger.info("Room created successfully: " + data.ToString());
-        roomCreatedEvent?.Invoke(data.get<long>("roomId"));
+        roomCreatedEvent?.Invoke(data.get<int>("roomId"));
     }
 }
 
