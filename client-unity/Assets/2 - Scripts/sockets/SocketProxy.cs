@@ -100,11 +100,34 @@ class JoinMMORoomResponse : EzyAbstractAppDataHandler<EzyObject>
     public static event Action<int> joinRoomResponseEvent;
     protected override void process(EzyApp app, EzyObject data)
     {
-        logger.info("Room Id: " + data);
+        logger.info("room id: " + data);
         int roomId = data.get<int>("roomId");
         joinRoomResponseEvent?.Invoke(roomId);
     }
 }
+
+class AnotherJoinMMORoomHandler : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action<string> anotherJoinMMORoomEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Another player join room: " + data);
+        string anotherName = data.get<string>("playerName");
+        anotherJoinMMORoomEvent?.Invoke(anotherName);
+    }
+}
+
+class AnotherExitMMORoomHandler : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action<string> anotherExitMMORoomEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Another player exit room: " + data);
+        string anotherName = data.get<string>("playerName");
+        anotherExitMMORoomEvent?.Invoke(anotherName);
+    }
+}
+
 
 #endregion
 
@@ -158,6 +181,8 @@ public class SocketProxy : EzyLoggable
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponse());
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponse());
         appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponse());
+        appSetup.addDataHandler(Commands.ANOTHER_JOIN_MMO_ROOM, new AnotherJoinMMORoomHandler());
+        appSetup.addDataHandler(Commands.ANOTHER_EXIT_MMO_ROOM, new AnotherExitMMORoomHandler());
 
         // Init GameManager
         GameManager.getInstance();

@@ -131,7 +131,7 @@ public class GameServiceImpl implements GameService {
 	 * @param roomId     id of an MMORoom
 	 */
 	@Override
-	public void playerJoinMMORoom(String playerName, long roomId) {
+	public GameRoom playerJoinMMORoom(String playerName, long roomId) {
 		Player player = globalPlayerManager.getPlayer(playerName);
 		GameRoom room = (GameRoom) globalRoomManager.getRoom(roomId);
 		
@@ -139,5 +139,7 @@ public class GameServiceImpl implements GameService {
 			room.addPlayer((MMOPlayer) player);
 			player.setCurrentRoomId(room.getId());
 		}
+		
+		return room;
 	}
 }
