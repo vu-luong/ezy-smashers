@@ -25,7 +25,7 @@ public class ButtonUI : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("Room " + GetIndex());
+        Debug.Log("Item " + GetIndex());
         onClickEvent.Invoke(GetIndex());
     }
 }
