@@ -27,7 +27,7 @@ public class LobbyController : MonoBehaviour
     public void OnRoomCreated(long roomId, bool master)
     {
         // Change scene here
-        //SceneManager.LoadScene("GameLoungeScene");
+        SceneManager.LoadScene("GameLoungeScene");
     }
 
     public void OnRefreshRoomIdList() 

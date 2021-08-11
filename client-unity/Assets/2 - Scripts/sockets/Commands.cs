@@ -1,4 +1,5 @@
 ﻿using System;
+using com.tvd12.ezyfoxserver.client.request;
 
 public sealed class Commands
 {
@@ -7,6 +8,7 @@ public sealed class Commands
     public const String JOIN_LOBBY = "joinLobby";
     public const String CREATE_MMO_ROOM = "createMMORoom";
     public const String GET_MMO_ROOM_ID_LIST = "getMMORoomIdList";
+    public const String GET_MMO_ROOM_PLAYERS = "getMMORoomPlayers";
 
     private Commands()
     {

@@ -506,6 +506,7 @@ GameObject:
   - component: {fileID: 4545552965676992090}
   - component: {fileID: 4545552965676992088}
   - component: {fileID: 4545552965676992091}
+  - component: {fileID: 4545552965676992086}
   m_Layer: 5
   m_Name: TitleText
   m_TagString: Untagged
@@ -513,6 +514,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4545552965676992086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545552965676992085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd39677bd66447be9c997cc200d3fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 211eeb09249244774ba79d2e48b95ffa, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4545552965676992091}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &4545552965676992088
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -764,34 +793,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7139358508525485300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139358508587068135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eea69312479146b08f0a80164931d73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 24207838457bf4f1cad03423e49f09ba, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7695442999403343718}
-        m_TargetAssemblyTypeName: RoomNames, Assembly-CSharp
-        m_MethodName: SetRoomNames
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!224 &7139358508549963198
 RectTransform:
   m_ObjectHideFlags: 0
@@ -857,10 +858,7 @@ GameObject:
   - component: {fileID: 7139358508587068132}
   - component: {fileID: 7139358508587068136}
   - component: {fileID: 7139358508587068139}
-  - component: {fileID: 7139358508587068138}
   - component: {fileID: 7139358508587068133}
-  - component: {fileID: 7139358508525485300}
-  - component: {fileID: 7695442999403343718}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -894,34 +892,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7139358508587068138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139358508587068135}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65edee7a3f14a4148b6069ff5269afdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: b481760232aac44cea01498bbfc709c9, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7139358508587068139}
-        m_TargetAssemblyTypeName: ListUI, Assembly-CSharp
-        m_MethodName: AddItem
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7139358508587068139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1237,19 +1207,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7139358508927283739}
   m_CullTransparentMesh: 1
---- !u!114 &7695442999403343718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139358508587068135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad61c54fd2a5d4dec9dae147a9c943d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomButtonPrefab: {fileID: 8667648906873614523, guid: 8133629b42421407897ffc24b646e7cf, type: 3}
 --- !u!1 &7733247471964424288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1236,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d439f9f67b995422582c6ad25d95bb61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setRoomTitleEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 211eeb09249244774ba79d2e48b95ffa, type: 2}
+        m_TargetAssemblyTypeName: GameEvent`1[[System.String, mscorlib
+        m_MethodName: Raise
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &7733247471964424291
 Transform:
   m_ObjectHideFlags: 0

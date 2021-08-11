@@ -1,4 +1,5 @@
-﻿using com.tvd12.ezyfoxserver.client.request;
+﻿using System;
+using com.tvd12.ezyfoxserver.client.request;
 using com.tvd12.ezyfoxserver.client.util;
 
 public class SocketRequest : EzyLoggable
@@ -33,5 +34,11 @@ public class SocketRequest : EzyLoggable
     {
         var client = SocketProxy.getInstance().Client;
         client.getApp().send(Commands.GET_MMO_ROOM_ID_LIST);
+    }
+
+    public void sendGetMMORoomPlayersRequest()
+    {
+        var client = SocketProxy.getInstance().Client;
+        client.getApp().send(Commands.GET_MMO_ROOM_PLAYERS);
     }
 }
