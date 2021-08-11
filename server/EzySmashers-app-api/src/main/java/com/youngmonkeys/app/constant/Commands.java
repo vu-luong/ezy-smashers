@@ -10,6 +10,7 @@ public final class Commands {
 	public static final String PLAYER_EXIT_GAME = "playerExitGame";
 	public static final String CREATE_MMO_ROOM = "createMMORoom";
 	public static final String GET_MMO_ROOM_ID_LIST = "getMMORoomIdList";
+	public static final String GET_MMO_ROOM_PLAYERS = "getMMORoomPlayers";
 	
 	
 	private Commands() {}

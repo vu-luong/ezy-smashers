@@ -64,7 +64,9 @@ public class GameServiceImpl implements GameService {
 	public GameRoom newGameRoom(EzyUser user) {
 		MMOPlayer player = getPlayer(user.getName());
 		GameRoom room = gameRoomFactory.newGameRoom();
-		room.addUser(user, player);
+//		room.addUser(user, player);
+		room.addPlayer(player);
+		player.setCurrentRoomId(room.getId());
 		
 		this.addRoom(room);
 		return room;
@@ -100,5 +102,23 @@ public class GameServiceImpl implements GameService {
 				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
 				.map(Room::getId)
 				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public NormalRoom getCurrentRoom(String playerName) {
+		Player player = globalPlayerManager.getPlayer(playerName);
+		long currentRoomId = player.getCurrentRoomId();
+		return globalRoomManager.getRoom(currentRoomId);
+	}
+	
+	@Override
+	public Player getMaster(NormalRoom room) {
+		synchronized (room) {
+			if (room instanceof GameRoom) {
+				return ((GameRoom) room).getMaster();
+			} else {
+				return null;
+			}
+		}
 	}
 }
