@@ -16,7 +16,9 @@ public class PlayerListUI : MonoBehaviour
 
         {
             GameObject go = gameObject.GetComponent<ListUI>().AddItem(playerButtonPrefab);
-            go.GetComponentInChildren<Text>().text = player.PlayerName;
+            string displayName = player.IsMaster ? 
+                player.PlayerName + "(Master)" : player.PlayerName;
+            go.GetComponentInChildren<Text>().text = displayName;
         }
     }
 }
