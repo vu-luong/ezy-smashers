@@ -16,6 +16,7 @@ public class RoomIdList : MonoBehaviour
 
         {
             GameObject go = gameObject.GetComponent<ListUI>().AddItem(roomButtonPrefab);
+            go.GetComponent<ButtonUI>().Index = roomId;
             go.GetComponentInChildren<Text>().text = "Room #" + roomId;
         }
     }

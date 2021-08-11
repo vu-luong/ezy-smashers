@@ -9,7 +9,7 @@ public class LobbyController : MonoBehaviour
 
     private void Awake()
     {
-        CreateRoomResponseHandler.roomCreatedEvent += OnRoomCreated;
+        CreateRoomResponseHandler.roomCreatedEvent += JoinRoom;
         GetMMORoomIdListResponse.mmoRoomIdListResponseEvent += OnMMORoomIdListResponse;
     }
 
@@ -24,7 +24,7 @@ public class LobbyController : MonoBehaviour
         SocketRequest.getInstance().sendCreateMMORoomRequest();
     }
 
-    public void OnRoomCreated(long roomId)
+    public void JoinRoom(int roomId)
     {
         RoomManager.getInstance().CurrentRoomId = roomId;
         SceneManager.LoadScene("GameLoungeScene");
@@ -38,5 +38,14 @@ public class LobbyController : MonoBehaviour
 
     public void OnMMORoomIdListResponse(List<int> roomIdList) {
         mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
+    }
+
+    public void RequestJoinRoom(int roomId) {
+        // TODO: send request to join a room
+    }
+
+    public void RequestJoinRoomResponse(int roomId) { 
+        // TODO: listen to join_room response
+        // JoinRoom(roomId);
     }
 }
