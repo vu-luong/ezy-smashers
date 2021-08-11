@@ -12,6 +12,7 @@ public class GameLoungeController : MonoBehaviour
     {
         GetMMORoomPlayersResponse.mmoRoomPlayersResponseEvent += OnGetMMORoomPlayersResponse;
         AnotherJoinMMORoomHandler.anotherJoinMMORoomEvent += OnAnotherJoinMMORoom;
+        AnotherExitMMORoomHandler.anotherExitMMORoomEvent += OnAnotherExitMMORoom;
         SetRoomTitle();
         GetMMORoomPlayers();
     }
@@ -38,5 +39,12 @@ public class GameLoungeController : MonoBehaviour
     private void OnAnotherJoinMMORoom(string anotherName) 
     {
         Debug.Log("GameLoungeController.OnAnotherJoinMMORoom");
+        GetMMORoomPlayers();
+    }
+
+    private void OnAnotherExitMMORoom(string anotherName) 
+    {
+        Debug.Log("GameLoungeController.OnAnotherExitMMORoom");
+        GetMMORoomPlayers();
     }
 }
