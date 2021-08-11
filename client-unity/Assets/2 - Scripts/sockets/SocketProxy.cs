@@ -170,6 +170,7 @@ public class SocketProxy : EzyLoggable
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponse());
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponse());
         appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponse());
+        appSetup.addDataHandler(Commands.ANOTHER_JOIN_MMO_ROOM, new AnotherJoinMMORoomHandler());
 
         // Init GameManager
         GameManager.getInstance();
