@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class GameLoungeController : MonoBehaviour
 {
     public UnityEvent<string> setRoomTitleEvent;
+    public UnityEvent updateRoomPlayersEvent;
 
     private void Awake()
     {
@@ -21,12 +22,15 @@ public class GameLoungeController : MonoBehaviour
 
     private void SetRoomTitle()
     {
-        long currentRoomId = GameManager.getInstance().Player.CurrentRoomId;
+        long currentRoomId = RoomManager.getInstance().CurrentRoomId;
         setRoomTitleEvent?.Invoke("Room #" + currentRoomId);
     }
 
     private void OnGetMMORoomPlayersResponse(List<string> playerNames, string master) 
     {
         Debug.Log("GameLoungeController.OnGetMMORoomPlayersResponse");
+        RoomManager.getInstance().SetCurrentRoomPlayers(playerNames, master);
+
+        updateRoomPlayersEvent.Invoke();
     }
 }

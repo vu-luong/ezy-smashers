@@ -24,9 +24,9 @@ public class LobbyController : MonoBehaviour
         SocketRequest.getInstance().sendCreateMMORoomRequest();
     }
 
-    public void OnRoomCreated(long roomId, bool master)
+    public void OnRoomCreated(long roomId)
     {
-        // Change scene here
+        RoomManager.getInstance().CurrentRoomId = roomId;
         SceneManager.LoadScene("GameLoungeScene");
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RoomButtonUI : MonoBehaviour
+public class ButtonUI : MonoBehaviour
 {
     private void Start()
     {
