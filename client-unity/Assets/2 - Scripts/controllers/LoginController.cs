@@ -19,6 +19,8 @@ public class LoginController : MonoBehaviour
 
     void OnJoinedLobby()
     {
+        GameManager.getInstance().SetUpPlayer();
+
         // Change scene here
         SceneManager.LoadScene("LobbyScene");
     }

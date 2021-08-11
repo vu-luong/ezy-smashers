@@ -7,6 +7,9 @@ import com.tvd12.ezyfox.io.EzyLists;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
+import com.tvd12.gamebox.entity.MMORoom;
+import com.tvd12.gamebox.entity.NormalRoom;
+import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.service.GameService;
@@ -58,7 +61,6 @@ public class GameRequestController extends EzyLoggable {
 		responseFactory.newObjectResponse()
 				.command(Commands.CREATE_MMO_ROOM)
 				.param("roomId", room.getId())
-				.param("master", true)
 				.user(user)
 				.execute();
 	}
@@ -70,6 +72,21 @@ public class GameRequestController extends EzyLoggable {
 		responseFactory.newArrayResponse()
 				.command(Commands.GET_MMO_ROOM_ID_LIST)
 				.param(mmoRoomIdList)
+				.user(user)
+				.execute();
+	}
+	
+	@EzyDoHandle(Commands.GET_MMO_ROOM_PLAYERS)
+	public void getMMORoomPlayers(EzyUser user) {
+		logger.info("user {} getMMORoomPlayers", user);
+		GameRoom currentRoom = (GameRoom) gameService.getCurrentRoom(user.getName());
+		List<String> players = gameService.getRoomPlayerNames(currentRoom);
+		Player master = gameService.getMaster(currentRoom);
+		
+		responseFactory.newObjectResponse()
+				.command(Commands.GET_MMO_ROOM_PLAYERS)
+				.param("players", players)
+				.param("master", master.getName())
 				.user(user)
 				.execute();
 	}

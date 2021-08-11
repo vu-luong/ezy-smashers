@@ -60,11 +60,11 @@ class JoinLobbyResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 
 class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-    public static event Action<long, bool> roomCreatedEvent;
+    public static event Action<long> roomCreatedEvent;
     protected override void process(EzyApp app, EzyObject data)
     {
         logger.info("Room created successfully: " + data.ToString());
-        roomCreatedEvent?.Invoke(data.get<long>("roomId"), data.get<bool>("master"));
+        roomCreatedEvent?.Invoke(data.get<long>("roomId"));
     }
 }
 
@@ -77,6 +77,21 @@ class GetMMORoomIdListResponse : EzyAbstractAppDataHandler<EzyArray>
         // TODO: should change to toList<long>() in the next version
         List<int> roomIdList = data.get<EzyArray>(0).toList<int>();
         mmoRoomIdListResponseEvent?.Invoke(roomIdList);
+    }
+}
+
+class GetMMORoomPlayersResponse : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action<List<string>, string> mmoRoomPlayersResponseEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Current room's players: " + data);
+        List<string> playerNames = data.get<EzyArray>("players").toList<string>();
+        string masterName = data.get<string>("master");
+        logger.info("Player Names: " + string.Join(",", playerNames));
+        logger.info("Master Name: " + masterName);
+
+        mmoRoomPlayersResponseEvent?.Invoke(playerNames, masterName);
     }
 }
 
@@ -130,9 +145,14 @@ public class SocketProxy : EzyLoggable
         appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
         appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponse());
+        appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponse());
 
-        // Init Gamemanager
+
+        // Init GameManager
         GameManager.getInstance();
+
+        // Init RoomManager
+        RoomManager.getInstance();
 
         return client;
     }

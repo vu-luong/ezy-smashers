@@ -1,17 +1,17 @@
 ﻿using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : EzyLoggable
 {
     private static readonly GameManager INSTANCE = new GameManager();
-    private Player player;
+    private Player myPlayer;
 
-    public Player Player { get => player; }
+    public Player MyPlayer { get => myPlayer; }
 
     public GameManager()
     {
-        JoinLobbyResponseHandler.joinedLobbyEvent += setupPlayer;
-        CreateRoomResponseHandler.roomCreatedEvent += setCurrentRoomId;
+        JoinLobbyResponseHandler.joinedLobbyEvent += SetUpPlayer;
         // TODO
         // JoinRoomResponseHandler.joinedRoomEvent += setCurrentRoomId;
     }
@@ -21,16 +21,9 @@ public class GameManager : EzyLoggable
         return INSTANCE;
     }
 
-    public void setupPlayer() 
+    public void SetUpPlayer() 
     {
         Debug.Log("GameManager.setupPlayer");
-        player = new Player(SocketProxy.getInstance().UserAuthenInfo.Username);
-    }
-
-    public void setCurrentRoomId(long roomId, bool master)
-    {
-        Debug.Log("GameManager.setCurrentRoomId");
-        player.CurrentRoomId = roomId;
-        player.IsMaster = master;
+        myPlayer = new Player(SocketProxy.getInstance().UserAuthenInfo.Username);
     }
 }
