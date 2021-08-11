@@ -6,12 +6,12 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
 import com.youngmonkeys.app.service.GameService;
 import lombok.Setter;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +63,10 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public GameRoom newGameRoom(EzyUser user) {
 		MMOPlayer player = getPlayer(user.getName());
+		if (player.getCurrentRoomId() != lobbyRoom.getId()) {
+			throw new CreateRoomNotFromLobbyException(player.getName());
+		}
 		GameRoom room = gameRoomFactory.newGameRoom();
-//		room.addUser(user, player);
 		room.addPlayer(player);
 		player.setCurrentRoomId(room.getId());
 		
@@ -119,6 +121,23 @@ public class GameServiceImpl implements GameService {
 			} else {
 				return null;
 			}
+		}
+	}
+	
+	/**
+	 * MMOPlayer join MMORoom
+	 *
+	 * @param playerName name of player to join MMO room
+	 * @param roomId     id of an MMORoom
+	 */
+	@Override
+	public void playerJoinMMORoom(String playerName, long roomId) {
+		Player player = globalPlayerManager.getPlayer(playerName);
+		GameRoom room = (GameRoom) globalRoomManager.getRoom(roomId);
+		
+		synchronized (room) {
+			room.addPlayer((MMOPlayer) player);
+			player.setCurrentRoomId(room.getId());
 		}
 	}
 }

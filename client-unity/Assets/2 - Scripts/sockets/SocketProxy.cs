@@ -95,6 +95,17 @@ class GetMMORoomPlayersResponse : EzyAbstractAppDataHandler<EzyObject>
     }
 }
 
+class JoinMMORoomResponse : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action<int> joinRoomResponseEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Room Id: " + data);
+        int roomId = data.get<int>("roomId");
+        joinRoomResponseEvent?.Invoke(roomId);
+    }
+}
+
 #endregion
 
 public class SocketProxy : EzyLoggable
@@ -146,7 +157,7 @@ public class SocketProxy : EzyLoggable
         appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponse());
         appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponse());
-
+        appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponse());
 
         // Init GameManager
         GameManager.getInstance();

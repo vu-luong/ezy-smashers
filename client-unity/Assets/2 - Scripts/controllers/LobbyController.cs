@@ -11,11 +11,29 @@ public class LobbyController : MonoBehaviour
     {
         CreateRoomResponseHandler.roomCreatedEvent += JoinRoom;
         GetMMORoomIdListResponse.mmoRoomIdListResponseEvent += OnMMORoomIdListResponse;
+        JoinMMORoomResponse.joinRoomResponseEvent += JoinRoom;
     }
 
     private void Start()
     {
         OnRefreshRoomIdList();
+    }
+
+    private void JoinRoom(int roomId)
+    {
+        RoomManager.getInstance().CurrentRoomId = roomId;
+        SceneManager.LoadScene("GameLoungeScene");
+    }
+
+    private void OnMMORoomIdListResponse(List<int> roomIdList) {
+        mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
+    }
+
+    #region public methods
+    public void OnRefreshRoomIdList() 
+    {
+        Debug.Log("LobbyController: OnRefreshRoomIdList");
+        SocketRequest.getInstance().sendGetMMORoomIdListRequest();
     }
 
     public void OnCreateMMORoom()
@@ -24,28 +42,8 @@ public class LobbyController : MonoBehaviour
         SocketRequest.getInstance().sendCreateMMORoomRequest();
     }
 
-    public void JoinRoom(int roomId)
-    {
-        RoomManager.getInstance().CurrentRoomId = roomId;
-        SceneManager.LoadScene("GameLoungeScene");
+    public void RequestJoinMMORoom(int roomId) {
+        SocketRequest.getInstance().sendJoinMMORoomRequest(roomId);
     }
-
-    public void OnRefreshRoomIdList() 
-    {
-        Debug.Log("LobbyController: OnRefreshRoomIdList");
-        SocketRequest.getInstance().sendGetMMORoomIdListRequest();
-    }
-
-    public void OnMMORoomIdListResponse(List<int> roomIdList) {
-        mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
-    }
-
-    public void RequestJoinRoom(int roomId) {
-        // TODO: send request to join a room
-    }
-
-    public void RequestJoinRoomResponse(int roomId) { 
-        // TODO: listen to join_room response
-        // JoinRoom(roomId);
-    }
+    #endregion
 }

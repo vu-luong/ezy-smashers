@@ -26,4 +26,6 @@ public interface GameService {
 	NormalRoom getCurrentRoom(String playerName);
 	
 	Player getMaster(NormalRoom currentRoom);
+	
+	void playerJoinMMORoom(String playerName, long roomId);
 }

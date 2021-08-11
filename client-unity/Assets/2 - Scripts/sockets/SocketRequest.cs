@@ -1,4 +1,6 @@
 ﻿using System;
+using com.tvd12.ezyfoxserver.client.entity;
+using com.tvd12.ezyfoxserver.client.factory;
 using com.tvd12.ezyfoxserver.client.request;
 using com.tvd12.ezyfoxserver.client.util;
 
@@ -40,5 +42,15 @@ public class SocketRequest : EzyLoggable
     {
         var client = SocketProxy.getInstance().Client;
         client.getApp().send(Commands.GET_MMO_ROOM_PLAYERS);
+    }
+
+    public void sendJoinMMORoomRequest(int roomId)
+    {
+        var client = SocketProxy.getInstance().Client;
+        EzyObject data = EzyEntityFactory
+            .newObjectBuilder()
+            .append("roomId", roomId)
+            .build();
+        client.getApp().send(Commands.JOIN_MMO_ROOM, data);
     }
 }

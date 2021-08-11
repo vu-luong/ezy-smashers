@@ -461,7 +461,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5330564622591848880}
         m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
-        m_MethodName: JoinRoom
+        m_MethodName: RequestJoinMMORoom
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

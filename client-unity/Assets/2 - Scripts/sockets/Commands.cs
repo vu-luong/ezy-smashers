@@ -9,6 +9,7 @@ public sealed class Commands
     public const String CREATE_MMO_ROOM = "createMMORoom";
     public const String GET_MMO_ROOM_ID_LIST = "getMMORoomIdList";
     public const String GET_MMO_ROOM_PLAYERS = "getMMORoomPlayers";
+    public const String JOIN_MMO_ROOM = "joinMMORoom";
 
     private Commands()
     {
