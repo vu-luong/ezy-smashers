@@ -6,6 +6,7 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
 import com.youngmonkeys.app.service.GameService;
@@ -62,6 +63,9 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public GameRoom newGameRoom(EzyUser user) {
 		MMOPlayer player = getPlayer(user.getName());
+		if (player.getCurrentRoomId() != lobbyRoom.getId()) {
+			throw new CreateRoomNotFromLobbyException(player.getName());
+		}
 		GameRoom room = gameRoomFactory.newGameRoom();
 		room.addPlayer(player);
 		player.setCurrentRoomId(room.getId());
