@@ -2180,7 +2180,6 @@ GameObject:
   - component: {fileID: 2021844930513576320}
   - component: {fileID: 8252013442001210618}
   - component: {fileID: 6446266860765599044}
-  - component: {fileID: 6446266860765599046}
   - component: {fileID: 6446266860765599045}
   m_Layer: 0
   m_Name: Jammo_Player
@@ -2196,7 +2195,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3050151463108563859}
-  m_LocalRotation: {x: -0, y: -0.37647313, z: -0, w: 0.9264276}
+  m_LocalRotation: {x: 0, y: -0.37647492, z: 0, w: 0.9264268}
   m_LocalPosition: {x: 0, y: -0.07999998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2266,29 +2265,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.98, z: 0}
---- !u!114 &6446266860765599046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3050151463108563859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb6cae19ece4b848b976432ca8b3cfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  albedoList:
-  - {fileID: 2800000, guid: fb6e06c953f0d8045bc58e0f5a640f07, type: 3}
-  - {fileID: 2800000, guid: c9fd4ccfc3404b04eae3cd87e40a8e2e, type: 3}
-  - {fileID: 2800000, guid: 10c532508a2453a48aa766e69193d105, type: 3}
-  - {fileID: 2800000, guid: f61e83171850a834788a4664dbb54eae, type: 3}
-  eyeColors:
-  - {r: 0, g: 1.4666667, b: 2, a: 1}
-  - {r: 2, g: 0.25882354, b: 0.25882354, a: 1}
-  - {r: 0.72790754, g: 2, b: 0.26178014, a: 1}
-  - {r: 2, g: 0.87978274, b: 0.26178014, a: 1}
-  eyeState: 0
 --- !u!114 &6446266860765599045
 MonoBehaviour:
   m_ObjectHideFlags: 0
