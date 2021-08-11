@@ -11,6 +11,7 @@ public class GameLoungeController : MonoBehaviour
     private void Awake()
     {
         GetMMORoomPlayersResponse.mmoRoomPlayersResponseEvent += OnGetMMORoomPlayersResponse;
+        AnotherJoinMMORoomHandler.anotherJoinMMORoomEvent += OnAnotherJoinMMORoom;
         SetRoomTitle();
         GetMMORoomPlayers();
     }
@@ -32,5 +33,10 @@ public class GameLoungeController : MonoBehaviour
         RoomManager.getInstance().SetCurrentRoomPlayers(playerNames, master);
 
         updateRoomPlayersEvent.Invoke();
+    }
+
+    private void OnAnotherJoinMMORoom(string anotherName) 
+    {
+        Debug.Log("GameLoungeController.OnAnotherJoinMMORoom");
     }
 }

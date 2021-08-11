@@ -100,11 +100,23 @@ class JoinMMORoomResponse : EzyAbstractAppDataHandler<EzyObject>
     public static event Action<int> joinRoomResponseEvent;
     protected override void process(EzyApp app, EzyObject data)
     {
-        logger.info("Room Id: " + data);
+        logger.info("room id: " + data);
         int roomId = data.get<int>("roomId");
         joinRoomResponseEvent?.Invoke(roomId);
     }
 }
+
+class AnotherJoinMMORoomHandler : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action<string> anotherJoinMMORoomEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Another player join room: " + data);
+        string anotherName = data.get<string>("playerName");
+        anotherJoinMMORoomEvent?.Invoke(anotherName);
+    }
+}
+
 
 #endregion
 
