@@ -102,4 +102,15 @@ public class GameRequestController extends EzyLoggable {
 				.execute();
 	}
 	
+	@EzyDoHandle(Commands.START_GAME)
+	public void startGame(EzyUser user) {
+		logger.info("user {} start game", user);
+		GameRoom currentRoom = (GameRoom) gameService.getCurrentRoom(user.getName());
+		List<String> playerNames = gameService.getRoomPlayerNames(currentRoom);
+		
+		responseFactory.newObjectResponse()
+				.command(Commands.START_GAME)
+				.usernames(playerNames)
+				.execute();
+	}
 }

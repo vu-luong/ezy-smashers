@@ -35,7 +35,7 @@ class UdpHandshakeHandler : EzyUdpHandshakeHandler
     protected override void onAuthenticated(EzyArray data)
     {
         logger.debug("UdpHandshakeHandler authenticated");
-        SocketRequest.getInstance().sendAppAccessRequest();
+        SocketRequest.getInstance().SendAppAccessRequest();
     }
 }
 
@@ -44,7 +44,7 @@ class AppAccessHandler : EzyAppAccessHandler
     protected override void postHandle(EzyApp app, EzyArray data)
     {
         logger.debug("App access successfully");
-        SocketRequest.getInstance().sendJoinLobbyRequest();
+        SocketRequest.getInstance().SendJoinLobbyRequest();
     }
 }
 
@@ -128,6 +128,15 @@ class AnotherExitMMORoomHandler : EzyAbstractAppDataHandler<EzyObject>
     }
 }
 
+class StartGameResponseHandler : EzyAbstractAppDataHandler<EzyObject>
+{
+    public static event Action startGameResponseEvent;
+    protected override void process(EzyApp app, EzyObject data)
+    {
+        logger.info("Game start response" + data);
+        startGameResponseEvent.Invoke();
+    }
+}
 
 #endregion
 
@@ -183,6 +192,7 @@ public class SocketProxy : EzyLoggable
         appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponse());
         appSetup.addDataHandler(Commands.ANOTHER_JOIN_MMO_ROOM, new AnotherJoinMMORoomHandler());
         appSetup.addDataHandler(Commands.ANOTHER_EXIT_MMO_ROOM, new AnotherExitMMORoomHandler());
+        appSetup.addDataHandler(Commands.START_GAME, new StartGameResponseHandler());
 
         // Init GameManager
         GameManager.getInstance();

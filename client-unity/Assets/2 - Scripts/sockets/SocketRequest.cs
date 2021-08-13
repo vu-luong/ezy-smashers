@@ -13,38 +13,38 @@ public class SocketRequest : EzyLoggable
         return INSTANCE;
     }
 
-    public void sendAppAccessRequest()
+    public void SendAppAccessRequest()
     {
         var client = SocketProxy.getInstance().Client;
         var request = new EzyAppAccessRequest(SocketProxy.APP_NAME);
         client.send(request);
     }
 
-    public void sendJoinLobbyRequest()
+    public void SendJoinLobbyRequest()
     {
         var client = SocketProxy.getInstance().Client;
         client.getApp().send(Commands.JOIN_LOBBY);
     }
 
-    public void sendCreateMMORoomRequest()
+    public void SendCreateMMORoomRequest()
     {
         var client = SocketProxy.getInstance().Client;
         client.getApp().send(Commands.CREATE_MMO_ROOM);
     }
 
-    public void sendGetMMORoomIdListRequest()
+    public void SendGetMMORoomIdListRequest()
     {
         var client = SocketProxy.getInstance().Client;
         client.getApp().send(Commands.GET_MMO_ROOM_ID_LIST);
     }
 
-    public void sendGetMMORoomPlayersRequest()
+    public void SendGetMMORoomPlayersRequest()
     {
         var client = SocketProxy.getInstance().Client;
         client.getApp().send(Commands.GET_MMO_ROOM_PLAYERS);
     }
 
-    public void sendJoinMMORoomRequest(int roomId)
+    public void SendJoinMMORoomRequest(int roomId)
     {
         var client = SocketProxy.getInstance().Client;
         EzyObject data = EzyEntityFactory
@@ -52,5 +52,11 @@ public class SocketRequest : EzyLoggable
             .append("roomId", roomId)
             .build();
         client.getApp().send(Commands.JOIN_MMO_ROOM, data);
+    }
+
+    public void SendStartGameRequest()
+    {
+        var client = SocketProxy.getInstance().Client;
+        client.getApp().send(Commands.START_GAME);
     }
 }

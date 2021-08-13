@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameLoungeController : MonoBehaviour
 {
@@ -12,13 +13,14 @@ public class GameLoungeController : MonoBehaviour
         GetMMORoomPlayersResponse.mmoRoomPlayersResponseEvent += OnGetMMORoomPlayersResponse;
         AnotherJoinMMORoomHandler.anotherJoinMMORoomEvent += OnAnotherJoinMMORoom;
         AnotherExitMMORoomHandler.anotherExitMMORoomEvent += OnAnotherExitMMORoom;
+        StartGameResponseHandler.startGameResponseEvent += OnGameStart;
         SetRoomTitle();
         GetMMORoomPlayers();
     }
 
     private void GetMMORoomPlayers()
     {
-        SocketRequest.getInstance().sendGetMMORoomPlayersRequest();
+        SocketRequest.getInstance().SendGetMMORoomPlayersRequest();
     }
 
     private void SetRoomTitle()
@@ -46,4 +48,18 @@ public class GameLoungeController : MonoBehaviour
         Debug.Log("GameLoungeController.OnAnotherExitMMORoom");
         GetMMORoomPlayers();
     }
+
+    private void OnGameStart()
+    { 
+        Debug.Log("GameLoungeController.OnGameStart");
+        SceneManager.LoadScene("MainScene");
+    }
+
+    #region public methods
+
+    public void SendStartGameRequest() {
+        SocketRequest.getInstance().SendStartGameRequest();
+    }
+
+    #endregion
 }

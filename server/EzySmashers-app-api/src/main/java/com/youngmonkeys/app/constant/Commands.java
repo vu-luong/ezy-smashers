@@ -12,6 +12,7 @@ public final class Commands {
 	public static final String GET_MMO_ROOM_PLAYERS = "getMMORoomPlayers";
 	public static final String JOIN_MMO_ROOM = "joinMMORoom";
 	public static final String ANOTHER_JOIN_MMO_ROOM = "anotherJoinMMORoom";
+	public static final String START_GAME = "startGame";
 	
 	
 	private Commands() {}

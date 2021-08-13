@@ -11,6 +11,7 @@ public sealed class Commands
     public const String JOIN_MMO_ROOM = "joinMMORoom";
     public const String ANOTHER_JOIN_MMO_ROOM = "anotherJoinMMORoom";
     public const String ANOTHER_EXIT_MMO_ROOM = "anotherExitMMORoom";
+    public const String START_GAME = "startGame";
 
     private Commands()
     {
