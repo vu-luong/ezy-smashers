@@ -373,7 +373,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4545552964740279570}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 3eceb5d385c554e199b1199919d316cc, type: 2}
+        m_TargetAssemblyTypeName: GameNoArgsEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4545552964740279663
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +398,8 @@ GameObject:
   - component: {fileID: 4545552964740279571}
   - component: {fileID: 4545552964740279570}
   - component: {fileID: 4545552964740279661}
+  - component: {fileID: 4545552964740279664}
+  - component: {fileID: 4545552964740279665}
   m_Layer: 5
   m_Name: StartGame
   m_TagString: Untagged
@@ -393,6 +407,46 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4545552964740279664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545552964740279663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65edee7a3f14a4148b6069ff5269afdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: a7d5b24f8cbc54b1f900451ad3a82092, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4545552964740279665}
+        m_TargetAssemblyTypeName: StartGameButtonUI, Assembly-CSharp
+        m_MethodName: UpdatePlayersResponse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4545552964740279665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545552964740279663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf284911fbd74a14b7db271fc257886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4545552965316167330
 RectTransform:
   m_ObjectHideFlags: 0
@@ -707,7 +761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_AnchorMin.x
@@ -715,11 +769,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 603.4054
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_SizeDelta.y
@@ -755,11 +809,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 311.7027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -36.52945
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 132453706182090828, guid: 0526992c52f5243c589ea19c63c51722, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1363,6 +1417,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733247471964424291}
   - component: {fileID: 7733247471964424289}
+  - component: {fileID: 7733247471964424290}
   m_Layer: 0
   m_Name: GameLoungeSocketControllers
   m_TagString: Untagged
@@ -1403,6 +1458,34 @@ MonoBehaviour:
       - m_Target: {fileID: 11400000, guid: a7d5b24f8cbc54b1f900451ad3a82092, type: 2}
         m_TargetAssemblyTypeName: GameNoArgsEvent, Assembly-CSharp
         m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7733247471964424290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7733247471964424288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65edee7a3f14a4148b6069ff5269afdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 3eceb5d385c554e199b1199919d316cc, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7733247471964424289}
+        m_TargetAssemblyTypeName: GameLoungeController, Assembly-CSharp
+        m_MethodName: SendStartGameRequest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

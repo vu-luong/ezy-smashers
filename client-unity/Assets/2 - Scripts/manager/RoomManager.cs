@@ -28,7 +28,14 @@ public class RoomManager : EzyLoggable
         currentRoomPlayers = new List<Player>();
         foreach (string playerName in playerNames)
         {
-            Player player = new Player(playerName);
+            Player player;
+            if (playerName.Equals(GameManager.getInstance().MyPlayer.PlayerName))
+            {
+                player = GameManager.getInstance().MyPlayer;
+            } else
+            { 
+                player = new Player(playerName);
+            }
             player.IsMaster = (playerName.Equals(master));
             currentRoomPlayers.Add(player);
         }

@@ -35,7 +35,7 @@ class UdpHandshakeHandler : EzyUdpHandshakeHandler
     protected override void onAuthenticated(EzyArray data)
     {
         logger.debug("UdpHandshakeHandler authenticated");
-        SocketRequest.getInstance().sendAppAccessRequest();
+        SocketRequest.getInstance().SendAppAccessRequest();
     }
 }
 
@@ -44,7 +44,7 @@ class AppAccessHandler : EzyAppAccessHandler
     protected override void postHandle(EzyApp app, EzyArray data)
     {
         logger.debug("App access successfully");
-        SocketRequest.getInstance().sendJoinLobbyRequest();
+        SocketRequest.getInstance().SendJoinLobbyRequest();
     }
 }
 

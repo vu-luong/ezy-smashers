@@ -33,17 +33,17 @@ public class LobbyController : MonoBehaviour
     public void OnRefreshRoomIdList() 
     {
         Debug.Log("LobbyController: OnRefreshRoomIdList");
-        SocketRequest.getInstance().sendGetMMORoomIdListRequest();
+        SocketRequest.getInstance().SendGetMMORoomIdListRequest();
     }
 
     public void OnCreateMMORoom()
     {
         Debug.Log("LobbyController: OnCreateMMORoom!");
-        SocketRequest.getInstance().sendCreateMMORoomRequest();
+        SocketRequest.getInstance().SendCreateMMORoomRequest();
     }
 
     public void RequestJoinMMORoom(int roomId) {
-        SocketRequest.getInstance().sendJoinMMORoomRequest(roomId);
+        SocketRequest.getInstance().SendJoinMMORoomRequest(roomId);
     }
     #endregion
 }

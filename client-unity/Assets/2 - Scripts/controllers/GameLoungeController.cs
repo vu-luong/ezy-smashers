@@ -18,7 +18,7 @@ public class GameLoungeController : MonoBehaviour
 
     private void GetMMORoomPlayers()
     {
-        SocketRequest.getInstance().sendGetMMORoomPlayersRequest();
+        SocketRequest.getInstance().SendGetMMORoomPlayersRequest();
     }
 
     private void SetRoomTitle()
@@ -46,4 +46,12 @@ public class GameLoungeController : MonoBehaviour
         Debug.Log("GameLoungeController.OnAnotherExitMMORoom");
         GetMMORoomPlayers();
     }
+
+    #region public methods
+
+    public void SendStartGameRequest() {
+        SocketRequest.getInstance().SendStartGameRequest();
+    }
+
+    #endregion
 }
