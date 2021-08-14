@@ -1,3 +1,10 @@
 .DS_Store
 .idea/*
 */target/*
+EzySmashers.iml
+EzySmashers-app-api/EzySmashers-app-api.iml
+EzySmashers-app-entry/EzySmashers-app-entry.iml
+EzySmashers-common/EzySmashers-common.iml
+EzySmashers-plugin/EzySmashers-plugin.iml
+EzySmashers-startup/EzySmashers-startup.iml
+EzySmashers.iml
