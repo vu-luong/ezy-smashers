@@ -20,7 +20,7 @@ public class MovementInput : MonoBehaviour {
 	public float Speed;
 	public float allowPlayerRotation = 0.1f;
 	public Camera cam;
-	public CharacterController controller;
+	// public CharacterController controller;
 	public bool isGrounded;
 
     [Header("Animation Smoothing")]
@@ -40,27 +40,32 @@ public class MovementInput : MonoBehaviour {
 	void Start () {
 		anim = this.GetComponent<Animator> ();
 		cam = Camera.main;
-		controller = this.GetComponent<CharacterController> ();
+		// controller = this.GetComponent<CharacterController> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		InputMagnitude ();
 
-        isGrounded = controller.isGrounded;
-        if (isGrounded)
-        {
-            verticalVel -= 0;
-        }
-        else
-        {
-            verticalVel -= 1;
-        }
-        moveVector = new Vector3(0, verticalVel * .2f * Time.deltaTime, 0);
-        controller.Move(moveVector);
-
-
+        // isGrounded = controller.isGrounded;
+        // if (isGrounded)
+        // {
+        //     verticalVel -= 0;
+        // }
+        // else
+        // {
+        //     verticalVel -= 1;
+        // }
+        // moveVector = new Vector3(0, verticalVel * .2f * Time.deltaTime, 0);
+        // controller.Move(moveVector);
+		// Move(moveVector);
     }
+
+	void Move(Vector3 delta)
+	{
+		// transform.Translate(delta);
+		transform.position = transform.position + delta;
+	}
 
     void PlayerMoveAndRotation() {
 		InputX = Input.GetAxis ("Horizontal");
@@ -80,7 +85,13 @@ public class MovementInput : MonoBehaviour {
 
 		if (blockRotationPlayer == false) {
 			transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (desiredMoveDirection), desiredRotationSpeed);
-            controller.Move(desiredMoveDirection * Time.deltaTime * Velocity);
+			Debug.Log("-------------");
+			Debug.Log("Before: " + transform.position.ToString("F5"));
+			var temp = desiredMoveDirection * Time.deltaTime * Velocity;
+			Debug.Log("Amount: " + temp.ToString("F5"));
+            // controller.Move(desiredMoveDirection * Time.deltaTime * Velocity);
+			Move(temp);
+			Debug.Log("After: " + transform.position.ToString("F5"));
 		}
 	}
 
