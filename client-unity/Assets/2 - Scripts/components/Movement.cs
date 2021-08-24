@@ -1,3 +1,5 @@
+using System;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -5,12 +7,8 @@ public class Movement : MonoBehaviour
 
 	public float Velocity;
 	[Space]
-	public float desiredRotationSpeed = 0.1f;
-	public Animator anim;
-	public float Speed;
+	public float desiredRotationSpeed = 1f;
 	public float allowPlayerRotation = 0.1f;
-	
-	private Camera cam;
 
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
@@ -18,15 +16,31 @@ public class Movement : MonoBehaviour
 	[Range(0, 1f)]
 	public float StopAnimTime = 0.15f;
 
+	private Camera cam;
+	private Animator anim;
+	
+	private Vector3 currentEulerAngles;
+
 	// Use this for initialization
 	void Start()
 	{
 		anim = this.GetComponent<Animator>();
 		cam = Camera.main;
+
+		Vector3 vec = new Vector3(80, 30, 10);
+		Debug.Log("vec = " + vec);
+		Debug.Log("quaternion = " + Quaternion.LookRotation(vec).ToString("F10"));
+
 	}
 
 	// Update is called once per frame
-	void Update()
+	// void Update()
+	// {
+	// 	InputMagnitude();
+	// }
+
+
+	private void FixedUpdate()
 	{
 		InputMagnitude();
 	}
@@ -47,9 +61,25 @@ public class Movement : MonoBehaviour
 		forward.Normalize();
 		right.Normalize();
 
-		var desiredMoveDirection = forward * movement.z + right * movement.x;
+		// Debug.Log("forward = " + forward);
+		// Debug.Log("right = " + right);
 
+		// var desiredMoveDirection = forward * movement.z + right * movement.x;
+		var desiredMoveDirection = Vector3.forward * movement.z + Vector3.right * movement.x;
+
+		Debug.Log("-------------------------------");
+		Debug.Log("transform.rotation = " + transform.rotation.ToString("F4"));
+		Debug.Log("desiredMoveDirection = " + desiredMoveDirection.ToString("F4") + " " + Quaternion.LookRotation(desiredMoveDirection).ToString("F4"));
+		Debug.Log("speed = " + desiredRotationSpeed.ToString("F4"));
+		// Debug.Log("result = " + Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed).ToString("F4"));
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed);
+		// transform.rotation = Quaternion.LookRotation(desiredMoveDirection);
+		Debug.Log("result = " + transform.rotation.ToString("F4"));
+		
+		
+		// currentEulerAngles += new Vector3(0, movement.x, 0) * desiredRotationSpeed;
+		// transform.eulerAngles = currentEulerAngles;
+		
 		var temp = desiredMoveDirection * Time.deltaTime * Velocity;
 		Move(temp);
 	}
@@ -92,17 +122,17 @@ public class Movement : MonoBehaviour
 		}
 
 		//Calculate the Input Magnitude
-		Speed = new Vector2(movement.x, movement.z).sqrMagnitude;
+		var speed = new Vector2(movement.x, movement.z).sqrMagnitude;
 
 		//Physically move player
-		if (Speed > allowPlayerRotation)
+		if (speed > allowPlayerRotation)
 		{
-			anim.SetFloat("Blend", Speed, StartAnimTime, Time.deltaTime);
+			anim.SetFloat("Blend", speed, StartAnimTime, Time.deltaTime);
 			PlayerMoveAndRotation(movement);
 		}
-		else if (Speed < allowPlayerRotation)
+		else if (speed < allowPlayerRotation)
 		{
-			anim.SetFloat("Blend", Speed, StopAnimTime, Time.deltaTime);
+			anim.SetFloat("Blend", speed, StopAnimTime, Time.deltaTime);
 		}
 	}
 }
