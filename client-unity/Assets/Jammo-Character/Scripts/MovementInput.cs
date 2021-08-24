@@ -70,6 +70,9 @@ public class MovementInput : MonoBehaviour {
     void PlayerMoveAndRotation() {
 		InputX = Input.GetAxis ("Horizontal");
 		InputZ = Input.GetAxis ("Vertical");
+		
+		Debug.Log("InputX: " + InputX);
+		Debug.Log("InputZ: " + InputZ);
 
 		var camera = Camera.main;
 		var forward = cam.transform.forward;
@@ -85,13 +88,13 @@ public class MovementInput : MonoBehaviour {
 
 		if (blockRotationPlayer == false) {
 			transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (desiredMoveDirection), desiredRotationSpeed);
-			Debug.Log("-------------");
-			Debug.Log("Before: " + transform.position.ToString("F5"));
+			// Debug.Log("-------------");
+			// Debug.Log("Before: " + transform.position.ToString("F5"));
 			var temp = desiredMoveDirection * Time.deltaTime * Velocity;
-			Debug.Log("Amount: " + temp.ToString("F5"));
+			// Debug.Log("Amount: " + temp.ToString("F5"));
             // controller.Move(desiredMoveDirection * Time.deltaTime * Velocity);
 			Move(temp);
-			Debug.Log("After: " + transform.position.ToString("F5"));
+			// Debug.Log("After: " + transform.position.ToString("F5"));
 		}
 	}
 
