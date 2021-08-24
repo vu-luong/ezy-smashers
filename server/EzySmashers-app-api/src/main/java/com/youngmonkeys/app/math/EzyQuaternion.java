@@ -3,15 +3,10 @@ package com.youngmonkeys.app.math;
 
 import lombok.Getter;
 
-import java.awt.geom.QuadCurve2D;
-
 /**
  * This class implements Quaternion (Hamilton's hyper-complex numbers).
  */
 public final class EzyQuaternion {
-	
-	// To determine if two Quaternions are close enough to be considered equal.
-	public static final double ALLOWED_DEVIANCE = 0.00000001;
 	
 	@Getter
 	private double x;
