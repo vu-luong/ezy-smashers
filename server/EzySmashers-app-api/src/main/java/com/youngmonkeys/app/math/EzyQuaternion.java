@@ -3,7 +3,7 @@ package com.youngmonkeys.app.math;
 
 import lombok.Getter;
 
-import java.util.Queue;
+import java.awt.geom.QuadCurve2D;
 
 /**
  * This class implements Quaternion (Hamilton's hyper-complex numbers).
@@ -27,6 +27,10 @@ public final class EzyQuaternion {
 		this.y = y;
 		this.z = z;
 		this.w = w;
+	}
+	
+	public EzyQuaternion(EzyQuaternion source) {
+		this(source.getX(), source.getY(), source.getZ(), source.getW());
 	}
 	
 	public static EzyQuaternion fromRotationMatrix(final double m00, final double m01, final double m02, final double m10,
@@ -69,6 +73,9 @@ public final class EzyQuaternion {
 		return new EzyQuaternion(x, y, z, w);
 	}
 	
+	/**
+	 * @return a normalized (unit-length) quaternion
+	 */
 	public EzyQuaternion toNormalization() {
 		final double n = 1.0 / magnitude();
 		final double x = getX() * n;
@@ -76,6 +83,101 @@ public final class EzyQuaternion {
 		final double z = getZ() * n;
 		final double w = getW() * n;
 		return new EzyQuaternion(x, y, z, w);
+	}
+	
+	public static EzyQuaternion fromAxes(NewVec3 xAxis, NewVec3 yAxis, NewVec3 zAxis) {
+		return fromRotationMatrix(xAxis.getX(), yAxis.getX(), zAxis.getX(), xAxis.getY(), yAxis.getY(), zAxis.getY(),
+				xAxis.getZ(), yAxis.getZ(), zAxis.getZ());
+	}
+	
+	/**
+	 * Creates a rotation with the specified forward and
+	 * upwards directions.
+	 *
+	 * @param forward The direction to look in.
+	 * @param upwards The vector that defines in which direction up is.
+	 * @return
+	 */
+	public static EzyQuaternion lookAt(NewVec3 forward, NewVec3 upwards) {
+		NewVec3 zAxis = forward.normalize();
+		NewVec3 xAxis = upwards.normalize().crossProduct(zAxis);
+		NewVec3 yAxis = zAxis.crossProduct(xAxis);
+		
+		return fromAxes(xAxis, yAxis, zAxis)
+				.toNormalization();
+	}
+	
+	public static EzyQuaternion slerp(EzyQuaternion start, EzyQuaternion end,
+	                                  double changeAmount) {
+		// check for weighting at either extreme
+		if (changeAmount == 0.0) {
+			return new EzyQuaternion(start);
+		} else if (changeAmount == 1.0) {
+			return new EzyQuaternion(end);
+		}
+		EzyQuaternion result = new EzyQuaternion(end);
+		
+		// Check equality to skip operation.
+		if (start.equals(result)) {
+			return result;
+		}
+		
+		double dotP = start.dot(result);
+		
+		if (dotP < 0.0) {
+			result = result.negate();
+			dotP = -dotP;
+		}
+		
+		double scale0 = 1 - changeAmount;
+		double scale1 = changeAmount;
+		
+		if (1 - dotP > 0.1) {
+			final double theta = Math.acos(dotP);
+			final double invSinTheta = 1f / Math.sin(theta);
+			
+			scale0 = Math.sin((1 - changeAmount) * theta) * invSinTheta;
+			scale1 = Math.sin(changeAmount * theta) * invSinTheta;
+		}
+		
+		final double x = scale0 * start.getX() + scale1 * result.getX();
+		final double y = scale0 * start.getY() + scale1 * result.getY();
+		final double z = scale0 * start.getZ() + scale1 * result.getZ();
+		final double w = scale0 * start.getW() + scale1 * result.getW();
+		
+		return new EzyQuaternion(x, y, z, w);
+	}
+	
+	public EzyQuaternion negate() {
+		return new EzyQuaternion(
+				-getX(),
+				-getY(),
+				-getZ(),
+				-getW()
+		);
+	}
+	
+	public EzyQuaternion multiply(double scalar) {
+		return new EzyQuaternion(
+				getX() * scalar,
+				getY() * scalar,
+				getZ() * scalar,
+				getW() * scalar
+		);
+	}
+	
+	/**
+	 * @return dot product
+	 */
+	public double dot(final double x, final double y, final double z, final double w) {
+		return getX() * x + getY() * y + getZ() * z + getW() * w;
+	}
+	
+	/**
+	 * @return dot product
+	 */
+	public double dot(EzyQuaternion quaternion) {
+		return dot(quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW());
 	}
 	
 	/**
@@ -95,6 +197,10 @@ public final class EzyQuaternion {
 	 */
 	public double magnitudeSquared() {
 		return getW() * getW() + getX() * getX() + getY() * getY() + getZ() * getZ();
+	}
+	
+	public String toString() {
+		return "EzyQuaternion [X=" + getX() + ", Y=" + getY() + ", Z=" + getZ() + ", W=" + getW() + "]";
 	}
 }
 

@@ -72,6 +72,7 @@ public class Movement : MonoBehaviour
 		var desiredMoveDirection = Vector3.forward * movement.z + Vector3.right * movement.x;
 
 		Debug.Log("-------------------------------");
+		Debug.Log("transform.rotation.euler = " + transform.rotation.eulerAngles.ToString("F4"));
 		Debug.Log("transform.rotation = " + transform.rotation.ToString("F4"));
 		Debug.Log("desiredMoveDirection = " + desiredMoveDirection.ToString("F4") + " " + Quaternion.LookRotation(desiredMoveDirection).ToString("F4"));
 		Debug.Log("speed = " + desiredRotationSpeed.ToString("F4"));
