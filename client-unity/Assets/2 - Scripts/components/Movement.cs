@@ -27,10 +27,14 @@ public class Movement : MonoBehaviour
 		anim = this.GetComponent<Animator>();
 		cam = Camera.main;
 
-		Vector3 vec = new Vector3(80, 30, 10);
-		Debug.Log("vec = " + vec);
-		Debug.Log("quaternion = " + Quaternion.LookRotation(vec).ToString("F10"));
-
+		Vector3 vec = new Vector3(0.8f, 0.3f, 0.1f);
+		// Debug.Log("vec = " + vec);
+		Debug.Log("quaternion = " + Quaternion.LookRotation(vec, Vector3.up).ToString("F10"));
+		Quaternion res = Quaternion.LookRotation(vec, Vector3.up);
+		Debug.Log("res.X = " + res.x);
+		Debug.Log("res.Y = " + res.y);
+		Debug.Log("res.Z = " + res.z);
+		Debug.Log("res.W = " + res.w);
 	}
 
 	// Update is called once per frame
