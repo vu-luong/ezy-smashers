@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerInterpolation))]
-public class Movement : MonoBehaviour
+public class ClientPlayer : MonoBehaviour
 {
 	[Space]
 	[Header("Animation Smoothing")]

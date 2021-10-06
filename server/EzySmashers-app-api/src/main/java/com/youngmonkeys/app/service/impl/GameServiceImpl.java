@@ -6,9 +6,12 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.tvd12.gamebox.math.Vec3;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
+import com.youngmonkeys.app.game.PlayerLogic;
+import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.service.GameService;
 import lombok.Setter;
 
@@ -141,5 +144,13 @@ public class GameServiceImpl implements GameService {
 		}
 		
 		return room;
+	}
+	
+	@Override
+	public void handlePlayerInputData(String playerName, PlayerInputData inputData) {
+		MMOPlayer player = getPlayer(playerName);
+		Vec3 currentPosition = player.getPosition();
+		Vec3 nextPosition = PlayerLogic.GetNextPosition(inputData, currentPosition);
+		player.setPosition(nextPosition);
 	}
 }

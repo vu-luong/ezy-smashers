@@ -5,7 +5,7 @@ public class GamePlayControllers : MonoBehaviour
 {
 	private void Awake()
 	{
-		Movement.playerInputEvent += OnPlayerInputChange;
+		ClientPlayer.playerInputEvent += OnPlayerInputChange;
 	}
 	private void OnPlayerInputChange(PlayerInputData inputData)
 	{

@@ -5,6 +5,7 @@ import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.NormalRoom;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.game.GameRoom;
+import com.youngmonkeys.app.game.shared.PlayerInputData;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface GameService {
 	Player getMaster(NormalRoom currentRoom);
 	
 	GameRoom playerJoinMMORoom(String playerName, long roomId);
+	
+	void handlePlayerInputData(String playerName, PlayerInputData inputData);
 }
