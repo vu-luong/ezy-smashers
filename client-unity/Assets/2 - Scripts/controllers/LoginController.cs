@@ -5,11 +5,11 @@ public class LoginController : MonoBehaviour
 {
     public StringVariable username;
     public StringVariable password;
-    public float fixedDeltaTime = 0.1f;
+    // public float fixedDeltaTime = 0.02f;
 
     private void Awake()
     {
-        Time.fixedDeltaTime = fixedDeltaTime;
+        // Time.fixedDeltaTime = fixedDeltaTime;
         JoinLobbyResponseHandler.joinedLobbyEvent += OnJoinedLobby;
     }
 
