@@ -7,13 +7,13 @@ public class InputUtils {
 	                                            boolean downInput, boolean rightInput) {
 		Vec3 answer = new Vec3();
 		if (upInput) {
-			answer.add(Vec3Utils.up);
+			answer.add(Vec3Utils.forward);
 		}
 		if (leftInput) {
 			answer.add(Vec3Utils.left);
 		}
 		if (downInput) {
-			answer.add(Vec3Utils.down);
+			answer.add(Vec3Utils.backward);
 		}
 		if (rightInput) {
 			answer.add(Vec3Utils.right);

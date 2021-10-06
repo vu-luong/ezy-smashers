@@ -5,7 +5,7 @@ public class LoginController : MonoBehaviour
 {
     public StringVariable username;
     public StringVariable password;
-    public float fixedDeltaTime = 0.01f;
+    public float fixedDeltaTime = 0.1f;
 
     private void Awake()
     {
