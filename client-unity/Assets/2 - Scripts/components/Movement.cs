@@ -1,40 +1,30 @@
-using System;
-using UnityEditor.Animations;
+using _2___Scripts.shared;
 using UnityEngine;
+using UnityEngine.Events;
 
+[RequireComponent(typeof(PlayerInterpolation))]
 public class Movement : MonoBehaviour
 {
-
-	public float Velocity;
 	[Space]
-	public float desiredRotationSpeed = 1f;
-	public float allowPlayerRotation = 0.1f;
-
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
-	public float StartAnimTime = 0.3f;
+	public float startAnimTime = 0.1f;
 	[Range(0, 1f)]
-	public float StopAnimTime = 0.15f;
+	public float stopAnimTime = 0.15f;
 
-	private Camera cam;
 	private Animator anim;
-	
-	private Vector3 currentEulerAngles;
+
+	private PlayerInterpolation playerInterpolation;
+
+	public static UnityAction<PlayerInputData> playerInputEvent;
 
 	// Use this for initialization
 	void Start()
 	{
-		anim = this.GetComponent<Animator>();
-		cam = Camera.main;
-
-		Vector3 vec = new Vector3(0.8f, 0.3f, 0.1f);
-		// Debug.Log("vec = " + vec);
-		Debug.Log("quaternion = " + Quaternion.LookRotation(vec, Vector3.up).ToString("F10"));
-		Quaternion res = Quaternion.LookRotation(vec, Vector3.up);
-		Debug.Log("res.X = " + res.x);
-		Debug.Log("res.Y = " + res.y);
-		Debug.Log("res.Z = " + res.z);
-		Debug.Log("res.W = " + res.w);
+		anim = GetComponent<Animator>();
+		playerInterpolation = GetComponent<PlayerInterpolation>();
+		playerInterpolation.CurrentData = new PlayerStateData(transform.position, transform.rotation);
+		playerInterpolation.PreviousData = new PlayerStateData(transform.position, transform.rotation);
 	}
 
 	// Update is called once per frame
@@ -43,101 +33,55 @@ public class Movement : MonoBehaviour
 	// 	InputMagnitude();
 	// }
 
-
 	private void FixedUpdate()
 	{
 		InputMagnitude();
 	}
 
-	void Move(Vector3 delta)
+	private void Update()
 	{
-		transform.position = transform.position + delta;
-	}
-
-	void PlayerMoveAndRotation(Vector3 movement)
-	{
-		var forward = cam.transform.forward;
-		var right = cam.transform.right;
-
-		forward.y = 0f;
-		right.y = 0f;
-
-		forward.Normalize();
-		right.Normalize();
-
-		// Debug.Log("forward = " + forward);
-		// Debug.Log("right = " + right);
-
-		// var desiredMoveDirection = forward * movement.z + right * movement.x;
-		var desiredMoveDirection = Vector3.forward * movement.z + Vector3.right * movement.x;
-
-		Debug.Log("-------------------------------");
-		Debug.Log("transform.rotation.euler = " + transform.rotation.eulerAngles.ToString("F4"));
-		Debug.Log("transform.rotation = " + transform.rotation.ToString("F4"));
-		Debug.Log("desiredMoveDirection = " + desiredMoveDirection.ToString("F4") + " " + Quaternion.LookRotation(desiredMoveDirection).ToString("F4"));
-		Debug.Log("speed = " + desiredRotationSpeed.ToString("F4"));
-		// Debug.Log("result = " + Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed).ToString("F4"));
-		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed);
-		// transform.rotation = Quaternion.LookRotation(desiredMoveDirection);
-		Debug.Log("result = " + transform.rotation.ToString("F4"));
-		
-		
-		// currentEulerAngles += new Vector3(0, movement.x, 0) * desiredRotationSpeed;
-		// transform.eulerAngles = currentEulerAngles;
-		
-		var temp = desiredMoveDirection * Time.deltaTime * Velocity;
-		Move(temp);
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f && !anim.IsInTransition(0))
+			{
+				anim.SetTrigger("slash");
+			}
+		}
 	}
 
 	void InputMagnitude()
 	{
-		bool[] inputs = new bool[6];
-		inputs[0] = Input.GetKey(KeyCode.UpArrow);
-		inputs[1] = Input.GetKey(KeyCode.LeftArrow);
-		inputs[2] = Input.GetKey(KeyCode.DownArrow);
-		inputs[3] = Input.GetKey(KeyCode.RightArrow);
-
-		Vector3 movement = Vector3.zero;
-
-		if (inputs[0])
-		{
-			movement += Vector3.forward;
-		}
-		if (inputs[1])
-		{
-			movement += Vector3.left;
-		}
-		if (inputs[2])
-		{
-			movement += Vector3.back;
-		}
-		if (inputs[3])
-		{
-			movement += Vector3.right;
-		}
-
-		if (Input.GetKeyDown("space"))
-		{
-			anim.SetTrigger("slash");
-		}
-
 		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Slash"))
 		{
 			return;
 		}
 
-		//Calculate the Input Magnitude
-		var speed = new Vector2(movement.x, movement.z).sqrMagnitude;
+		bool[] inputs = new bool[6];
+		inputs[0] = Input.GetKey(KeyCode.UpArrow);
+		inputs[1] = Input.GetKey(KeyCode.LeftArrow);
+		inputs[2] = Input.GetKey(KeyCode.DownArrow);
+		inputs[3] = Input.GetKey(KeyCode.RightArrow);
+		inputs[4] = Input.GetKeyDown(KeyCode.Space);
 
-		//Physically move player
-		if (speed > allowPlayerRotation)
+		Vector3 movement = InputUtils.ComputeMovementFromInput(inputs[0], inputs[1], inputs[2], inputs[3]);
+
+		// Calculate the Input Magnitude
+		var moveInputMagnitude = new Vector2(movement.x, movement.z).sqrMagnitude;
+
+		// Physically move player
+		if (moveInputMagnitude > 0)
 		{
-			anim.SetFloat("Blend", speed, StartAnimTime, Time.deltaTime);
-			PlayerMoveAndRotation(movement);
+			Debug.Log("movement = " + movement);
+			anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
+			// PlayerMoveAndRotation(movement);
+			PlayerInputData inputData = new PlayerInputData(inputs);
+			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
+			playerInterpolation.SetFramePosition(nextStateData);
+			playerInputEvent?.Invoke(inputData);
 		}
-		else if (speed < allowPlayerRotation)
+		else
 		{
-			anim.SetFloat("Blend", speed, StopAnimTime, Time.deltaTime);
+			anim.SetFloat("Blend", moveInputMagnitude, stopAnimTime, Time.deltaTime);
 		}
 	}
 }
