@@ -13,6 +13,8 @@ public sealed class Commands
     public const String ANOTHER_EXIT_MMO_ROOM = "anotherExitMMORoom";
     public const String START_GAME = "startGame";
 
+    public const String PLAYER_INPUT_DATA = "i";
+
     private Commands()
     {
     }
