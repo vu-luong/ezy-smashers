@@ -2,6 +2,7 @@ package com.youngmonkeys.app.service.impl;
 
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
+import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Setter
 @EzySingleton
 @SuppressWarnings("unchecked")
-public class GameServiceImpl implements GameService {
+public class GameServiceImpl extends EzyLoggable implements GameService {
 	
 	@EzyAutoBind
 	private MMOVirtualWorld mmoVirtualWorld;
@@ -149,8 +150,11 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public void handlePlayerInputData(String playerName, PlayerInputData inputData) {
 		MMOPlayer player = getPlayer(playerName);
-		Vec3 currentPosition = player.getPosition();
-		Vec3 nextPosition = PlayerLogic.GetNextPosition(inputData, currentPosition);
-		player.setPosition(nextPosition);
+		synchronized (player) {
+			Vec3 currentPosition = player.getPosition();
+			Vec3 nextPosition = PlayerLogic.GetNextPosition(inputData, currentPosition);
+			logger.info("next position = {}", nextPosition);
+			player.setPosition(nextPosition);
+		}
 	}
 }
