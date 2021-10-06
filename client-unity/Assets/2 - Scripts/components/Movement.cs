@@ -71,7 +71,7 @@ public class Movement : MonoBehaviour
 		// Physically move player
 		if (moveInputMagnitude > 0)
 		{
-			Debug.Log("movement = " + movement);
+			// Debug.Log("movement = " + movement);
 			anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
 			// PlayerMoveAndRotation(movement);
 			PlayerInputData inputData = new PlayerInputData(inputs);

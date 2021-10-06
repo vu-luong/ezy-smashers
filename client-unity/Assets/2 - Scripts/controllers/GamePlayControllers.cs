@@ -9,5 +9,6 @@ public class GamePlayControllers : MonoBehaviour
 	}
 	private void OnPlayerInputChange(PlayerInputData inputData)
 	{
+		SocketRequest.getInstance().SendPlayerInputData(inputData);
 	}
 }
