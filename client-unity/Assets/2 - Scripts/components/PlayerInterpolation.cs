@@ -27,7 +27,8 @@ public class PlayerInterpolation : MonoBehaviour
 		}
 		
 		float timeSinceLastInput = Time.time - lastInputTime;
-		float t = timeSinceLastInput / Time.fixedDeltaTime;
+		float duration = GetComponent<ClientPlayer>().IsMyPlayer ? Time.fixedDeltaTime : 0.1f;
+		float t = timeSinceLastInput / duration;
 		transform.position = Vector3.Lerp(PreviousData.Position, CurrentData.Position, t);
 		transform.rotation = Quaternion.Lerp(PreviousData.Rotation, CurrentData.Rotation, t);
 	}

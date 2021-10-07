@@ -25,6 +25,8 @@ public class ClientPlayer : MonoBehaviour
 
 	public int ClientTick { get; set; }
 
+	public bool IsMyPlayer => isMyPlayer;
+
 	// Use this for initialization
 	void Awake()
 	{
@@ -37,7 +39,7 @@ public class ClientPlayer : MonoBehaviour
 	private void FixedUpdate()
 	{
 		ClientTick++;
-		if (isMyPlayer)
+		if (IsMyPlayer)
 		{
 			InputMagnitude();
 		}
@@ -45,7 +47,7 @@ public class ClientPlayer : MonoBehaviour
 
 	private void Update()
 	{
-		if (isMyPlayer)
+		if (IsMyPlayer)
 		{
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
@@ -97,7 +99,7 @@ public class ClientPlayer : MonoBehaviour
 
 	public void OnServerDataUpdate(Vector3 position, int time)
 	{
-		if (isMyPlayer)
+		if (IsMyPlayer)
 		{
 			while (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick < time)
 			{
