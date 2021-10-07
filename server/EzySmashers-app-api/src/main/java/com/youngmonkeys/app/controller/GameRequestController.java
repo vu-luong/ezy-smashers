@@ -3,7 +3,6 @@ package com.youngmonkeys.app.controller;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.core.annotation.EzyDoHandle;
 import com.tvd12.ezyfox.core.annotation.EzyRequestController;
-import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.io.EzyLists;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
@@ -11,6 +10,7 @@ import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.game.GameRoom;
+import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.request.JoinMMORoomRequest;
 import com.youngmonkeys.app.request.PlayerInputDataRequest;
 import com.youngmonkeys.app.service.GameService;
@@ -117,8 +117,8 @@ public class GameRequestController extends EzyLoggable {
 	}
 	
 	@EzyDoHandle(Commands.PLAYER_INPUT_DATA)
-	public void handlePlayerInputData(EzyUser user, boolean[] request) {
+	public void handlePlayerInputData(EzyUser user, PlayerInputDataRequest request) {
 		logger.info("user {} send input data {}", user.getName(), request);
+		gameService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()));
 	}
-	
 }

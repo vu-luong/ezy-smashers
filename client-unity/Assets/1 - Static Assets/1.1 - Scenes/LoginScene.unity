@@ -380,6 +380,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2498367297786329985, guid: a86dd843ddf6a42ceb340020da5970b3, type: 3}
+      propertyPath: fixedDeltaTime
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 2498367297786329987, guid: a86dd843ddf6a42ceb340020da5970b3, type: 3}
       propertyPath: m_Name
       value: LoginSocketControllers

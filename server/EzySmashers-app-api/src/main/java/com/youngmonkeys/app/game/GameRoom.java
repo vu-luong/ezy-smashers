@@ -9,13 +9,18 @@ import lombok.Getter;
 
 public class GameRoom extends MMORoom {
     @Getter
-    private MMOPlayer master;
-    
+    protected MMOPlayer master;
+	
     public GameRoom(Builder builder) {
         super(builder);
     }
-    
-    public void addPlayer(MMOPlayer player) {
+	
+	@Override
+	public void update() {
+		super.update();
+	}
+	
+	public void addPlayer(MMOPlayer player) {
         PlayerManager<MMOPlayer> playerManager = this.getPlayerManager();
         if(playerManager.containsPlayer(player)) {
             return;

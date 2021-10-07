@@ -63,9 +63,10 @@ public class SocketRequest : EzyLoggable
 	public void SendPlayerInputData(PlayerInputData inputData)
 	{
 		var client = SocketProxy.getInstance().Client;
-		EzyArray data = EzyEntityFactory
-			.newArrayBuilder()
-			.append(inputData.KeyInputs)
+		EzyObject data = EzyEntityFactory
+			.newObjectBuilder()
+			.append("t", inputData.Time)
+			.append("k", inputData.KeyInputs)
 			.build();
 		client.getApp().send(Commands.PLAYER_INPUT_DATA, data);
 	}

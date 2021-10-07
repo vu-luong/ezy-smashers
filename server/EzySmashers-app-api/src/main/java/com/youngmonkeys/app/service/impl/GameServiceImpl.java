@@ -2,13 +2,18 @@ package com.youngmonkeys.app.service.impl;
 
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
+import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.tvd12.gamebox.math.Vec3;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
+import com.youngmonkeys.app.game.PlayerLogic;
+import com.youngmonkeys.app.game.shared.PlayerInputData;
+import com.youngmonkeys.app.request.PlayerInputDataRequest;
 import com.youngmonkeys.app.service.GameService;
 import lombok.Setter;
 
@@ -18,7 +23,7 @@ import java.util.stream.Collectors;
 @Setter
 @EzySingleton
 @SuppressWarnings("unchecked")
-public class GameServiceImpl implements GameService {
+public class GameServiceImpl extends EzyLoggable implements GameService {
 	
 	@EzyAutoBind
 	private MMOVirtualWorld mmoVirtualWorld;
@@ -141,5 +146,17 @@ public class GameServiceImpl implements GameService {
 		}
 		
 		return room;
+	}
+	
+	@Override
+	public void handlePlayerInputData(String playerName, PlayerInputData inputData) {
+		MMOPlayer player = getPlayer(playerName);
+		synchronized (player) {
+			Vec3 currentPosition = player.getPosition();
+			Vec3 nextPosition = PlayerLogic.GetNextPosition(inputData, currentPosition);
+			logger.info("next position = {}", nextPosition);
+			player.setPosition(nextPosition);
+			player.setClientTimeTick(inputData.getTime());
+		}
 	}
 }
