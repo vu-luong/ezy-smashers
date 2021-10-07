@@ -1,12 +1,14 @@
 package com.youngmonkeys.app.game.shared;
 
-import lombok.Getter;
+import lombok.Data;
 
+@Data
 public class PlayerInputData {
-	@Getter
-	private boolean[] keyInputs;
+	boolean[] inputs;
+	int time;
 	
-	public PlayerInputData(boolean[] keyInputs) {
-		this.keyInputs = keyInputs;
+	public PlayerInputData(boolean[] inputs, int time) {
+		this.inputs = inputs;
+		this.time = time;
 	}
 }

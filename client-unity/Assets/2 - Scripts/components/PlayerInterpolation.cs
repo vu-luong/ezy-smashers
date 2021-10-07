@@ -21,6 +21,11 @@ public class PlayerInterpolation : MonoBehaviour
 
 	public void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.L))
+		{
+			SetFramePosition(new PlayerStateData(new Vector3(10f, 10f, 10f), Quaternion.identity));
+		}
+		
 		float timeSinceLastInput = Time.time - lastInputTime;
 		float t = timeSinceLastInput / Time.fixedDeltaTime;
 		transform.position = Vector3.Lerp(PreviousData.Position, CurrentData.Position, t);

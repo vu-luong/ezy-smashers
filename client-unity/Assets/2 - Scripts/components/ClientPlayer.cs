@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using _2___Scripts.shared;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,10 +15,12 @@ public class ClientPlayer : MonoBehaviour
 	public float stopAnimTime = 0.15f;
 
 	private Animator anim;
-
 	private PlayerInterpolation playerInterpolation;
-
 	public static UnityAction<PlayerInputData> playerInputEvent;
+
+	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
+
+	public int ClientTick { get; set; }
 
 	// Use this for initialization
 	void Start()
@@ -27,14 +31,9 @@ public class ClientPlayer : MonoBehaviour
 		playerInterpolation.PreviousData = new PlayerStateData(transform.position, transform.rotation);
 	}
 
-	// Update is called once per frame
-	// void Update()
-	// {
-	// 	InputMagnitude();
-	// }
-
 	private void FixedUpdate()
 	{
+		ClientTick++;
 		InputMagnitude();
 	}
 
@@ -71,17 +70,47 @@ public class ClientPlayer : MonoBehaviour
 		// Physically move player
 		if (moveInputMagnitude > 0)
 		{
-			// Debug.Log("movement = " + movement);
+			Debug.Log("movement = " + movement);
 			anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
 			// PlayerMoveAndRotation(movement);
-			PlayerInputData inputData = new PlayerInputData(inputs);
+			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
 			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
 			playerInterpolation.SetFramePosition(nextStateData);
 			playerInputEvent?.Invoke(inputData);
+			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextStateData.Position.ToString("F8"));
+			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextStateData, inputData));
 		}
 		else
 		{
 			anim.SetFloat("Blend", moveInputMagnitude, stopAnimTime, Time.deltaTime);
+		}
+	}
+
+	public void OnServerDataUpdate(Vector3 position, int time)
+	{
+		while (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick < time)
+		{
+			reconciliationHistory.Dequeue();
+		}
+
+		if (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick == time)
+		{
+			var info = reconciliationHistory.Dequeue();
+			if (Vector3.Distance(info.StateData.Position, position) > 0.05f)
+			{
+				Debug.Log("Den day roi");
+				List<ReconciliationInfo> infos = reconciliationHistory.ToList();
+				playerInterpolation.CurrentData.Position = position;
+				playerInterpolation.CurrentData.Rotation = info.StateData.Rotation;
+				transform.position = playerInterpolation.CurrentData.Position;
+				transform.rotation = playerInterpolation.CurrentData.Rotation;
+
+				for (int i = 0; i < infos.Count; i++)
+				{
+					PlayerStateData u = PlayerLogic.GetNextFrameData(infos[i].InputData, playerInterpolation.CurrentData);
+					playerInterpolation.SetFramePosition(u);
+				}
+			}
 		}
 	}
 }

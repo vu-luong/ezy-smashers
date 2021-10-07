@@ -2,9 +2,9 @@ package com.youngmonkeys.app.game;
 
 import com.tvd12.ezyfox.annotation.EzyProperty;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
-import com.tvd12.ezyfox.bean.annotation.EzyPropertiesSources;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
+import com.tvd12.gamebox.handler.SyncPositionRoomUpdatedHandler;
 import com.youngmonkeys.app.config.AppConfig;
 
 @EzySingleton

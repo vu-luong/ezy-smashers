@@ -12,10 +12,10 @@ import com.tvd12.gamebox.handler.SyncPositionRoomUpdatedHandler;
 
 @EzyConfigurationBefore(priority = 0)
 public class MMOVirtualWorldConfig extends EzyLoggable {
-
+	
 	@EzyAutoBind
 	private EzyResponseFactory responseFactory;
-
+	
 	@EzySingleton
 	public MMOVirtualWorld mmoVirtualWorld() {
 		logger.info("Initialize MMO Virtual World");
@@ -28,7 +28,7 @@ public class MMOVirtualWorldConfig extends EzyLoggable {
 		return NormalRoom.builder()
 				.build();
 	}
-
+	
 	@EzySingleton
 	public MMORoomUpdatedHandler mmoRoomUpdatedHandler() {
 		SyncPositionRoomUpdatedHandler handler = new SyncPositionRoomUpdatedHandler();

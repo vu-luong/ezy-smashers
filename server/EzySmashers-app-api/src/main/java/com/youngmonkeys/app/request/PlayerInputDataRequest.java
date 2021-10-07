@@ -1,9 +1,11 @@
 package com.youngmonkeys.app.request;
 
-import com.tvd12.ezyfox.binding.annotation.EzyArrayBinding;
+import com.tvd12.ezyfox.binding.annotation.EzyObjectBinding;
 import lombok.Data;
 
 @Data
-@EzyArrayBinding
+@EzyObjectBinding
 public class PlayerInputDataRequest {
+	int t;
+	boolean[] k;
 }

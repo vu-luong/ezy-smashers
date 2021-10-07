@@ -13,6 +13,7 @@ import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
 import com.youngmonkeys.app.game.PlayerLogic;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
+import com.youngmonkeys.app.request.PlayerInputDataRequest;
 import com.youngmonkeys.app.service.GameService;
 import lombok.Setter;
 
@@ -155,6 +156,7 @@ public class GameServiceImpl extends EzyLoggable implements GameService {
 			Vec3 nextPosition = PlayerLogic.GetNextPosition(inputData, currentPosition);
 			logger.info("next position = {}", nextPosition);
 			player.setPosition(nextPosition);
+			player.setClientTimeTick(inputData.getTime());
 		}
 	}
 }
