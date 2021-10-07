@@ -7,6 +7,9 @@ using UnityEngine.Events;
 [RequireComponent(typeof(PlayerInterpolation))]
 public class ClientPlayer : MonoBehaviour
 {
+	private string playerName;
+	private bool isMaster;
+
 	[Space]
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
@@ -23,12 +26,12 @@ public class ClientPlayer : MonoBehaviour
 	public int ClientTick { get; set; }
 
 	// Use this for initialization
-	void Start()
+	void Awake()
 	{
 		anim = GetComponent<Animator>();
 		playerInterpolation = GetComponent<PlayerInterpolation>();
-		playerInterpolation.CurrentData = new PlayerStateData(transform.position, transform.rotation);
-		playerInterpolation.PreviousData = new PlayerStateData(transform.position, transform.rotation);
+		// playerInterpolation.CurrentData = new PlayerStateData(transform.position, transform.rotation);
+		// playerInterpolation.PreviousData = new PlayerStateData(transform.position, transform.rotation);
 	}
 
 	private void FixedUpdate()
@@ -98,7 +101,7 @@ public class ClientPlayer : MonoBehaviour
 			var info = reconciliationHistory.Dequeue();
 			if (Vector3.Distance(info.StateData.Position, position) > 0.05f)
 			{
-				Debug.Log("Den day roi");
+				Debug.Log("SERVER RECONCILIATION! server position = " + position + ", client position = " + info.StateData.Position);
 				List<ReconciliationInfo> infos = reconciliationHistory.ToList();
 				playerInterpolation.CurrentData.Position = position;
 				playerInterpolation.CurrentData.Rotation = info.StateData.Rotation;
@@ -112,5 +115,12 @@ public class ClientPlayer : MonoBehaviour
 				}
 			}
 		}
+	}
+	public void Initialize(PlayerSpawnData playerSpawnData)
+	{
+		playerName = playerSpawnData.playerName;
+		// playerInterpolation.SetFramePosition(new PlayerStateData(playerSpawnData.position, transform.rotation));
+		playerInterpolation.CurrentData = new PlayerStateData(playerSpawnData.position, transform.rotation);
+		playerInterpolation.PreviousData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 	}
 }

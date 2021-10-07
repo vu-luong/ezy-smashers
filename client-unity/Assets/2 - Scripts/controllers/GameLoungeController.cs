@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _2___Scripts.shared;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -49,9 +50,11 @@ public class GameLoungeController : MonoBehaviour
         GetMMORoomPlayers();
     }
 
-    private void OnGameStart()
+    private void OnGameStart(List<PlayerSpawnData> playersSpawnData)
     { 
         Debug.Log("GameLoungeController.OnGameStart");
+
+        GameManager.getInstance().PlayersSpawnData = playersSpawnData;
         SceneManager.LoadScene("MainScene");
     }
 

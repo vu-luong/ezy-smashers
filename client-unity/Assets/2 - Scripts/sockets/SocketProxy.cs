@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _2___Scripts.shared;
 using com.tvd12.ezyfoxserver.client;
 using com.tvd12.ezyfoxserver.client.config;
 using com.tvd12.ezyfoxserver.client.constant;
@@ -130,13 +131,22 @@ class AnotherExitMMORoomHandler : EzyAbstractAppDataHandler<EzyObject>
 	}
 }
 
-class StartGameResponseHandler : EzyAbstractAppDataHandler<EzyObject>
+class StartGameResponseHandler : EzyAbstractAppDataHandler<EzyArray>
 {
-	public static event Action startGameResponseEvent;
-	protected override void process(EzyApp app, EzyObject data)
+	public static event Action<List<PlayerSpawnData>> startGameResponseEvent;
+	protected override void process(EzyApp app, EzyArray data)
 	{
 		logger.info("Game start response" + data);
-		startGameResponseEvent?.Invoke();
+		List<PlayerSpawnData> spawnData = new List<PlayerSpawnData>();
+
+		for (int i = 0; i < data.size(); i++)
+		{
+			EzyObject item = data.get<EzyObject>(i);
+			string playerName = item.get<string>("playerName");
+			List<float> position = item.get<EzyArray>("position").toList<float>();
+			spawnData.Add(new PlayerSpawnData(playerName, new Vector3(position[0], position[1], position[2])));
+		}
+		startGameResponseEvent?.Invoke(spawnData);
 	}
 }
 
@@ -218,9 +228,6 @@ public class SocketProxy : EzyLoggable
 		appSetup.addDataHandler(Commands.ANOTHER_EXIT_MMO_ROOM, new AnotherExitMMORoomHandler());
 		appSetup.addDataHandler(Commands.START_GAME, new StartGameResponseHandler());
 		appSetup.addDataHandler(Commands.SYNC_POSITION, new SyncPositionHandler());
-
-		// Init GameManager
-		GameManager.getInstance();
 
 		// Init RoomManager
 		RoomManager.getInstance();

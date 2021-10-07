@@ -11,9 +11,11 @@ import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
+import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 import com.youngmonkeys.app.request.JoinMMORoomRequest;
 import com.youngmonkeys.app.request.PlayerInputDataRequest;
-import com.youngmonkeys.app.service.GameService;
+import com.youngmonkeys.app.service.GamePlayService;
+import com.youngmonkeys.app.service.RoomService;
 import com.youngmonkeys.app.service.LobbyService;
 import lombok.Setter;
 
@@ -27,7 +29,10 @@ public class GameRequestController extends EzyLoggable {
 	private LobbyService lobbyService;
 	
 	@EzyAutoBind
-	private GameService gameService;
+	private RoomService roomService;
+	
+	@EzyAutoBind
+	private GamePlayService gamePlayService;
 	
 	@EzyAutoBind
 	private EzyResponseFactory responseFactory;
@@ -49,7 +54,7 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.CREATE_MMO_ROOM)
 	public void createMMORoom(EzyUser user) {
 		logger.info("user {} create an MMO room", user);
-		GameRoom room = gameService.newGameRoom(user);
+		GameRoom room = roomService.newGameRoom(user);
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.CREATE_MMO_ROOM)
@@ -61,7 +66,7 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.GET_MMO_ROOM_ID_LIST)
 	public void getMMORoomIdList(EzyUser user) {
 		logger.info("user {} get MMO room list", user);
-		List<Long> mmoRoomIdList = gameService.getMMORoomIdList();
+		List<Long> mmoRoomIdList = roomService.getMMORoomIdList();
 		responseFactory.newArrayResponse()
 				.command(Commands.GET_MMO_ROOM_ID_LIST)
 				.param(mmoRoomIdList)
@@ -72,9 +77,9 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.GET_MMO_ROOM_PLAYERS)
 	public void getMMORoomPlayers(EzyUser user) {
 		logger.info("user {} getMMORoomPlayers", user);
-		GameRoom currentRoom = (GameRoom) gameService.getCurrentRoom(user.getName());
-		List<String> players = gameService.getRoomPlayerNames(currentRoom);
-		Player master = gameService.getMaster(currentRoom);
+		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
+		List<String> players = roomService.getRoomPlayerNames(currentRoom);
+		Player master = roomService.getMaster(currentRoom);
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.GET_MMO_ROOM_PLAYERS)
@@ -88,8 +93,8 @@ public class GameRequestController extends EzyLoggable {
 	public void joinMMORoom(EzyUser user, JoinMMORoomRequest request) {
 		logger.info("user {} join room {}", user.getName(), request.getRoomId());
 		long roomId = request.getRoomId();
-		GameRoom room = gameService.playerJoinMMORoom(user.getName(), roomId);
-		List<String> playerNames = gameService.getRoomPlayerNames(room);
+		GameRoom room = roomService.playerJoinMMORoom(user.getName(), roomId);
+		List<String> playerNames = roomService.getRoomPlayerNames(room);
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.JOIN_MMO_ROOM)
@@ -107,11 +112,14 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.START_GAME)
 	public void startGame(EzyUser user) {
 		logger.info("user {} start game", user);
-		GameRoom currentRoom = (GameRoom) gameService.getCurrentRoom(user.getName());
-		List<String> playerNames = gameService.getRoomPlayerNames(currentRoom);
+		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
+		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
 		
-		responseFactory.newObjectResponse()
+		List<PlayerSpawnData> data = gamePlayService.spawnPlayers(playerNames);
+		
+		responseFactory.newArrayResponse()
 				.command(Commands.START_GAME)
+				.data(data)
 				.usernames(playerNames)
 				.execute();
 	}
@@ -119,6 +127,6 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.PLAYER_INPUT_DATA)
 	public void handlePlayerInputData(EzyUser user, PlayerInputDataRequest request) {
 		logger.info("user {} send input data {}", user.getName(), request);
-		gameService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()));
+		gamePlayService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()));
 	}
 }
