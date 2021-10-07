@@ -5,7 +5,6 @@ import com.youngmonkeys.app.game.constant.GameConstants;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.utils.InputUtils;
 import com.youngmonkeys.app.game.utils.Vec3Utils;
-import com.youngmonkeys.app.request.PlayerInputDataRequest;
 
 public class PlayerLogic {
 	

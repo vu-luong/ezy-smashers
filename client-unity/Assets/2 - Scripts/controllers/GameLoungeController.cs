@@ -53,6 +53,8 @@ public class GameLoungeController : MonoBehaviour
     private void OnGameStart(List<PlayerSpawnData> playersSpawnData)
     { 
         Debug.Log("GameLoungeController.OnGameStart");
+
+        GameManager.getInstance().PlayersSpawnData = playersSpawnData;
         SceneManager.LoadScene("MainScene");
     }
 

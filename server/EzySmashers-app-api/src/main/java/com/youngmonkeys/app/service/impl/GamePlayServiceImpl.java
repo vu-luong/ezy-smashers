@@ -4,6 +4,8 @@ import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.gamebox.entity.MMOPlayer;
+import com.tvd12.gamebox.entity.Player;
+import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.math.Vec3;
 import com.tvd12.gamebox.math.Vec3s;
 import com.youngmonkeys.app.game.PlayerLogic;
@@ -24,6 +26,9 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 	@EzyAutoBind
 	RoomService roomService;
 	
+	@EzyAutoBind
+	private PlayerManager<Player> globalPlayerManager;
+	
 	@Override
 	public void handlePlayerInputData(String playerName, PlayerInputData inputData) {
 		MMOPlayer player = roomService.getPlayer(playerName);
@@ -38,7 +43,7 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 	
 	@Override
 	public List<PlayerSpawnData> spawnPlayers(List<String> playerNames) {
-		return playerNames.stream().map(
+		List<PlayerSpawnData> answer = playerNames.stream().map(
 				playerName -> new PlayerSpawnData(
 						playerName,
 						Vec3s.toArray(
@@ -50,5 +55,20 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 						)
 				)
 		).collect(Collectors.toList());
+		
+		answer.forEach(playerSpawnData -> {
+			MMOPlayer player = (MMOPlayer) globalPlayerManager.getPlayer(playerSpawnData.getPlayerName());
+			synchronized (player) {
+				player.setPosition(
+						new Vec3(
+								playerSpawnData.getPosition().get(0),
+								playerSpawnData.getPosition().get(1),
+								playerSpawnData.getPosition().get(2)
+						)
+				);
+			}
+		});
+		
+		return answer;
 	}
 }

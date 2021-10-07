@@ -229,9 +229,6 @@ public class SocketProxy : EzyLoggable
 		appSetup.addDataHandler(Commands.START_GAME, new StartGameResponseHandler());
 		appSetup.addDataHandler(Commands.SYNC_POSITION, new SyncPositionHandler());
 
-		// Init GameManager
-		GameManager.getInstance();
-
 		// Init RoomManager
 		RoomManager.getInstance();
 
