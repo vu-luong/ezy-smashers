@@ -39,14 +39,14 @@ public class GamePlayControllers : MonoBehaviour
 
 	private void OnPlayerSyncPosition(string playerName, Vector3 position, Vector3 rotation, int time)
 	{
-		if (playerName == GameManager.getInstance().MyPlayer.PlayerName)
-		{
-			playersMap[playerName].OnServerDataUpdate(position, time);
-		}
-		else
-		{
-			// TODO
-		}
+		playersMap[playerName].OnServerDataUpdate(position, time);
+		// if (playerName == GameManager.getInstance().MyPlayer.PlayerName)
+		// {
+		// 	playersMap[playerName].OnServerDataUpdate(position, time);
+		// }
+		// else
+		// {
+		// }
 	}
 
 	private void OnPlayerInputChange(PlayerInputData inputData)
