@@ -5,7 +5,7 @@ import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.NormalRoom;
-import com.youngmonkeys.app.service.GameService;
+import com.youngmonkeys.app.service.RoomService;
 import com.youngmonkeys.app.service.LobbyService;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ public class LobbyServiceImpl implements LobbyService {
 	private NormalRoom lobbyRoom;
 	
 	@EzyAutoBind
-	private GameService gameService;
+	private RoomService roomService;
 	
 	@Override
 	public void addUser(EzyUser user) {
@@ -32,7 +32,7 @@ public class LobbyServiceImpl implements LobbyService {
 			player.setCurrentRoomId(lobbyRoom.getId());
 		}
 		
-		gameService.addPlayer(player);
+		roomService.addPlayer(player);
 	}
 	
 	@Override

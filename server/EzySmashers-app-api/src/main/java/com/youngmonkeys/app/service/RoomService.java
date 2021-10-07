@@ -6,10 +6,11 @@ import com.tvd12.gamebox.entity.NormalRoom;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
+import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 
 import java.util.List;
 
-public interface GameService {
+public interface RoomService {
 	NormalRoom removePlayer(String username);
 	
 	void addPlayer(MMOPlayer player);
@@ -29,6 +30,5 @@ public interface GameService {
 	Player getMaster(NormalRoom currentRoom);
 	
 	GameRoom playerJoinMMORoom(String playerName, long roomId);
-	
-	void handlePlayerInputData(String playerName, PlayerInputData inputData);
+
 }

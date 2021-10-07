@@ -10,7 +10,7 @@ import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
 import com.tvd12.gamebox.entity.NormalRoom;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.game.GameRoom;
-import com.youngmonkeys.app.service.GameService;
+import com.youngmonkeys.app.service.RoomService;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class UserRemovedController
 		extends EzyAbstractAppEventController<EzyUserRemovedEvent> {
 	
 	@EzyAutoBind
-	private GameService gameService;
+	private RoomService roomService;
 	
 	@EzyAutoBind
 	private EzyResponseFactory responseFactory;
@@ -31,13 +31,13 @@ public class UserRemovedController
 	public void handle(EzyAppContext ctx, EzyUserRemovedEvent event) {
 		logger.info("EzySmashers app: user {} removed", event.getUser());
 		String playerName = event.getUser().getName();
-		NormalRoom room = gameService.removePlayer(playerName);
+		NormalRoom room = roomService.removePlayer(playerName);
 		
 		if (!(room instanceof GameRoom)) {
 			return;
 		}
 		
-		List<String> playerNames = gameService.getRoomPlayerNames(room);
+		List<String> playerNames = roomService.getRoomPlayerNames(room);
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.ANOTHER_EXIT_MMO_ROOM)
