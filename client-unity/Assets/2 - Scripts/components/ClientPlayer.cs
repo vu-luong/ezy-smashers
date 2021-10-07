@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class ClientPlayer : MonoBehaviour
 {
 	private string playerName;
-	private bool isMaster;
+	private bool isMyPlayer;
 
 	[Space]
 	[Header("Animation Smoothing")]
@@ -37,16 +37,22 @@ public class ClientPlayer : MonoBehaviour
 	private void FixedUpdate()
 	{
 		ClientTick++;
-		InputMagnitude();
+		if (isMyPlayer)
+		{
+			InputMagnitude();
+		}
 	}
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (isMyPlayer)
 		{
-			if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f && !anim.IsInTransition(0))
+			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				anim.SetTrigger("slash");
+				if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f && !anim.IsInTransition(0))
+				{
+					anim.SetTrigger("slash");
+				}
 			}
 		}
 	}
@@ -91,34 +97,47 @@ public class ClientPlayer : MonoBehaviour
 
 	public void OnServerDataUpdate(Vector3 position, int time)
 	{
-		while (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick < time)
+		if (isMyPlayer)
 		{
-			reconciliationHistory.Dequeue();
-		}
-
-		if (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick == time)
-		{
-			var info = reconciliationHistory.Dequeue();
-			if (Vector3.Distance(info.StateData.Position, position) > 0.05f)
+			while (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick < time)
 			{
-				Debug.Log("SERVER RECONCILIATION! server position = " + position + ", client position = " + info.StateData.Position);
-				List<ReconciliationInfo> infos = reconciliationHistory.ToList();
-				playerInterpolation.CurrentData.Position = position;
-				playerInterpolation.CurrentData.Rotation = info.StateData.Rotation;
-				transform.position = playerInterpolation.CurrentData.Position;
-				transform.rotation = playerInterpolation.CurrentData.Rotation;
+				reconciliationHistory.Dequeue();
+			}
 
-				for (int i = 0; i < infos.Count; i++)
+			if (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick == time)
+			{
+				var info = reconciliationHistory.Dequeue();
+				if (Vector3.Distance(info.StateData.Position, position) > 0.05f)
 				{
-					PlayerStateData u = PlayerLogic.GetNextFrameData(infos[i].InputData, playerInterpolation.CurrentData);
-					playerInterpolation.SetFramePosition(u);
+					Debug.Log("SERVER RECONCILIATION! server position = " + position + ", client position = " + info.StateData.Position);
+					List<ReconciliationInfo> infos = reconciliationHistory.ToList();
+					playerInterpolation.CurrentData.Position = position;
+					playerInterpolation.CurrentData.Rotation = info.StateData.Rotation;
+					transform.position = playerInterpolation.CurrentData.Position;
+					transform.rotation = playerInterpolation.CurrentData.Rotation;
+
+					for (int i = 0; i < infos.Count; i++)
+					{
+						PlayerStateData u = PlayerLogic.GetNextFrameData(infos[i].InputData, playerInterpolation.CurrentData);
+						playerInterpolation.SetFramePosition(u);
+					}
 				}
 			}
 		}
+		else
+		{
+			Vector3 targetDirection = position - transform.position;
+			// Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 0.2f, 0.0f);
+			var nextRotation = Quaternion.Slerp(transform.rotation,
+			                                    Quaternion.LookRotation(targetDirection),
+			                                    PlayerLogic.desiredRotationSpeed);
+			playerInterpolation.SetFramePosition(new PlayerStateData(position, nextRotation));
+		}
 	}
-	public void Initialize(PlayerSpawnData playerSpawnData)
+	public void Initialize(PlayerSpawnData playerSpawnData, bool isMyPlayer)
 	{
 		playerName = playerSpawnData.playerName;
+		this.isMyPlayer = isMyPlayer;
 		// playerInterpolation.SetFramePosition(new PlayerStateData(playerSpawnData.position, transform.rotation));
 		playerInterpolation.CurrentData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 		playerInterpolation.PreviousData = new PlayerStateData(playerSpawnData.position, transform.rotation);
