@@ -9,6 +9,8 @@ public class ClientPlayer : MonoBehaviour
 {
 	private string playerName;
 	private bool isMyPlayer;
+	[SerializeField]
+	private Transform lookPoint;
 
 	[Space]
 	[Header("Animation Smoothing")]
@@ -28,6 +30,8 @@ public class ClientPlayer : MonoBehaviour
 	public bool IsMyPlayer => isMyPlayer;
 
 	public Animator Anim => anim;
+
+	public Transform LookPoint => lookPoint;
 
 	// Use this for initialization
 	void Awake()

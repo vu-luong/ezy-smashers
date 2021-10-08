@@ -32,7 +32,7 @@ public class GamePlayControllers : MonoBehaviour
 		playersMap.Add(playerSpawnData.playerName, clientPlayer);
 		if (isMyPlayer)
 		{
-			cinemachineVirtualCamera.Follow = go.transform;
+			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;
 		}
 	}
 
