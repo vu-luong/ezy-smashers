@@ -39,7 +39,7 @@ public class GamePlayControllers : MonoBehaviour
 
 	private void OnPlayerSyncPosition(string playerName, Vector3 position, Vector3 rotation, int time)
 	{
-		playersMap[playerName].OnServerDataUpdate(position, time);
+		playersMap[playerName].OnServerDataUpdate(position, rotation, time);
 		// if (playerName == GameManager.getInstance().MyPlayer.PlayerName)
 		// {
 		// 	playersMap[playerName].OnServerDataUpdate(position, time);
@@ -49,8 +49,8 @@ public class GamePlayControllers : MonoBehaviour
 		// }
 	}
 
-	private void OnPlayerInputChange(PlayerInputData inputData)
+	private void OnPlayerInputChange(PlayerInputData inputData, Quaternion nextRotation)
 	{
-		SocketRequest.getInstance().SendPlayerInputData(inputData);
+		SocketRequest.getInstance().SendPlayerInputData(inputData, nextRotation.eulerAngles);
 	}
 }

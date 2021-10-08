@@ -127,6 +127,6 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.PLAYER_INPUT_DATA)
 	public void handlePlayerInputData(EzyUser user, PlayerInputDataRequest request) {
 		logger.info("user {} send input data {}", user.getName(), request);
-		gamePlayService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()));
+		gamePlayService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()), request.getR());
 	}
 }

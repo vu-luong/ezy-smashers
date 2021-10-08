@@ -19,7 +19,7 @@ public class ClientPlayer : MonoBehaviour
 
 	private Animator anim;
 	private PlayerInterpolation playerInterpolation;
-	public static UnityAction<PlayerInputData> playerInputEvent;
+	public static UnityAction<PlayerInputData, Quaternion> playerInputEvent;
 
 	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
 
@@ -87,7 +87,7 @@ public class ClientPlayer : MonoBehaviour
 			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
 			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
 			playerInterpolation.SetFramePosition(nextStateData);
-			playerInputEvent?.Invoke(inputData);
+			playerInputEvent?.Invoke(inputData, nextStateData.Rotation);
 			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextStateData.Position.ToString("F8"));
 			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextStateData, inputData));
 		}
@@ -97,7 +97,7 @@ public class ClientPlayer : MonoBehaviour
 		}
 	}
 
-	public void OnServerDataUpdate(Vector3 position, int time)
+	public void OnServerDataUpdate(Vector3 position, Vector3 rotation, int time)
 	{
 		if (IsMyPlayer)
 		{
@@ -128,19 +128,13 @@ public class ClientPlayer : MonoBehaviour
 		}
 		else
 		{
-			Vector3 targetDirection = position - transform.position;
-			// Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 0.2f, 0.0f);
-			var nextRotation = Quaternion.Slerp(transform.rotation,
-			                                    Quaternion.LookRotation(targetDirection),
-			                                    PlayerLogic.desiredRotationSpeed);
-			playerInterpolation.SetFramePosition(new PlayerStateData(position, nextRotation));
+			playerInterpolation.SetFramePosition(new PlayerStateData(position, Quaternion.Euler(rotation)));
 		}
 	}
 	public void Initialize(PlayerSpawnData playerSpawnData, bool isMyPlayer)
 	{
 		playerName = playerSpawnData.playerName;
 		this.isMyPlayer = isMyPlayer;
-		// playerInterpolation.SetFramePosition(new PlayerStateData(playerSpawnData.position, transform.rotation));
 		playerInterpolation.CurrentData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 		playerInterpolation.PreviousData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 	}

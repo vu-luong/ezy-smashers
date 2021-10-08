@@ -8,4 +8,5 @@ import lombok.Data;
 public class PlayerInputDataRequest {
 	int t;
 	boolean[] k;
+	float[] r;
 }
