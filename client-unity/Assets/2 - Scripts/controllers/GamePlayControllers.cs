@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class GamePlayControllers : MonoBehaviour
 {
-	
-	// public ClientPlayer mePlayer;
+
 	public GameObject playerPrefab;
 	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
 	public CinemachineVirtualCamera cinemachineVirtualCamera;
@@ -26,11 +25,12 @@ public class GamePlayControllers : MonoBehaviour
 	}
 	private void SpawnPlayer(PlayerSpawnData playerSpawnData)
 	{
+		bool isMyPlayer = playerSpawnData.playerName == GameManager.getInstance().MyPlayer.PlayerName;
 		GameObject go = Instantiate(playerPrefab);
 		ClientPlayer clientPlayer = go.GetComponent<ClientPlayer>();
-		clientPlayer.Initialize(playerSpawnData);
+		clientPlayer.Initialize(playerSpawnData, isMyPlayer);
 		playersMap.Add(playerSpawnData.playerName, clientPlayer);
-		if (playerSpawnData.playerName == GameManager.getInstance().MyPlayer.PlayerName)
+		if (isMyPlayer)
 		{
 			cinemachineVirtualCamera.Follow = go.transform;
 		}
@@ -38,18 +38,11 @@ public class GamePlayControllers : MonoBehaviour
 
 	private void OnPlayerSyncPosition(string playerName, Vector3 position, Vector3 rotation, int time)
 	{
-		if (playerName == GameManager.getInstance().MyPlayer.PlayerName)
-		{
-			playersMap[playerName].OnServerDataUpdate(position, time);
-		}
-		else
-		{
-			// TODO
-		}
+		playersMap[playerName].OnServerDataUpdate(position, rotation, time);
 	}
-	
-	private void OnPlayerInputChange(PlayerInputData inputData)
+
+	private void OnPlayerInputChange(PlayerInputData inputData, Quaternion nextRotation)
 	{
-		SocketRequest.getInstance().SendPlayerInputData(inputData);
+		SocketRequest.getInstance().SendPlayerInputData(inputData, nextRotation.eulerAngles);
 	}
 }

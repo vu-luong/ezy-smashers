@@ -1,9 +1,9 @@
-﻿using System;
-using _2___Scripts.shared;
+﻿using _2___Scripts.shared;
 using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.factory;
 using com.tvd12.ezyfoxserver.client.request;
 using com.tvd12.ezyfoxserver.client.util;
+using UnityEngine;
 
 public class SocketRequest : EzyLoggable
 {
@@ -60,13 +60,19 @@ public class SocketRequest : EzyLoggable
 		var client = SocketProxy.getInstance().Client;
 		client.getApp().send(Commands.START_GAME);
 	}
-	public void SendPlayerInputData(PlayerInputData inputData)
+	public void SendPlayerInputData(PlayerInputData inputData, Vector3 nextRotation)
 	{
 		var client = SocketProxy.getInstance().Client;
 		EzyObject data = EzyEntityFactory
 			.newObjectBuilder()
 			.append("t", inputData.Time)
 			.append("k", inputData.KeyInputs)
+			.append("r", EzyEntityFactory.newArrayBuilder()
+				        .append(nextRotation.x)
+				        .append(nextRotation.y)
+				        .append(nextRotation.z)
+				        .build()
+			        )
 			.build();
 		client.getApp().send(Commands.PLAYER_INPUT_DATA, data);
 	}

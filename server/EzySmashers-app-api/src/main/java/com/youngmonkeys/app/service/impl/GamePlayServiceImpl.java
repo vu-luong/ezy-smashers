@@ -30,13 +30,14 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 	private PlayerManager<Player> globalPlayerManager;
 	
 	@Override
-	public void handlePlayerInputData(String playerName, PlayerInputData inputData) {
+	public void handlePlayerInputData(String playerName, PlayerInputData inputData, float[] nextRotation) {
 		MMOPlayer player = roomService.getPlayer(playerName);
 		synchronized (player) {
 			Vec3 currentPosition = player.getPosition();
 			Vec3 nextPosition = PlayerLogic.GetNextPosition(inputData, currentPosition);
 			logger.info("next position = {}", nextPosition);
 			player.setPosition(nextPosition);
+			player.setRotation(nextRotation[0], nextRotation[1], nextRotation[2]);
 			player.setClientTimeTick(inputData.getTime());
 		}
 	}
