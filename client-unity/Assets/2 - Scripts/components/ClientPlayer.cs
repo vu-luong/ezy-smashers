@@ -27,6 +27,8 @@ public class ClientPlayer : MonoBehaviour
 
 	public bool IsMyPlayer => isMyPlayer;
 
+	public Animator Anim => anim;
+
 	// Use this for initialization
 	void Awake()
 	{
@@ -51,9 +53,9 @@ public class ClientPlayer : MonoBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f && !anim.IsInTransition(0))
+				if (Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f && !Anim.IsInTransition(0))
 				{
-					anim.SetTrigger("slash");
+					Anim.SetTrigger("slash");
 				}
 			}
 		}
@@ -61,7 +63,7 @@ public class ClientPlayer : MonoBehaviour
 
 	void InputMagnitude()
 	{
-		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Slash"))
+		if (Anim.GetCurrentAnimatorStateInfo(0).IsName("Slash"))
 		{
 			return;
 		}
@@ -82,7 +84,7 @@ public class ClientPlayer : MonoBehaviour
 		if (moveInputMagnitude > 0)
 		{
 			Debug.Log("movement = " + movement);
-			anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
+			Anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
 			// PlayerMoveAndRotation(movement);
 			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
 			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
@@ -93,7 +95,7 @@ public class ClientPlayer : MonoBehaviour
 		}
 		else
 		{
-			anim.SetFloat("Blend", moveInputMagnitude, stopAnimTime, Time.deltaTime);
+			Anim.SetFloat("Blend", moveInputMagnitude, stopAnimTime, Time.deltaTime);
 		}
 	}
 
