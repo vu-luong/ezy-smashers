@@ -8,10 +8,6 @@ public class ButtonUI : MonoBehaviour
 
     public int Index { get => index; set => index = value; }
 
-    private void Start()
-    {
-    }
-
     public int GetIndex()
     {
         if (index == -1) 

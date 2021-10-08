@@ -6,7 +6,6 @@ using UnityEngine;
 public class GamePlayControllers : MonoBehaviour
 {
 
-	// public ClientPlayer mePlayer;
 	public GameObject playerPrefab;
 	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
 	public CinemachineVirtualCamera cinemachineVirtualCamera;
@@ -40,13 +39,6 @@ public class GamePlayControllers : MonoBehaviour
 	private void OnPlayerSyncPosition(string playerName, Vector3 position, Vector3 rotation, int time)
 	{
 		playersMap[playerName].OnServerDataUpdate(position, rotation, time);
-		// if (playerName == GameManager.getInstance().MyPlayer.PlayerName)
-		// {
-		// 	playersMap[playerName].OnServerDataUpdate(position, time);
-		// }
-		// else
-		// {
-		// }
 	}
 
 	private void OnPlayerInputChange(PlayerInputData inputData, Quaternion nextRotation)

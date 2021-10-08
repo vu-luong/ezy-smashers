@@ -1,6 +1,4 @@
-﻿using System;
-using _2___Scripts.shared;
-using com.tvd12.ezyfoxserver.client.builder;
+﻿using _2___Scripts.shared;
 using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.factory;
 using com.tvd12.ezyfoxserver.client.request;

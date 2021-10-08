@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class RoomManager : EzyLoggable
 {
