@@ -11,6 +11,8 @@ public class ClientPlayer : MonoBehaviour
 	private bool isMyPlayer;
 	[SerializeField]
 	private Transform lookPoint;
+	[SerializeField]
+	private Transform attackPoint;
 
 	[Space]
 	[Header("Animation Smoothing")]
@@ -22,6 +24,7 @@ public class ClientPlayer : MonoBehaviour
 	private Animator anim;
 	private PlayerInterpolation playerInterpolation;
 	public static UnityAction<PlayerInputData, Quaternion> playerInputEvent;
+	public static UnityAction<Vector3, int> playerAttackEvent;
 
 	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
 
@@ -32,6 +35,8 @@ public class ClientPlayer : MonoBehaviour
 	public Animator Anim => anim;
 
 	public Transform LookPoint => lookPoint;
+
+	public Transform AttackPoint => attackPoint;
 
 	// Use this for initialization
 	void Awake()
@@ -47,37 +52,40 @@ public class ClientPlayer : MonoBehaviour
 		ClientTick++;
 		if (IsMyPlayer)
 		{
-			InputMagnitude();
+			HandleInput();
 		}
 	}
 
-	private void Update()
-	{
-		if (IsMyPlayer)
-		{
-			if (Input.GetKeyDown(KeyCode.Space))
-			{
-				if (Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f && !Anim.IsInTransition(0))
-				{
-					Anim.SetTrigger("slash");
-				}
-			}
-		}
-	}
-
-	void InputMagnitude()
+	void HandleInput()
 	{
 		if (Anim.GetCurrentAnimatorStateInfo(0).IsName("Slash"))
 		{
 			return;
 		}
 
-		bool[] inputs = new bool[6];
+		bool[] inputs = new bool[4];
 		inputs[0] = Input.GetKey(KeyCode.UpArrow);
 		inputs[1] = Input.GetKey(KeyCode.LeftArrow);
 		inputs[2] = Input.GetKey(KeyCode.DownArrow);
 		inputs[3] = Input.GetKey(KeyCode.RightArrow);
-		inputs[4] = Input.GetKeyDown(KeyCode.Space);
+
+		bool attackInput = Input.GetKey(KeyCode.Space);
+
+		if (attackInput) // Slash/smash attack
+		{
+			if (!Anim.IsInTransition(0))
+			{
+				Anim.SetTrigger("slash");
+				playerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
+			}
+			else
+			{
+				Debug.Log("Den day roi!!!!!" + Time.time);
+				Debug.Log(Anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+				Debug.Log(Anim.IsInTransition(0));
+				Debug.Log("isSlash = " + Anim.GetCurrentAnimatorStateInfo(0).IsName("Slash"));
+			}
+		}
 
 		Vector3 movement = InputUtils.ComputeMovementFromInput(inputs[0], inputs[1], inputs[2], inputs[3]);
 

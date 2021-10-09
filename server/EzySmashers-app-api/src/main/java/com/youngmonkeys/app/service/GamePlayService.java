@@ -1,5 +1,6 @@
 package com.youngmonkeys.app.service;
 
+import com.youngmonkeys.app.game.shared.PlayerAttackData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 
@@ -9,4 +10,6 @@ public interface GamePlayService {
 	void handlePlayerInputData(String playerName, PlayerInputData inputData, float[] nextRotation);
 	
 	List<PlayerSpawnData> spawnPlayers(List<String> playerNames);
+	
+	void handlePlayerAttack(String playerName, PlayerAttackData playerAttackData);
 }

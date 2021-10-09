@@ -14,7 +14,12 @@ public class GamePlayControllers : MonoBehaviour
 	{
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
 		ClientPlayer.playerInputEvent += OnPlayerInputChange;
+		ClientPlayer.playerAttackEvent += OnPlayerAttack;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
+	}
+	private void OnPlayerAttack(Vector3 attackPosition, int clientTick)
+	{
+		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
 	}
 	private void SpawnPlayers(List<PlayerSpawnData> playersSpawnData)
 	{

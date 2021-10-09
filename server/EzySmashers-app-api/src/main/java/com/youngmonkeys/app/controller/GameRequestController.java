@@ -10,9 +10,11 @@ import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.game.GameRoom;
+import com.youngmonkeys.app.game.shared.PlayerAttackData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 import com.youngmonkeys.app.request.JoinMMORoomRequest;
+import com.youngmonkeys.app.request.PlayerAttackDataRequest;
 import com.youngmonkeys.app.request.PlayerInputDataRequest;
 import com.youngmonkeys.app.service.GamePlayService;
 import com.youngmonkeys.app.service.RoomService;
@@ -128,5 +130,12 @@ public class GameRequestController extends EzyLoggable {
 	public void handlePlayerInputData(EzyUser user, PlayerInputDataRequest request) {
 		logger.info("user {} send input data {}", user.getName(), request);
 		gamePlayService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()), request.getR());
+	}
+	
+	@EzyDoHandle(Commands.PLAYER_ATTACK_DATA)
+	public void handlePlayerAttackData(EzyUser user, PlayerAttackDataRequest request) {
+		logger.info("user {} send input data {}", user.getName(), request);
+		// Handle attack
+		gamePlayService.handlePlayerAttack(user.getName(), new PlayerAttackData(request.getP(), request.getT()));
 	}
 }

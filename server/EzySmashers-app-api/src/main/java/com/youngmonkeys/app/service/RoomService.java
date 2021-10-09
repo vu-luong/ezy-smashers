@@ -21,6 +21,8 @@ public interface RoomService {
 	
 	List<String> getRoomPlayerNames(NormalRoom room);
 	
+	List<Player> getRoomPlayers(NormalRoom room);
+	
 	void addRoom(NormalRoom room);
 	
 	List<Long> getMMORoomIdList();

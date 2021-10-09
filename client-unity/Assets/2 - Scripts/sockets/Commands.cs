@@ -14,6 +14,7 @@ public sealed class Commands
     public const String START_GAME = "startGame";
 
     public const String PLAYER_INPUT_DATA = "i";
+    public const String PLAYER_ATTACK_DATA = "a";
 
     private Commands()
     {

@@ -88,6 +88,13 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	}
 	
 	@Override
+	public List<Player> getRoomPlayers(NormalRoom room) {
+		synchronized (room) {
+			return room.getPlayerManager().getPlayerList();
+		}
+	}
+	
+	@Override
 	public void addRoom(NormalRoom room) {
 		if (room instanceof MMORoom) {
 			synchronized (mmoVirtualWorld) {

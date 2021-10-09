@@ -67,13 +67,30 @@ public class SocketRequest : EzyLoggable
 			.newObjectBuilder()
 			.append("t", inputData.Time)
 			.append("k", inputData.KeyInputs)
-			.append("r", EzyEntityFactory.newArrayBuilder()
+			.append("r",
+			        EzyEntityFactory.newArrayBuilder()
 				        .append(nextRotation.x)
 				        .append(nextRotation.y)
 				        .append(nextRotation.z)
 				        .build()
-			        )
+			)
 			.build();
 		client.getApp().send(Commands.PLAYER_INPUT_DATA, data);
+	}
+	public void SendPlayerAttackData(Vector3 attackPosition, int clientTick)
+	{
+		var client = SocketProxy.getInstance().Client;
+		EzyObject data = EzyEntityFactory
+			.newObjectBuilder()
+			.append("t", clientTick)
+			.append("p",
+			        EzyEntityFactory.newArrayBuilder()
+				        .append(attackPosition.x)
+				        .append(attackPosition.y)
+				        .append(attackPosition.z)
+				        .build()
+			)
+			.build();
+		client.getApp().send(Commands.PLAYER_ATTACK_DATA, data);
 	}
 }
