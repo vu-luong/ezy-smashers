@@ -15,6 +15,7 @@ public sealed class Commands
 
     public const String PLAYER_INPUT_DATA = "i";
     public const String PLAYER_ATTACK_DATA = "a";
+    public const String PLAYER_BEING_ATTACKED = "b";
 
     private Commands()
     {

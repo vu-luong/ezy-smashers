@@ -16,6 +16,14 @@ public class GamePlayControllers : MonoBehaviour
 		ClientPlayer.playerInputEvent += OnPlayerInputChange;
 		ClientPlayer.playerAttackEvent += OnPlayerAttack;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
+		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
+	}
+	private void OnPlayersBeingAttacked(List<string> playersBeingAttacked)
+	{
+		foreach (var playerName in playersBeingAttacked)
+		{
+			playersMap[playerName].transform.localScale *= 0.8f;
+		}
 	}
 	private void OnPlayerAttack(Vector3 attackPosition, int clientTick)
 	{
