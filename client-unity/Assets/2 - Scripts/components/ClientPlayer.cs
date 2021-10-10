@@ -26,7 +26,7 @@ public class ClientPlayer : MonoBehaviour
 	private PlayerInterpolation playerInterpolation;
 	public static UnityAction<PlayerInputData, Quaternion> playerInputEvent;
 	public static UnityAction<Vector3, int> playerAttackEvent;
-	public static UnityAction gameOverEvent;
+	public static UnityAction playerDeadEvent;
 
 	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
 
@@ -165,7 +165,7 @@ public class ClientPlayer : MonoBehaviour
 		yield return new WaitForSeconds(0.5f);
 		transform.localScale = new Vector3(1.0f, 0.2f, 1.0f);
 		yield return new WaitForSeconds(0.1f);
-		gameOverEvent?.Invoke();
+		playerDeadEvent?.Invoke();
 	}
 
 	public void OnServerAttack()
