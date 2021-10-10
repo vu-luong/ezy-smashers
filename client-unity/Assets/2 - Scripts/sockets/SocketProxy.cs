@@ -174,13 +174,16 @@ class SyncPositionHandler : EzyAbstractAppDataHandler<EzyArray>
 
 class PlayerBeingAttackedHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<List<string>> playersBeingAttackedEvent;
+	public static event Action<List<string>, string> playersBeingAttackedEvent;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Attack: " + data);
 		var playersBeingAttacked = data.get<EzyArray>("b").toList<string>();
+		var attackTime = data.get<float>("t");
+		var attackerName = data.get<string>("a");
+		var attackPosition = data.get<EzyArray>("p");
 		logger.info("playersBeingAttacked: " + playersBeingAttacked);
-		playersBeingAttackedEvent?.Invoke(playersBeingAttacked);
+		playersBeingAttackedEvent?.Invoke(playersBeingAttacked, attackerName);
 	}
 }
 

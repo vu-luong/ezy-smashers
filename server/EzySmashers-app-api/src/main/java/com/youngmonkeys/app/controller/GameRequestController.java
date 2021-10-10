@@ -150,6 +150,7 @@ public class GameRequestController extends EzyLoggable {
 		// TODO: send to neighbourhood only
 		responseFactory.newObjectResponse()
 				.command(Commands.PLAYER_BEING_ATTACKED)
+				.param("a", user.getName())
 				.param("t", playerAttackData.getTime())
 				.param("p", playerAttackData.getAttackPosition())
 				.param("b", playerBeingAttacked)

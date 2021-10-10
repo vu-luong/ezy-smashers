@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _2___Scripts.shared;
@@ -25,6 +26,7 @@ public class ClientPlayer : MonoBehaviour
 	private PlayerInterpolation playerInterpolation;
 	public static UnityAction<PlayerInputData, Quaternion> playerInputEvent;
 	public static UnityAction<Vector3, int> playerAttackEvent;
+	public static UnityAction gameOverEvent;
 
 	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
 
@@ -151,5 +153,26 @@ public class ClientPlayer : MonoBehaviour
 		this.isMyPlayer = isMyPlayer;
 		playerInterpolation.CurrentData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 		playerInterpolation.PreviousData = new PlayerStateData(playerSpawnData.position, transform.rotation);
+	}
+	public void OnBeingAttacked()
+	{
+		StartCoroutine(BeingAttackCoroutine());
+	}
+
+
+	IEnumerator BeingAttackCoroutine()
+	{
+		yield return new WaitForSeconds(0.5f);
+		transform.localScale = new Vector3(1.0f, 0.2f, 1.0f);
+		yield return new WaitForSeconds(0.1f);
+		gameOverEvent?.Invoke();
+	}
+
+	public void OnServerAttack()
+	{
+		if (!isMyPlayer)
+		{
+			Anim.SetTrigger("slash");
+		}
 	}
 }

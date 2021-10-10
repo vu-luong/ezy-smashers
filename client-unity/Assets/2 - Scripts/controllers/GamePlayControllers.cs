@@ -18,11 +18,12 @@ public class GamePlayControllers : MonoBehaviour
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 	}
-	private void OnPlayersBeingAttacked(List<string> playersBeingAttacked)
+	private void OnPlayersBeingAttacked(List<string> playersBeingAttacked, string attackerName)
 	{
+		playersMap[attackerName].OnServerAttack();
 		foreach (var playerName in playersBeingAttacked)
 		{
-			playersMap[playerName].transform.localScale *= 0.8f;
+			playersMap[playerName].OnBeingAttacked();
 		}
 	}
 	private void OnPlayerAttack(Vector3 attackPosition, int clientTick)
