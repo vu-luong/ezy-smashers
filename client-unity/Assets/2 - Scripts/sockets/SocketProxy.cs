@@ -172,6 +172,21 @@ class SyncPositionHandler : EzyAbstractAppDataHandler<EzyArray>
 	}
 }
 
+class PlayerBeingAttackedHandler : EzyAbstractAppDataHandler<EzyObject>
+{
+	public static event Action<List<string>, string> playersBeingAttackedEvent;
+	protected override void process(EzyApp app, EzyObject data)
+	{
+		logger.info("Attack: " + data);
+		var playersBeingAttacked = data.get<EzyArray>("b").toList<string>();
+		var attackTime = data.get<float>("t");
+		var attackerName = data.get<string>("a");
+		var attackPosition = data.get<EzyArray>("p");
+		logger.info("playersBeingAttacked: " + playersBeingAttacked);
+		playersBeingAttackedEvent?.Invoke(playersBeingAttacked, attackerName);
+	}
+}
+
 #endregion
 
 public class SocketProxy : EzyLoggable
@@ -228,6 +243,7 @@ public class SocketProxy : EzyLoggable
 		appSetup.addDataHandler(Commands.ANOTHER_EXIT_MMO_ROOM, new AnotherExitMMORoomHandler());
 		appSetup.addDataHandler(Commands.START_GAME, new StartGameResponseHandler());
 		appSetup.addDataHandler(Commands.SYNC_POSITION, new SyncPositionHandler());
+		appSetup.addDataHandler(Commands.PLAYER_BEING_ATTACKED, new PlayerBeingAttackedHandler());
 
 		// Init RoomManager
 		RoomManager.getInstance();

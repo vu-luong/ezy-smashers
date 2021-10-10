@@ -10,15 +10,18 @@ import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.game.GameRoom;
+import com.youngmonkeys.app.game.shared.PlayerAttackData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 import com.youngmonkeys.app.request.JoinMMORoomRequest;
+import com.youngmonkeys.app.request.PlayerAttackDataRequest;
 import com.youngmonkeys.app.request.PlayerInputDataRequest;
 import com.youngmonkeys.app.service.GamePlayService;
-import com.youngmonkeys.app.service.RoomService;
 import com.youngmonkeys.app.service.LobbyService;
+import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -128,5 +131,30 @@ public class GameRequestController extends EzyLoggable {
 	public void handlePlayerInputData(EzyUser user, PlayerInputDataRequest request) {
 		logger.info("user {} send input data {}", user.getName(), request);
 		gamePlayService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()), request.getR());
+	}
+	
+	@EzyDoHandle(Commands.PLAYER_ATTACK_DATA)
+	public void handlePlayerAttackData(EzyUser user, PlayerAttackDataRequest request) {
+		logger.info("user {} send input data {}", user.getName(), request);
+		// Handle attack
+		List<String> playerNames = new ArrayList<>();
+		List<String> playerBeingAttacked = new ArrayList<>();
+		PlayerAttackData playerAttackData = new PlayerAttackData(request.getP(), request.getT());
+		gamePlayService.handlePlayerAttack(
+				user.getName(),
+				playerAttackData,
+				playerNames,
+				playerBeingAttacked
+		);
+		
+		// TODO: send to neighbourhood only
+		responseFactory.newObjectResponse()
+				.command(Commands.PLAYER_BEING_ATTACKED)
+				.param("a", user.getName())
+				.param("t", playerAttackData.getTime())
+				.param("p", playerAttackData.getAttackPosition())
+				.param("b", playerBeingAttacked)
+				.usernames(playerNames)
+				.execute();
 	}
 }

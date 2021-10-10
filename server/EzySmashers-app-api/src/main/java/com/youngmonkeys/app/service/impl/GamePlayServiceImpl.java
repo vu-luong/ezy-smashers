@@ -8,13 +8,16 @@ import com.tvd12.gamebox.entity.Player;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.math.Vec3;
 import com.tvd12.gamebox.math.Vec3s;
+import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.PlayerLogic;
+import com.youngmonkeys.app.game.shared.PlayerAttackData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 import com.youngmonkeys.app.service.GamePlayService;
 import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -71,5 +74,27 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 		});
 		
 		return answer;
+	}
+	
+	@Override
+	public void handlePlayerAttack(String playerName, PlayerAttackData playerAttackData,
+	                               List<String> playerNames, List<String> playerBeingAttacked) {
+		Vec3 attackPosition = new Vec3(
+				playerAttackData.getAttackPosition()[0],
+				playerAttackData.getAttackPosition()[1],
+				playerAttackData.getAttackPosition()[2]
+		);
+		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(playerName);
+		List<Player> players = roomService.getRoomPlayers(currentRoom);
+		
+		playerBeingAttacked.clear();
+		for (Player player : players) {
+			logger.info("Player {} distance: {}", player.getName(), ((MMOPlayer) player).getPosition().distance(attackPosition));
+			if (((MMOPlayer) player).getPosition().distance(attackPosition) < 1.0f) {
+				logger.info("Player {} is being attacked by {}", player.getName(), playerName);
+				playerBeingAttacked.add(player.getName());
+			}
+		}
+		playerNames.addAll(players.stream().map(Player::getName).collect(Collectors.toList()));
 	}
 }
