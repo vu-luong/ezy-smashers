@@ -35,7 +35,7 @@ public class ApplicationStartup {
 				.plugin(pluginSettingBuilder.build());
 		
 		EzyWebSocketSettingBuilder webSocketSettingBuilder = new EzyWebSocketSettingBuilder()
-				.active(false);
+				.active(true);
 		
 		EzyUdpSettingBuilder udpSettingBuilder = new EzyUdpSettingBuilder()
 				.active(true);
