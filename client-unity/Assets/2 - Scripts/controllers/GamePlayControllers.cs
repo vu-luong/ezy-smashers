@@ -14,7 +14,7 @@ public class GamePlayControllers : MonoBehaviour
 	{
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
 		ClientPlayer.playerInputEvent += OnPlayerInputChange;
-		ClientPlayer.playerAttackEvent += OnPlayerAttack;
+		// ClientPlayer.playerAttackEvent += OnPlayerAttack;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 	}
@@ -41,6 +41,8 @@ public class GamePlayControllers : MonoBehaviour
 	{
 		bool isMyPlayer = playerSpawnData.playerName == GameManager.getInstance().MyPlayer.PlayerName;
 		GameObject go = Instantiate(playerPrefab);
+		go.tag = "Player";
+		go.name = playerSpawnData.playerName;
 		ClientPlayer clientPlayer = go.GetComponent<ClientPlayer>();
 		clientPlayer.Initialize(playerSpawnData, isMyPlayer);
 		playersMap.Add(playerSpawnData.playerName, clientPlayer);
