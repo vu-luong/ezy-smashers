@@ -25,7 +25,7 @@ public class ClientPlayer : MonoBehaviour
 	private Animator anim;
 	private PlayerInterpolation playerInterpolation;
 	public static UnityAction<PlayerInputData, Quaternion> playerInputEvent;
-	public static UnityAction<Vector3, int> playerAttackEvent;
+	// public static UnityAction<Vector3, int> playerAttackEvent;
 	public static UnityAction playerDeadEvent;
 
 	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
@@ -78,7 +78,7 @@ public class ClientPlayer : MonoBehaviour
 			if (!Anim.IsInTransition(0))
 			{
 				Anim.SetTrigger("slash");
-				playerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
+				// playerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
 			}
 			else
 			{
