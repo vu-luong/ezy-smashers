@@ -21,7 +21,6 @@ import com.youngmonkeys.app.service.LobbyService;
 import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -137,24 +136,20 @@ public class GameRequestController extends EzyLoggable {
 	public void handlePlayerAttackData(EzyUser user, PlayerAttackDataRequest request) {
 		logger.info("user {} send input data {}", user.getName(), request);
 		// Handle attack
-		List<String> playerNames = new ArrayList<>();
-		List<String> playerBeingAttacked = new ArrayList<>();
-		PlayerAttackData playerAttackData = new PlayerAttackData(request.getP(), request.getT());
-		gamePlayService.handlePlayerAttack(
+		PlayerAttackData playerAttackData = new PlayerAttackData(request.getP(), request.getM(), request.getO(), request.getV());
+		gamePlayService.authorizeAttack(
 				user.getName(),
-				playerAttackData,
-				playerNames,
-				playerBeingAttacked
+				playerAttackData
 		);
 		
 		// TODO: send to neighbourhood only
-		responseFactory.newObjectResponse()
-				.command(Commands.PLAYER_BEING_ATTACKED)
-				.param("a", user.getName())
-				.param("t", playerAttackData.getTime())
-				.param("p", playerAttackData.getAttackPosition())
-				.param("b", playerBeingAttacked)
-				.usernames(playerNames)
-				.execute();
+//		responseFactory.newObjectResponse()
+//				.command(Commands.PLAYER_BEING_ATTACKED)
+//				.param("a", user.getName())
+//				.param("t", playerAttackData.getTime())
+//				.param("p", playerAttackData.getAttackPosition())
+//				.param("b", playerBeingAttacked)
+//				.usernames(playerNames)
+//				.execute();
 	}
 }

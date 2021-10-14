@@ -52,7 +52,7 @@ public class PlayerInterpolation : MonoBehaviour
 				clientPlayer.Anim.SetFloat("Blend", moveInputMagnitude, clientPlayer.stopAnimTime, Time.deltaTime);
 			}
 			
-			Debug.Log("PlayerInterpolation.Update + others + " + clientPlayer.ClientTick + ", t = " + t);
+			// Debug.Log("PlayerInterpolation.Update + others + " + clientPlayer.ClientTick + ", t = " + t);
 		}
 
 		transform.position = Vector3.Lerp(PreviousData.Position, CurrentData.Position, t);

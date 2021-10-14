@@ -28,9 +28,9 @@ public class GamePlayControllers : MonoBehaviour
 			PlayersMap[playerName].OnBeingAttacked();
 		}
 	}
-	private void OnPlayerAttack(string victimName, Vector3 attackPosition, int clientTick)
+	private void OnPlayerAttack(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
 	{
-		SocketRequest.getInstance().SendPlayerAttackData(victimName, attackPosition, clientTick);
+		SocketRequest.getInstance().SendPlayerAttackData(victimName, attackPosition, myClientTick, otherClientTick);
 	}
 	private void SpawnPlayers(List<PlayerSpawnData> playersSpawnData)
 	{

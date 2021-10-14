@@ -11,5 +11,5 @@ public interface GamePlayService {
 	
 	List<PlayerSpawnData> spawnPlayers(List<String> playerNames);
 	
-	void handlePlayerAttack(String playerName, PlayerAttackData playerAttackData, List<String> playerNames, List<String> playerBeingAttack);
+	void authorizeAttack(String playerName, PlayerAttackData playerAttackDatak);
 }
