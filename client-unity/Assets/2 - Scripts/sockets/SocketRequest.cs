@@ -77,7 +77,7 @@ public class SocketRequest : EzyLoggable
 			.build();
 		client.getApp().send(Commands.PLAYER_INPUT_DATA, data);
 	}
-	public void SendPlayerAttackData(Vector3 attackPosition, int clientTick)
+	public void SendPlayerAttackData(string victimName, Vector3 attackPosition, int clientTick)
 	{
 		var client = SocketProxy.getInstance().Client;
 		EzyObject data = EzyEntityFactory

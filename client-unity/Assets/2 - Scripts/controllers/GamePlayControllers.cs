@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class GamePlayControllers : MonoBehaviour
 {
-
 	public GameObject playerPrefab;
 	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
 	public CinemachineVirtualCamera cinemachineVirtualCamera;
@@ -31,7 +30,7 @@ public class GamePlayControllers : MonoBehaviour
 	}
 	private void OnPlayerAttack(string victimName, Vector3 attackPosition, int clientTick)
 	{
-		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
+		SocketRequest.getInstance().SendPlayerAttackData(victimName, attackPosition, clientTick);
 	}
 	private void SpawnPlayers(List<PlayerSpawnData> playersSpawnData)
 	{

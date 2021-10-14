@@ -51,9 +51,9 @@ public class ClientPlayer : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		ClientTick++;
 		if (IsMyPlayer)
 		{
+			ClientTick++;
 			HandleInput();
 		}
 	}
@@ -144,16 +144,26 @@ public class ClientPlayer : MonoBehaviour
 		}
 		else
 		{
+			StartCoroutine(OtherPlayerUpdateTimeTick(time));
 			playerInterpolation.SetFramePosition(new PlayerStateData(position, Quaternion.Euler(rotation)));
+			Debug.Log("OnServerDataUpdate" + ClientTick);
 		}
 	}
+	IEnumerator OtherPlayerUpdateTimeTick(int time)
+	{
+		yield return new WaitForSeconds(SocketConstants.SERVER_FIXED_DELTA_TIME);
+		ClientTick = time;
+	}
+	
 	public void Initialize(PlayerSpawnData playerSpawnData, bool isMyPlayer)
 	{
 		playerName = playerSpawnData.playerName;
 		this.isMyPlayer = isMyPlayer;
+		ClientTick = 0;
 		playerInterpolation.CurrentData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 		playerInterpolation.PreviousData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 	}
+	
 	public void OnBeingAttacked()
 	{
 		StartCoroutine(BeingAttackCoroutine());
