@@ -77,24 +77,28 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 	}
 	
 	@Override
-	public void handlePlayerAttack(String playerName, PlayerAttackData playerAttackData,
-	                               List<String> playerNames, List<String> playerBeingAttacked) {
+	public void authorizeAttack(String playerName, PlayerAttackData playerAttackData) {
 		Vec3 attackPosition = new Vec3(
 				playerAttackData.getAttackPosition()[0],
 				playerAttackData.getAttackPosition()[1],
 				playerAttackData.getAttackPosition()[2]
 		);
+		int myTick = playerAttackData.getMyClientTick();
+		int victimTick = playerAttackData.getOtherClientTick();
+		// TODO: 1. roll back to get victim position at victimTick // Lag compensation
+		// TODO: 2. Check whether that position is near attackPosition
+		// TODO: 3. Check if attackPosition is near my player's position
 		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(playerName);
 		List<Player> players = roomService.getRoomPlayers(currentRoom);
 		
-		playerBeingAttacked.clear();
-		for (Player player : players) {
-			logger.info("Player {} distance: {}", player.getName(), ((MMOPlayer) player).getPosition().distance(attackPosition));
-			if (((MMOPlayer) player).getPosition().distance(attackPosition) < 1.0f) {
-				logger.info("Player {} is being attacked by {}", player.getName(), playerName);
-				playerBeingAttacked.add(player.getName());
-			}
-		}
-		playerNames.addAll(players.stream().map(Player::getName).collect(Collectors.toList()));
+//		playerBeingAttacked.clear();
+//		for (Player player : players) {
+//			logger.info("Player {} distance: {}", player.getName(), ((MMOPlayer) player).getPosition().distance(attackPosition));
+//			if (((MMOPlayer) player).getPosition().distance(attackPosition) < 1.0f) {
+//				logger.info("Player {} is being attacked by {}", player.getName(), playerName);
+//				playerBeingAttacked.add(player.getName());
+//			}
+//		}
+//		playerNames.addAll(players.stream().map(Player::getName).collect(Collectors.toList()));
 	}
 }

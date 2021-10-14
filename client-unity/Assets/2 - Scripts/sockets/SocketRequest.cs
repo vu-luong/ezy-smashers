@@ -77,12 +77,14 @@ public class SocketRequest : EzyLoggable
 			.build();
 		client.getApp().send(Commands.PLAYER_INPUT_DATA, data);
 	}
-	public void SendPlayerAttackData(Vector3 attackPosition, int clientTick)
+	public void SendPlayerAttackData(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
 	{
 		var client = SocketProxy.getInstance().Client;
 		EzyObject data = EzyEntityFactory
 			.newObjectBuilder()
-			.append("t", clientTick)
+			.append("m", myClientTick)
+			.append("o", otherClientTick)
+			.append("v", victimName)
 			.append("p",
 			        EzyEntityFactory.newArrayBuilder()
 				        .append(attackPosition.x)

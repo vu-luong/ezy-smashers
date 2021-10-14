@@ -5,10 +5,14 @@ import lombok.Data;
 @Data
 public class PlayerAttackData {
 	float[] attackPosition;
-	int time;
+	int myClientTick;
+	int otherClientTick;
+	String victimName;
 	
-	public PlayerAttackData(float[] attackPosition, int time) {
+	public PlayerAttackData(float[] attackPosition, int myClientTick, int otherClientTick, String victimName) {
 		this.attackPosition = attackPosition;
-		this.time = time;
+		this.myClientTick = myClientTick;
+		this.otherClientTick = otherClientTick;
+		this.victimName = victimName;
 	}
 }

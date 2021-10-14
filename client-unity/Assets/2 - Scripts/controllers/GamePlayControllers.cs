@@ -5,30 +5,32 @@ using UnityEngine;
 
 public class GamePlayControllers : MonoBehaviour
 {
-
 	public GameObject playerPrefab;
 	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
 	public CinemachineVirtualCamera cinemachineVirtualCamera;
+
+	public Dictionary<string, ClientPlayer> PlayersMap => playersMap;
 
 	private void Awake()
 	{
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
 		ClientPlayer.playerInputEvent += OnPlayerInputChange;
 		// ClientPlayer.playerAttackEvent += OnPlayerAttack;
+		Hammer.playerHitEvent += OnPlayerAttack;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 	}
 	private void OnPlayersBeingAttacked(List<string> playersBeingAttacked, string attackerName)
 	{
-		playersMap[attackerName].OnServerAttack();
+		PlayersMap[attackerName].OnServerAttack();
 		foreach (var playerName in playersBeingAttacked)
 		{
-			playersMap[playerName].OnBeingAttacked();
+			PlayersMap[playerName].OnBeingAttacked();
 		}
 	}
-	private void OnPlayerAttack(Vector3 attackPosition, int clientTick)
+	private void OnPlayerAttack(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
 	{
-		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
+		SocketRequest.getInstance().SendPlayerAttackData(victimName, attackPosition, myClientTick, otherClientTick);
 	}
 	private void SpawnPlayers(List<PlayerSpawnData> playersSpawnData)
 	{
@@ -45,7 +47,7 @@ public class GamePlayControllers : MonoBehaviour
 		go.name = playerSpawnData.playerName;
 		ClientPlayer clientPlayer = go.GetComponent<ClientPlayer>();
 		clientPlayer.Initialize(playerSpawnData, isMyPlayer);
-		playersMap.Add(playerSpawnData.playerName, clientPlayer);
+		PlayersMap.Add(playerSpawnData.playerName, clientPlayer);
 		if (isMyPlayer)
 		{
 			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;
@@ -54,7 +56,7 @@ public class GamePlayControllers : MonoBehaviour
 
 	private void OnPlayerSyncPosition(string playerName, Vector3 position, Vector3 rotation, int time)
 	{
-		playersMap[playerName].OnServerDataUpdate(position, rotation, time);
+		PlayersMap[playerName].OnServerDataUpdate(position, rotation, time);
 	}
 
 	private void OnPlayerInputChange(PlayerInputData inputData, Quaternion nextRotation)

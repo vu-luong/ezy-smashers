@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 @EzyObjectBinding
 public class PlayerAttackDataRequest {
-	int t;
+	int m;
+	int o;
+	String v;
 	float[] p;
 }

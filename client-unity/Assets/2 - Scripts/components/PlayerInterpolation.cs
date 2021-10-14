@@ -33,7 +33,7 @@ public class PlayerInterpolation : MonoBehaviour
 		}
 
 		float timeSinceLastInput = Time.time - lastInputTime;
-		float duration = clientPlayer.IsMyPlayer ? Time.fixedDeltaTime : 0.1f;
+		float duration = clientPlayer.IsMyPlayer ? Time.fixedDeltaTime : SocketConstants.SERVER_FIXED_DELTA_TIME;
 		float t = timeSinceLastInput / duration;
 
 		if (!clientPlayer.IsMyPlayer)
@@ -51,6 +51,8 @@ public class PlayerInterpolation : MonoBehaviour
 			{
 				clientPlayer.Anim.SetFloat("Blend", moveInputMagnitude, clientPlayer.stopAnimTime, Time.deltaTime);
 			}
+			
+			// Debug.Log("PlayerInterpolation.Update + others + " + clientPlayer.ClientTick + ", t = " + t);
 		}
 
 		transform.position = Vector3.Lerp(PreviousData.Position, CurrentData.Position, t);
