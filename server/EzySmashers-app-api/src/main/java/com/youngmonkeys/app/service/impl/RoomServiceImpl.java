@@ -7,6 +7,7 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.tvd12.gamebox.math.Vec3;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
@@ -14,6 +15,8 @@ import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Setter

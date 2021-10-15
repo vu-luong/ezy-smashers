@@ -5,7 +5,11 @@ import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.SynchronizedPlayerManager;
+import com.tvd12.gamebox.math.Vec3;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.Map;
 
 public class GameRoom extends MMORoom {
     @Getter

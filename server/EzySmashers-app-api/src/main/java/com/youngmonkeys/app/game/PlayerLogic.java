@@ -27,7 +27,7 @@ public class PlayerLogic {
 		
 		// moveVector = moveDirection * fixedDeltaTime * velocity
 		Vec3 moveVector = new Vec3(moveDirection);
-		moveVector.multiply(GameConstants.fixedDeltaTime * velocity);
+		moveVector.multiply(GameConstants.CLIENT_FIXED_DELTA_TIME * velocity);
 		
 		// nextPosition = currentPosition + moveVector
 		Vec3 nextPosition = new Vec3(currentPosition);
