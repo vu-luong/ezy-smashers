@@ -15,6 +15,13 @@ public class ClientPlayer : MonoBehaviour
 	[SerializeField]
 	private Transform attackPoint;
 
+	private bool isDead = false;
+	
+	// TODO: remove
+	private bool keepMoving = false;
+
+	private bool allowedOtherPlayerTick = false;
+
 	[Space]
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
@@ -51,10 +58,27 @@ public class ClientPlayer : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		ClientTick++;
+		if (isDead)
+		{
+			Anim.SetFloat("Blend", 0, stopAnimTime, Time.deltaTime);
+			return;
+		}
+		if (Input.GetKey(KeyCode.U))
+		{
+			keepMoving = !keepMoving;
+		}
+		
 		if (IsMyPlayer)
 		{
+			ClientTick++;
 			HandleInput();
+		}
+		else
+		{
+			if (allowedOtherPlayerTick)
+			{
+				ClientTick++;
+			}
 		}
 	}
 
@@ -66,7 +90,7 @@ public class ClientPlayer : MonoBehaviour
 		}
 
 		bool[] inputs = new bool[4];
-		inputs[0] = Input.GetKey(KeyCode.UpArrow);
+		inputs[0] = Input.GetKey(KeyCode.UpArrow) || keepMoving;
 		inputs[1] = Input.GetKey(KeyCode.LeftArrow);
 		inputs[2] = Input.GetKey(KeyCode.DownArrow);
 		inputs[3] = Input.GetKey(KeyCode.RightArrow);
@@ -144,12 +168,13 @@ public class ClientPlayer : MonoBehaviour
 		}
 		else
 		{
+			allowedOtherPlayerTick = true;
 			StartCoroutine(OtherPlayerUpdateTimeTick(time));
 			playerInterpolation.SetFramePosition(new PlayerStateData(position, Quaternion.Euler(rotation)));
 			// Debug.Log("OnServerDataUpdate" + ClientTick + ", time = " + time);
 		}
 	}
-	
+
 	/**
 	 * The time tick received from server is corresponding to the t = 1 in PlayerInterpolation,
 	 * and t = 1 when time lasts for SERVER_FIXED_DELTA_TIME
@@ -158,6 +183,7 @@ public class ClientPlayer : MonoBehaviour
 	{
 		yield return new WaitForSeconds(SocketConstants.SERVER_FIXED_DELTA_TIME);
 		ClientTick = time;
+		allowedOtherPlayerTick = false;
 		// Debug.Log("OtherPlayerUpdateTimeTick " + ClientTick);
 	}
 
@@ -172,13 +198,13 @@ public class ClientPlayer : MonoBehaviour
 
 	public void OnBeingAttacked()
 	{
+		isDead = true;
 		StartCoroutine(BeingAttackCoroutine());
 	}
 
 
 	IEnumerator BeingAttackCoroutine()
 	{
-		yield return new WaitForSeconds(0.5f);
 		transform.localScale = new Vector3(1.0f, 0.2f, 1.0f);
 		yield return new WaitForSeconds(0.1f);
 		playerDeadEvent?.Invoke();

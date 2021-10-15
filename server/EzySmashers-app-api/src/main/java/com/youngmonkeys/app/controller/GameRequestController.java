@@ -116,6 +116,7 @@ public class GameRequestController extends EzyLoggable {
 		logger.info("user {} start game", user);
 		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
 		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
+		gamePlayService.resetPlayersPositionHistory(playerNames);
 		
 		List<PlayerSpawnData> data = gamePlayService.spawnPlayers(playerNames);
 		
@@ -137,19 +138,24 @@ public class GameRequestController extends EzyLoggable {
 		logger.info("user {} send input data {}", user.getName(), request);
 		// Handle attack
 		PlayerAttackData playerAttackData = new PlayerAttackData(request.getP(), request.getM(), request.getO(), request.getV());
-		gamePlayService.authorizeAttack(
+		boolean isValidHit = gamePlayService.authorizeAttack(
 				user.getName(),
 				playerAttackData
 		);
 		
-		// TODO: send to neighbourhood only
-//		responseFactory.newObjectResponse()
-//				.command(Commands.PLAYER_BEING_ATTACKED)
-//				.param("a", user.getName())
-//				.param("t", playerAttackData.getTime())
-//				.param("p", playerAttackData.getAttackPosition())
-//				.param("b", playerBeingAttacked)
-//				.usernames(playerNames)
-//				.execute();
+		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
+		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
+		
+		// TODO: send to neighbourhood only - only render dead effect (not attack effect)
+		if (isValidHit) {
+			responseFactory.newObjectResponse()
+					.command(Commands.PLAYER_BEING_ATTACKED)
+					.param("a", user.getName())
+					.param("t", playerAttackData.getMyClientTick())
+					.param("p", playerAttackData.getAttackPosition())
+					.param("b", playerAttackData.getVictimName())
+					.usernames(playerNames)
+					.execute();
+		}
 	}
 }

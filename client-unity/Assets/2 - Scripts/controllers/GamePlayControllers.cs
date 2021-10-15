@@ -20,13 +20,10 @@ public class GamePlayControllers : MonoBehaviour
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 	}
-	private void OnPlayersBeingAttacked(List<string> playersBeingAttacked, string attackerName)
+	private void OnPlayersBeingAttacked(string playerBeingAttacked, string attackerName)
 	{
-		PlayersMap[attackerName].OnServerAttack();
-		foreach (var playerName in playersBeingAttacked)
-		{
-			PlayersMap[playerName].OnBeingAttacked();
-		}
+		// PlayersMap[attackerName].OnServerAttack();
+		PlayersMap[playerBeingAttacked].OnBeingAttacked();
 	}
 	private void OnPlayerAttack(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
 	{
