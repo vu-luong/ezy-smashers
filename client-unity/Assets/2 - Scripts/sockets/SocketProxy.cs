@@ -183,6 +183,7 @@ class PlayerBeingAttackedHandler : EzyAbstractAppDataHandler<EzyObject>
 		var attackerName = data.get<string>("a");
 		var attackPosition = data.get<EzyArray>("p");
 		logger.info("playerBeingAttacked: " + playerBeingAttacked);
+		logger.info("Attacker: " + attackerName);
 		playersBeingAttackedEvent?.Invoke(playerBeingAttacked, attackerName);
 	}
 }

@@ -21,10 +21,12 @@ public class GamePlayControllers : MonoBehaviour
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 		PlayerAttackDataHandler.playerAttackEvent += OnPlayerAttackResponse;
 	}
+
 	private void OnPlayerAttackResponse(string attackerName)
 	{
 		PlayersMap[attackerName].OnServerAttack();
 	}
+
 	private void OnPlayerAttack(Vector3 attackPosition, int clientTick)
 	{
 		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
@@ -32,7 +34,7 @@ public class GamePlayControllers : MonoBehaviour
 
 	private void OnPlayersBeingAttacked(string playerBeingAttacked, string attackerName)
 	{
-		// PlayersMap[attackerName].OnServerAttack();
+		Debug.Log("playerBeingAttacked " + playerBeingAttacked);
 		PlayersMap[playerBeingAttacked].OnBeingAttacked();
 	}
 
