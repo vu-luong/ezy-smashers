@@ -8,10 +8,9 @@ import com.tvd12.gamebox.entity.Player;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.math.Vec3;
 import com.tvd12.gamebox.math.Vec3s;
-import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.PlayerLogic;
 import com.youngmonkeys.app.game.constant.GameConstants;
-import com.youngmonkeys.app.game.shared.PlayerAttackData;
+import com.youngmonkeys.app.game.shared.PlayerHitData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 import com.youngmonkeys.app.service.GamePlayService;
@@ -93,14 +92,14 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 	}
 	
 	@Override
-	public boolean authorizeAttack(String playerName, PlayerAttackData playerAttackData) {
+	public boolean authorizeHit(String playerName, PlayerHitData playerHitData) {
 		Vec3 attackPosition = new Vec3(
-				playerAttackData.getAttackPosition()[0],
-				playerAttackData.getAttackPosition()[1],
-				playerAttackData.getAttackPosition()[2]
+				playerHitData.getAttackPosition()[0],
+				playerHitData.getAttackPosition()[1],
+				playerHitData.getAttackPosition()[2]
 		);
-		int victimTick = playerAttackData.getOtherClientTick();
-		String victimName = playerAttackData.getVictimName();
+		int victimTick = playerHitData.getOtherClientTick();
+		String victimName = playerHitData.getVictimName();
 		
 		// Roll back to get victim position at victimTick, a.k.a Lag compensation
 		SortedMap<Integer, Vec3> victimPositionHistory = globalPlayersPositionHistory.get(victimName);

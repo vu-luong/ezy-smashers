@@ -12,6 +12,7 @@ public class Hammer : MonoBehaviour
 
 	private void OnCollisionEnter(Collision other)
 	{
+		if (!clientPlayer.IsMyPlayer) return;
 		if (other.gameObject.CompareTag("Player"))
 		{
 			if (!playersBeingAttacked.Contains(other.gameObject.name))

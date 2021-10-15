@@ -1,6 +1,6 @@
 package com.youngmonkeys.app.service;
 
-import com.youngmonkeys.app.game.shared.PlayerAttackData;
+import com.youngmonkeys.app.game.shared.PlayerHitData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 
@@ -11,7 +11,7 @@ public interface GamePlayService {
 	
 	List<PlayerSpawnData> spawnPlayers(List<String> playerNames);
 	
-	boolean authorizeAttack(String playerName, PlayerAttackData playerAttackDatak);
+	boolean authorizeHit(String playerName, PlayerHitData playerHitData);
 	
 	void resetPlayersPositionHistory(List<String> playerNames);
 }

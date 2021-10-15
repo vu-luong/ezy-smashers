@@ -14,8 +14,9 @@ public final class Commands {
 	public static final String ANOTHER_JOIN_MMO_ROOM = "anotherJoinMMORoom";
 	public static final String START_GAME = "startGame";
 	public static final String PLAYER_INPUT_DATA = "i";
-	public static final String PLAYER_ATTACK_DATA = "a";
+	public static final String PLAYER_HIT = "h";
 	public static final String PLAYER_BEING_ATTACKED = "b";
+	public static final String PLAYER_ATTACK_DATA = "a";
 	
 	
 	private Commands() {}

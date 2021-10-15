@@ -7,20 +7,22 @@ import com.tvd12.ezyfox.io.EzyLists;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
+import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.game.GameRoom;
-import com.youngmonkeys.app.game.shared.PlayerAttackData;
+import com.youngmonkeys.app.game.shared.PlayerHitData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
 import com.youngmonkeys.app.request.JoinMMORoomRequest;
-import com.youngmonkeys.app.request.PlayerAttackDataRequest;
+import com.youngmonkeys.app.request.PlayerHitDataRequest;
 import com.youngmonkeys.app.request.PlayerInputDataRequest;
 import com.youngmonkeys.app.service.GamePlayService;
 import com.youngmonkeys.app.service.LobbyService;
 import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -133,14 +135,14 @@ public class GameRequestController extends EzyLoggable {
 		gamePlayService.handlePlayerInputData(user.getName(), new PlayerInputData(request.getK(), request.getT()), request.getR());
 	}
 	
-	@EzyDoHandle(Commands.PLAYER_ATTACK_DATA)
-	public void handlePlayerAttackData(EzyUser user, PlayerAttackDataRequest request) {
-		logger.info("user {} send input data {}", user.getName(), request);
-		// Handle attack
-		PlayerAttackData playerAttackData = new PlayerAttackData(request.getP(), request.getM(), request.getO(), request.getV());
-		boolean isValidHit = gamePlayService.authorizeAttack(
+	@EzyDoHandle(Commands.PLAYER_HIT)
+	public void handlePlayerHit(EzyUser user, PlayerHitDataRequest request) {
+		logger.info("user {} send hit command {}", user.getName(), request);
+		PlayerHitData playerHitData = new PlayerHitData(request.getP(), request.getM(), request.getO(), request.getV());
+		
+		boolean isValidHit = gamePlayService.authorizeHit(
 				user.getName(),
-				playerAttackData
+				playerHitData
 		);
 		
 		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
@@ -151,11 +153,26 @@ public class GameRequestController extends EzyLoggable {
 			responseFactory.newObjectResponse()
 					.command(Commands.PLAYER_BEING_ATTACKED)
 					.param("a", user.getName())
-					.param("t", playerAttackData.getMyClientTick())
-					.param("p", playerAttackData.getAttackPosition())
-					.param("b", playerAttackData.getVictimName())
+					.param("t", playerHitData.getMyClientTick())
+					.param("p", playerHitData.getAttackPosition())
+					.param("b", playerHitData.getVictimName())
 					.usernames(playerNames)
 					.execute();
 		}
+	}
+	
+	@EzyDoHandle(Commands.PLAYER_ATTACK_DATA)
+	public void handlePlayerAttackData(EzyUser user) {
+		logger.info("user {} send attack command", user.getName());
+		
+		MMOPlayer player = roomService.getPlayer(user.getName());
+		List<String> nearbyPlayerNames = new ArrayList<>();
+		player.getNearbyPlayerNames(nearbyPlayerNames);
+		
+		responseFactory.newObjectResponse()
+				.command(Commands.PLAYER_ATTACK_DATA)
+				.param("a", user.getName())
+				.usernames(nearbyPlayerNames)
+				.execute();
 	}
 }
