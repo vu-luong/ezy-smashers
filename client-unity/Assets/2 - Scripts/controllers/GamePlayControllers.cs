@@ -15,20 +15,32 @@ public class GamePlayControllers : MonoBehaviour
 	{
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
 		ClientPlayer.playerInputEvent += OnPlayerInputChange;
-		// ClientPlayer.playerAttackEvent += OnPlayerAttack;
-		Hammer.playerHitEvent += OnPlayerAttack;
+		ClientPlayer.playerAttackEvent += OnPlayerAttack;
+		Hammer.playerHitEvent += OnPlayerHit;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
+		PlayerAttackDataHandler.playerAttackEvent += OnPlayerAttackResponse;
 	}
+	private void OnPlayerAttackResponse(string attackerName)
+	{
+		PlayersMap[attackerName].OnServerAttack();
+	}
+	private void OnPlayerAttack(Vector3 attackPosition, int clientTick)
+	{
+		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
+	}
+
 	private void OnPlayersBeingAttacked(string playerBeingAttacked, string attackerName)
 	{
 		// PlayersMap[attackerName].OnServerAttack();
 		PlayersMap[playerBeingAttacked].OnBeingAttacked();
 	}
-	private void OnPlayerAttack(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
+
+	private void OnPlayerHit(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
 	{
-		SocketRequest.getInstance().SendPlayerAttackData(victimName, attackPosition, myClientTick, otherClientTick);
+		SocketRequest.getInstance().SendPlayerHit(victimName, attackPosition, myClientTick, otherClientTick);
 	}
+
 	private void SpawnPlayers(List<PlayerSpawnData> playersSpawnData)
 	{
 		foreach (var playerSpawnData in playersSpawnData)
