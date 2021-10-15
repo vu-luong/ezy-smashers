@@ -15,6 +15,11 @@ public class ClientPlayer : MonoBehaviour
 	[SerializeField]
 	private Transform attackPoint;
 
+	private bool isDead = false;
+	
+	// TODO: remove
+	private bool keepMoving = false;
+
 	private bool allowedOtherPlayerTick = false;
 
 	[Space]
@@ -53,6 +58,15 @@ public class ClientPlayer : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (isDead)
+		{
+			return;
+		}
+		if (Input.GetKey(KeyCode.U))
+		{
+			keepMoving = !keepMoving;
+		}
+		
 		if (IsMyPlayer)
 		{
 			ClientTick++;
@@ -75,7 +89,7 @@ public class ClientPlayer : MonoBehaviour
 		}
 
 		bool[] inputs = new bool[4];
-		inputs[0] = Input.GetKey(KeyCode.UpArrow);
+		inputs[0] = Input.GetKey(KeyCode.UpArrow) || keepMoving;
 		inputs[1] = Input.GetKey(KeyCode.LeftArrow);
 		inputs[2] = Input.GetKey(KeyCode.DownArrow);
 		inputs[3] = Input.GetKey(KeyCode.RightArrow);
@@ -183,13 +197,13 @@ public class ClientPlayer : MonoBehaviour
 
 	public void OnBeingAttacked()
 	{
+		isDead = true;
 		StartCoroutine(BeingAttackCoroutine());
 	}
 
 
 	IEnumerator BeingAttackCoroutine()
 	{
-		yield return new WaitForSeconds(0.5f);
 		transform.localScale = new Vector3(1.0f, 0.2f, 1.0f);
 		yield return new WaitForSeconds(0.1f);
 		playerDeadEvent?.Invoke();
