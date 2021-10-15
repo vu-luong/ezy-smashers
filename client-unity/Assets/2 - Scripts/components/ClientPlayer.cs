@@ -60,6 +60,7 @@ public class ClientPlayer : MonoBehaviour
 	{
 		if (isDead)
 		{
+			Anim.SetFloat("Blend", 0, stopAnimTime, Time.deltaTime);
 			return;
 		}
 		if (Input.GetKey(KeyCode.U))
