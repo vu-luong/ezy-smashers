@@ -35,7 +35,7 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 	/**
 	 * Map playerName to playerPositionHistory
 	 */
-	private Map<String, SortedMap<Integer, Vec3>> globalPlayersPositionHistory;
+	private Map<String, SortedMap<Integer, Vec3>> globalPlayersPositionHistory = new HashMap<>();
 	
 	@Override
 	public void handlePlayerInputData(String playerName, PlayerInputData inputData, float[] nextRotation) {
@@ -74,13 +74,18 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 		answer.forEach(playerSpawnData -> {
 			MMOPlayer player = (MMOPlayer) globalPlayerManager.getPlayer(playerSpawnData.getPlayerName());
 			synchronized (player) {
-				player.setPosition(
-						new Vec3(
-								playerSpawnData.getPosition().get(0),
-								playerSpawnData.getPosition().get(1),
-								playerSpawnData.getPosition().get(2)
-						)
+				Vec3 initialPosition = new Vec3(
+						playerSpawnData.getPosition().get(0),
+						playerSpawnData.getPosition().get(1),
+						playerSpawnData.getPosition().get(2)
 				);
+				player.setPosition(
+						initialPosition
+				);
+				player.setClientTimeTick(0);
+				
+				SortedMap<Integer, Vec3> playerPositionHistory = globalPlayersPositionHistory.get(player.getName());
+				playerPositionHistory.put(0, initialPosition);
 			}
 		});
 		

@@ -15,6 +15,8 @@ public class ClientPlayer : MonoBehaviour
 	[SerializeField]
 	private Transform attackPoint;
 
+	private bool allowedOtherPlayerTick = false;
+
 	[Space]
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
@@ -51,10 +53,17 @@ public class ClientPlayer : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		ClientTick++;
 		if (IsMyPlayer)
 		{
+			ClientTick++;
 			HandleInput();
+		}
+		else
+		{
+			if (allowedOtherPlayerTick)
+			{
+				ClientTick++;
+			}
 		}
 	}
 
@@ -144,12 +153,13 @@ public class ClientPlayer : MonoBehaviour
 		}
 		else
 		{
+			allowedOtherPlayerTick = true;
 			StartCoroutine(OtherPlayerUpdateTimeTick(time));
 			playerInterpolation.SetFramePosition(new PlayerStateData(position, Quaternion.Euler(rotation)));
 			// Debug.Log("OnServerDataUpdate" + ClientTick + ", time = " + time);
 		}
 	}
-	
+
 	/**
 	 * The time tick received from server is corresponding to the t = 1 in PlayerInterpolation,
 	 * and t = 1 when time lasts for SERVER_FIXED_DELTA_TIME
@@ -158,6 +168,7 @@ public class ClientPlayer : MonoBehaviour
 	{
 		yield return new WaitForSeconds(SocketConstants.SERVER_FIXED_DELTA_TIME);
 		ClientTick = time;
+		allowedOtherPlayerTick = false;
 		// Debug.Log("OtherPlayerUpdateTimeTick " + ClientTick);
 	}
 
