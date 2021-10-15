@@ -2,12 +2,14 @@
 using _2___Scripts.shared;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GamePlayControllers : MonoBehaviour
 {
 	public GameObject playerPrefab;
 	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
 	public CinemachineVirtualCamera cinemachineVirtualCamera;
+	public UnityEvent gameOverTextChange;
 
 	public Dictionary<string, ClientPlayer> PlayersMap => playersMap;
 
@@ -16,10 +18,16 @@ public class GamePlayControllers : MonoBehaviour
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
 		ClientPlayer.playerInputEvent += OnPlayerInputChange;
 		ClientPlayer.playerAttackEvent += OnPlayerAttack;
+		ClientPlayer.gameOverEvent += OnGameOver;
 		Hammer.playerHitEvent += OnPlayerHit;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 		PlayerAttackDataHandler.playerAttackEvent += OnPlayerAttackResponse;
+	}
+	private void OnGameOver()
+	{
+		Debug.Log("OnGameOver");
+		gameOverTextChange?.Invoke();
 	}
 
 	private void OnPlayerAttackResponse(string attackerName)
