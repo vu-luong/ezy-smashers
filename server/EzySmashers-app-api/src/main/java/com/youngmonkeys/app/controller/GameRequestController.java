@@ -45,7 +45,7 @@ public class GameRequestController extends EzyLoggable {
 	public void joinLobby(EzyUser user) {
 		logger.info("user {} join lobby room", user);
 		
-		lobbyService.addUser(user);
+		lobbyService.addNewPlayer(user.getName());
 		long lobbyRoomId = lobbyService.getRoomId();
 		
 		responseFactory.newObjectResponse()

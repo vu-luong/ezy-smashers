@@ -158,6 +158,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 		MMOPlayer victim = getPlayer(playerName);
 		room.removePlayer(victim); // synchronized already
 		synchronized (victim) {
+			lobbyRoom.addPlayer(victim);
 			victim.setCurrentRoomId(lobbyRoom.getId());
 		}
 	}
