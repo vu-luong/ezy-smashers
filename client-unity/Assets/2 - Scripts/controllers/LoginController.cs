@@ -13,6 +13,11 @@ public class LoginController : MonoBehaviour
 		JoinLobbyResponseHandler.joinedLobbyEvent += OnJoinedLobby;
 	}
 
+	private void UnregisterEvents()
+	{
+		JoinLobbyResponseHandler.joinedLobbyEvent -= OnJoinedLobby;
+	}
+	
 	public void OnLogin()
 	{
 		// Login to socket server
@@ -22,7 +27,7 @@ public class LoginController : MonoBehaviour
 	void OnJoinedLobby()
 	{
 		GameManager.getInstance().SetUpPlayer();
-
+		UnregisterEvents();
 		// Change scene here
 		SceneManager.LoadScene("LobbyScene");
 	}

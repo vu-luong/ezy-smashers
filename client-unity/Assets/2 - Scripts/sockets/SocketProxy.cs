@@ -82,7 +82,7 @@ class GetMMORoomIdListResponse : EzyAbstractAppDataHandler<EzyArray>
 	}
 }
 
-class GetMMORoomPlayersResponse : EzyAbstractAppDataHandler<EzyObject>
+class GetMMORoomPlayersResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
 	public static event Action<List<string>, string> mmoRoomPlayersResponseEvent;
 	protected override void process(EzyApp app, EzyObject data)
@@ -97,7 +97,7 @@ class GetMMORoomPlayersResponse : EzyAbstractAppDataHandler<EzyObject>
 	}
 }
 
-class JoinMMORoomResponse : EzyAbstractAppDataHandler<EzyObject>
+class JoinMMORoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
 	public static event Action<int> joinRoomResponseEvent;
 	protected override void process(EzyApp app, EzyObject data)
@@ -249,8 +249,8 @@ public class SocketProxy : EzyLoggable
 		appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
 		appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
 		appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponse());
-		appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponse());
-		appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponse());
+		appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponseHandler());
+		appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponseHandler());
 		appSetup.addDataHandler(Commands.ANOTHER_JOIN_MMO_ROOM, new AnotherJoinMMORoomHandler());
 		appSetup.addDataHandler(Commands.ANOTHER_EXIT_MMO_ROOM, new AnotherExitMMORoomHandler());
 		appSetup.addDataHandler(Commands.START_GAME, new StartGameResponseHandler());

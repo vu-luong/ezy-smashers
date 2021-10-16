@@ -11,7 +11,14 @@ public class LobbyController : MonoBehaviour
 	{
 		CreateRoomResponseHandler.roomCreatedEvent += JoinRoom;
 		GetMMORoomIdListResponse.mmoRoomIdListResponseEvent += OnMMORoomIdListResponse;
-		JoinMMORoomResponse.joinRoomResponseEvent += JoinRoom;
+		JoinMMORoomResponseHandler.joinRoomResponseEvent += JoinRoom;
+	}
+
+	private void UnregisterEvents()
+	{
+		CreateRoomResponseHandler.roomCreatedEvent -= JoinRoom;
+		GetMMORoomIdListResponse.mmoRoomIdListResponseEvent -= OnMMORoomIdListResponse;
+		JoinMMORoomResponseHandler.joinRoomResponseEvent -= JoinRoom;
 	}
 
 	private void Start()
@@ -22,6 +29,7 @@ public class LobbyController : MonoBehaviour
 	private void JoinRoom(int roomId)
 	{
 		RoomManager.getInstance().CurrentRoomId = roomId;
+		UnregisterEvents();
 		SceneManager.LoadScene("GameLoungeScene");
 	}
 

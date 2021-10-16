@@ -4,6 +4,7 @@ import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
+import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
@@ -68,6 +69,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 			throw new CreateRoomNotFromLobbyException(player.getName());
 		}
 		GameRoom room = gameRoomFactory.newGameRoom();
+		room.setStatus(RoomStatus.WAITING);
 		room.addPlayer(player);
 		lobbyRoom.removePlayer(player);
 		player.setCurrentRoomId(room.getId());
@@ -111,6 +113,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 				.getRoomList()
 				.stream()
 				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
+				.filter(room -> room.getStatus() == RoomStatus.WAITING)
 				.map(Room::getId)
 				.collect(Collectors.toList());
 	}

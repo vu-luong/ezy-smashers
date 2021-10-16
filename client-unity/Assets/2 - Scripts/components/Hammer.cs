@@ -8,7 +8,7 @@ public class Hammer : MonoBehaviour
 	private bool hasEntered;
 	HashSet<string> playersBeingAttacked = new HashSet<string>();
 
-	public static UnityAction<string, Vector3, int, int> playerHitEvent;
+	public UnityAction<string, Vector3, int, int> PlayerHitEvent { get; set; }
 
 	private void OnCollisionEnter(Collision other)
 	{
@@ -22,7 +22,7 @@ public class Hammer : MonoBehaviour
 				Debug.Log(other.gameObject.name);
 				playersBeingAttacked.Add(other.gameObject.name);
 				// Invoke event
-				playerHitEvent?.Invoke(other.gameObject.name,
+				PlayerHitEvent?.Invoke(other.gameObject.name,
 				                       clientPlayer.AttackPoint.position,
 				                       clientPlayer.ClientTick,
 				                       other.gameObject.GetComponent<ClientPlayer>().ClientTick);

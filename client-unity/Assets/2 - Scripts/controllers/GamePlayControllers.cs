@@ -2,29 +2,43 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class GamePlayControllers : MonoBehaviour
 {
 	public GameObject playerPrefab;
-	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
 	public CinemachineVirtualCamera cinemachineVirtualCamera;
 	[FormerlySerializedAs("gameOverTextChange")]
 	public UnityEvent gameOverUIUpdateEvent;
+
+	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
+	private ClientPlayer myPlayer;
 
 	public Dictionary<string, ClientPlayer> PlayersMap => playersMap;
 
 	private void Awake()
 	{
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
-		ClientPlayer.playerInputEvent += OnPlayerInputChange;
-		ClientPlayer.playerAttackEvent += OnPlayerAttack;
-		ClientPlayer.gameOverEvent += OnGameOver;
-		Hammer.playerHitEvent += OnPlayerHit;
+		// ClientPlayer.playerInputEvent += OnPlayerInputChange;
+		// ClientPlayer.playerAttackEvent += OnPlayerAttack;
+		// ClientPlayer.gameOverEvent += OnGameOver;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 		PlayerAttackDataHandler.playerAttackEvent += OnPlayerAttackResponse;
 	}
+
+	private void UnregisterEvents()
+	{
+		myPlayer.PlayerInputEvent -= OnPlayerInputChange;
+		myPlayer.PlayerAttackEvent -= OnPlayerAttack;
+		myPlayer.GameOverEvent -= OnGameOver;
+		myPlayer.Hammer1.PlayerHitEvent -= OnPlayerHit;
+		SyncPositionHandler.syncPositionEvent -= OnPlayerSyncPosition;
+		PlayerBeingAttackedHandler.playersBeingAttackedEvent -= OnPlayersBeingAttacked;
+		PlayerAttackDataHandler.playerAttackEvent -= OnPlayerAttackResponse;
+	}
+
 	private void OnGameOver()
 	{
 		Debug.Log("OnGameOver");
@@ -70,6 +84,11 @@ public class GamePlayControllers : MonoBehaviour
 		PlayersMap.Add(playerSpawnData.playerName, clientPlayer);
 		if (isMyPlayer)
 		{
+			myPlayer = clientPlayer;
+			myPlayer.PlayerInputEvent += OnPlayerInputChange;
+			myPlayer.PlayerAttackEvent += OnPlayerAttack;
+			myPlayer.GameOverEvent += OnGameOver;
+			myPlayer.Hammer1.PlayerHitEvent += OnPlayerHit;
 			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;
 		}
 	}
@@ -81,6 +100,17 @@ public class GamePlayControllers : MonoBehaviour
 
 	private void OnPlayerInputChange(PlayerInputData inputData, Quaternion nextRotation)
 	{
+		Debug.Log("Den day roi!!!!");
 		SocketRequest.getInstance().SendPlayerInputData(inputData, nextRotation.eulerAngles);
 	}
+
+	#region Public Methods
+
+	public void OnExitGameRoom()
+	{
+		UnregisterEvents();
+		SceneManager.LoadScene("LobbyScene");
+	}
+
+	#endregion
 }

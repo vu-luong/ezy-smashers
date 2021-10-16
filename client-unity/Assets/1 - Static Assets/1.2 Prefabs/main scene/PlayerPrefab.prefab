@@ -3900,6 +3900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookPoint: {fileID: 127609211}
   attackPoint: {fileID: 1296971529}
+  hammer: {fileID: 172746140}
   startAnimTime: 0.3
   stopAnimTime: 0.15
 --- !u!1 &5691424516104455779

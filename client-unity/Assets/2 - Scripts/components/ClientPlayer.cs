@@ -18,6 +18,9 @@ public class ClientPlayer : MonoBehaviour
 
 	private bool allowedOtherPlayerTick = false;
 
+	[SerializeField]
+	private Hammer hammer;
+	
 	[Space]
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
@@ -27,9 +30,6 @@ public class ClientPlayer : MonoBehaviour
 
 	private Animator anim;
 	private PlayerInterpolation playerInterpolation;
-	public static UnityAction<PlayerInputData, Quaternion> playerInputEvent;
-	public static UnityAction<Vector3, int> playerAttackEvent;
-	public static UnityAction gameOverEvent;
 
 	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
 
@@ -42,6 +42,16 @@ public class ClientPlayer : MonoBehaviour
 	public Transform LookPoint => lookPoint;
 
 	public Transform AttackPoint => attackPoint;
+
+	public UnityAction<PlayerInputData, Quaternion> PlayerInputEvent { get; set; }
+	public UnityAction<Vector3, int> PlayerAttackEvent { get; set; }
+	public UnityAction GameOverEvent { get; set; }
+
+	public Hammer Hammer1
+	{
+		get => hammer;
+		set => hammer = value;
+	}
 
 	// Use this for initialization
 	void Awake()
@@ -97,7 +107,7 @@ public class ClientPlayer : MonoBehaviour
 			if (!Anim.IsInTransition(0))
 			{
 				Anim.SetTrigger("slash");
-				playerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
+				PlayerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
 			}
 			else
 			{
@@ -122,7 +132,7 @@ public class ClientPlayer : MonoBehaviour
 			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
 			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
 			playerInterpolation.SetFramePosition(nextStateData);
-			playerInputEvent?.Invoke(inputData, nextStateData.Rotation);
+			PlayerInputEvent?.Invoke(inputData, nextStateData.Rotation);
 			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextStateData.Position.ToString("F8"));
 			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextStateData, inputData));
 		}
@@ -204,7 +214,7 @@ public class ClientPlayer : MonoBehaviour
 		yield return new WaitForSeconds(0.1f);
 		if (IsMyPlayer)
 		{
-			gameOverEvent?.Invoke();
+			GameOverEvent?.Invoke();
 		}
 	}
 
