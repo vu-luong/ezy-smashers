@@ -5,6 +5,7 @@ import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.NormalRoom;
+import com.youngmonkeys.app.exception.AlreadyJoinedRoomException;
 import com.youngmonkeys.app.service.RoomService;
 import com.youngmonkeys.app.service.LobbyService;
 import lombok.Setter;
@@ -25,8 +26,8 @@ public class LobbyServiceImpl implements LobbyService {
 	public void addNewPlayer(String playerName) {
 		MMOPlayer player = new MMOPlayer(playerName);
 		synchronized (lobbyRoom) {
-			if (lobbyRoom.getPlayerManager().containsPlayer(player)) {
-				return;
+			if (roomService.contains(player)) {
+				throw new AlreadyJoinedRoomException(playerName, lobbyRoom);
 			}
 			lobbyRoom.addPlayer(player);
 			player.setCurrentRoomId(lobbyRoom.getId());

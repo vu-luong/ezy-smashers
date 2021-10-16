@@ -165,4 +165,9 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 			victim.setCurrentRoomId(lobbyRoom.getId());
 		}
 	}
+	
+	@Override
+	public boolean contains(MMOPlayer player) {
+		return globalPlayerManager.containsPlayer(player);
+	}
 }

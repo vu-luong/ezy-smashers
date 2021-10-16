@@ -32,4 +32,6 @@ public interface RoomService {
 	GameRoom playerJoinMMORoom(String playerName, long roomId);
 	
 	void removePlayerFromGameRoom(String playerName, GameRoom room);
+	
+	boolean contains(MMOPlayer player);
 }
