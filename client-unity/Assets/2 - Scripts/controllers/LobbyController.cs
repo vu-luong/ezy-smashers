@@ -5,45 +5,49 @@ using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
-    public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
+	public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 
-    private void Awake()
-    {
-        CreateRoomResponseHandler.roomCreatedEvent += JoinRoom;
-        GetMMORoomIdListResponse.mmoRoomIdListResponseEvent += OnMMORoomIdListResponse;
-        JoinMMORoomResponse.joinRoomResponseEvent += JoinRoom;
-    }
+	private void Awake()
+	{
+		CreateRoomResponseHandler.roomCreatedEvent += JoinRoom;
+		GetMMORoomIdListResponse.mmoRoomIdListResponseEvent += OnMMORoomIdListResponse;
+		JoinMMORoomResponse.joinRoomResponseEvent += JoinRoom;
+	}
 
-    private void Start()
-    {
-        OnRefreshRoomIdList();
-    }
+	private void Start()
+	{
+		OnRefreshRoomIdList();
+	}
 
-    private void JoinRoom(int roomId)
-    {
-        RoomManager.getInstance().CurrentRoomId = roomId;
-        SceneManager.LoadScene("GameLoungeScene");
-    }
+	private void JoinRoom(int roomId)
+	{
+		RoomManager.getInstance().CurrentRoomId = roomId;
+		SceneManager.LoadScene("GameLoungeScene");
+	}
 
-    private void OnMMORoomIdListResponse(List<int> roomIdList) {
-        mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
-    }
+	private void OnMMORoomIdListResponse(List<int> roomIdList)
+	{
+		mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
+	}
 
-    #region public methods
-    public void OnRefreshRoomIdList() 
-    {
-        Debug.Log("LobbyController: OnRefreshRoomIdList");
-        SocketRequest.getInstance().SendGetMMORoomIdListRequest();
-    }
+	#region public methods
 
-    public void OnCreateMMORoom()
-    {
-        Debug.Log("LobbyController: OnCreateMMORoom!");
-        SocketRequest.getInstance().SendCreateMMORoomRequest();
-    }
+	public void OnRefreshRoomIdList()
+	{
+		Debug.Log("LobbyController: OnRefreshRoomIdList");
+		SocketRequest.getInstance().SendGetMMORoomIdListRequest();
+	}
 
-    public void RequestJoinMMORoom(int roomId) {
-        SocketRequest.getInstance().SendJoinMMORoomRequest(roomId);
-    }
-    #endregion
+	public void OnCreateMMORoom()
+	{
+		Debug.Log("LobbyController: OnCreateMMORoom!");
+		SocketRequest.getInstance().SendCreateMMORoomRequest();
+	}
+
+	public void RequestJoinMMORoom(int roomId)
+	{
+		SocketRequest.getInstance().SendJoinMMORoomRequest(roomId);
+	}
+
+	#endregion
 }

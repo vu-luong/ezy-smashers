@@ -1,5 +1,3 @@
-using _2___Scripts.shared;
-
 public class ReconciliationInfo
 {
 	public ReconciliationInfo(int timeTick, PlayerStateData stateData, PlayerInputData inputData)

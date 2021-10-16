@@ -15,6 +15,7 @@ public class Hammer : MonoBehaviour
 		if (!clientPlayer.IsMyPlayer) return;
 		if (other.gameObject.CompareTag("Player"))
 		{
+			if (other.gameObject.GetComponent<ClientPlayer>().IsMyPlayer) return;
 			if (!playersBeingAttacked.Contains(other.gameObject.name))
 			{
 				Debug.Log("OnCollisionEnter");

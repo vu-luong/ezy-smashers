@@ -1,17 +1,15 @@
 using UnityEngine;
-namespace _2___Scripts.shared
+
+public class PlayerStateData
 {
-	public class PlayerStateData
+
+	public PlayerStateData(Vector3 position, Quaternion rotation)
 	{
-
-		public PlayerStateData(Vector3 position, Quaternion rotation)
-		{
-			Position = position;
-			Rotation = rotation;
-		}
-
-		public Vector3 Position { get; set; }
-
-		public Quaternion Rotation { get; set; }
+		Position = position;
+		Rotation = rotation;
 	}
+
+	public Vector3 Position { get; set; }
+
+	public Quaternion Rotation { get; set; }
 }

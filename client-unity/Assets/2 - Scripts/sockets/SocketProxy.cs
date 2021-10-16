@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using _2___Scripts.shared;
 using com.tvd12.ezyfoxserver.client;
 using com.tvd12.ezyfoxserver.client.config;
 using com.tvd12.ezyfoxserver.client.constant;

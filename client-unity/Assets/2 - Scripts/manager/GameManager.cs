@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using _2___Scripts.shared;
 using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
 
@@ -15,8 +14,6 @@ public class GameManager : EzyLoggable
 	public GameManager()
 	{
 		JoinLobbyResponseHandler.joinedLobbyEvent += SetUpPlayer;
-		// TODO
-		// JoinRoomResponseHandler.joinedRoomEvent += setCurrentRoomId;
 	}
 
 	public static GameManager getInstance()

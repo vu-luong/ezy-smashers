@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using _2___Scripts.shared;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,9 +15,6 @@ public class ClientPlayer : MonoBehaviour
 	private Transform attackPoint;
 
 	private bool isDead = false;
-
-	// TODO: remove
-	private bool keepMoving = false;
 
 	private bool allowedOtherPlayerTick = false;
 
@@ -63,10 +59,6 @@ public class ClientPlayer : MonoBehaviour
 			Anim.SetFloat("Blend", 0, stopAnimTime, Time.deltaTime);
 			return;
 		}
-		if (Input.GetKey(KeyCode.U))
-		{
-			keepMoving = !keepMoving;
-		}
 
 		if (IsMyPlayer)
 		{
@@ -86,11 +78,13 @@ public class ClientPlayer : MonoBehaviour
 	{
 		if (Anim.GetCurrentAnimatorStateInfo(0).IsName("Slash"))
 		{
+			// Stop run animation when attacking
+			Anim.SetFloat("Blend", 0, stopAnimTime, Time.deltaTime);
 			return;
 		}
 
 		bool[] inputs = new bool[4];
-		inputs[0] = Input.GetKey(KeyCode.UpArrow) || keepMoving;
+		inputs[0] = Input.GetKey(KeyCode.UpArrow);
 		inputs[1] = Input.GetKey(KeyCode.LeftArrow);
 		inputs[2] = Input.GetKey(KeyCode.DownArrow);
 		inputs[3] = Input.GetKey(KeyCode.RightArrow);
@@ -99,6 +93,7 @@ public class ClientPlayer : MonoBehaviour
 
 		if (attackInput) // Slash/smash attack
 		{
+			// Only allow new attack when finishing previous attack
 			if (!Anim.IsInTransition(0))
 			{
 				Anim.SetTrigger("slash");
@@ -118,12 +113,12 @@ public class ClientPlayer : MonoBehaviour
 		// Calculate the Input Magnitude
 		var moveInputMagnitude = new Vector2(movement.x, movement.z).sqrMagnitude;
 
-		// Physically move player
+		// Use PlayerInterpolation to smooth out movement
 		if (moveInputMagnitude > 0)
 		{
 			Debug.Log("movement = " + movement);
 			Anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
-			// PlayerMoveAndRotation(movement);
+
 			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
 			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
 			playerInterpolation.SetFramePosition(nextStateData);
@@ -133,7 +128,7 @@ public class ClientPlayer : MonoBehaviour
 		}
 		else
 		{
-			Anim.SetFloat("Blend", moveInputMagnitude, stopAnimTime, Time.deltaTime);
+			Anim.SetFloat("Blend", 0, stopAnimTime, Time.deltaTime);
 		}
 	}
 

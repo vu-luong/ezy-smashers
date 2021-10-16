@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
-using _2___Scripts.shared;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class GamePlayControllers : MonoBehaviour
 {
 	public GameObject playerPrefab;
 	private Dictionary<string, ClientPlayer> playersMap = new Dictionary<string, ClientPlayer>();
 	public CinemachineVirtualCamera cinemachineVirtualCamera;
-	public UnityEvent gameOverTextChange;
+	[FormerlySerializedAs("gameOverTextChange")]
+	public UnityEvent gameOverUIUpdateEvent;
 
 	public Dictionary<string, ClientPlayer> PlayersMap => playersMap;
 
@@ -27,7 +28,7 @@ public class GamePlayControllers : MonoBehaviour
 	private void OnGameOver()
 	{
 		Debug.Log("OnGameOver");
-		gameOverTextChange?.Invoke();
+		gameOverUIUpdateEvent?.Invoke();
 	}
 
 	private void OnPlayerAttackResponse(string attackerName)
