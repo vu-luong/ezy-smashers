@@ -148,7 +148,6 @@ public class GameRequestController extends EzyLoggable {
 		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
 		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
 		
-		// TODO: send to neighbourhood only - only render dead effect (not attack effect)
 		if (isValidHit) {
 			responseFactory.newObjectResponse()
 					.command(Commands.PLAYER_BEING_ATTACKED)
@@ -158,6 +157,10 @@ public class GameRequestController extends EzyLoggable {
 					.param("b", playerHitData.getVictimName())
 					.usernames(playerNames)
 					.execute();
+			
+			roomService.removePlayerFromGameRoom(playerHitData.getVictimName(), currentRoom);
+		} else {
+			logger.warn("Player {} send invalid hit ", user.getName());
 		}
 	}
 	

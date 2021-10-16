@@ -7,7 +7,6 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
-import com.tvd12.gamebox.math.Vec3;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.GameRoomFactory;
@@ -15,8 +14,6 @@ import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Setter
@@ -72,6 +69,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 		}
 		GameRoom room = gameRoomFactory.newGameRoom();
 		room.addPlayer(player);
+		lobbyRoom.removePlayer(player);
 		player.setCurrentRoomId(room.getId());
 		
 		this.addRoom(room);
@@ -144,6 +142,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	@Override
 	public GameRoom playerJoinMMORoom(String playerName, long roomId) {
 		Player player = globalPlayerManager.getPlayer(playerName);
+		lobbyRoom.removePlayer(player);
 		GameRoom room = (GameRoom) globalRoomManager.getRoom(roomId);
 		
 		synchronized (room) {
@@ -152,5 +151,14 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 		}
 		
 		return room;
+	}
+	
+	@Override
+	public void removePlayerFromGameRoom(String playerName, GameRoom room) {
+		MMOPlayer victim = getPlayer(playerName);
+		room.removePlayer(victim); // synchronized already
+		synchronized (victim) {
+			victim.setCurrentRoomId(lobbyRoom.getId());
+		}
 	}
 }
