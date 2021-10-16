@@ -5,7 +5,7 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import java.util.List;
 
 public interface LobbyService {
-	void addUser(EzyUser user);
+	void addNewPlayer(String playerName);
 	
 	List<String> getPlayerNames();
 	

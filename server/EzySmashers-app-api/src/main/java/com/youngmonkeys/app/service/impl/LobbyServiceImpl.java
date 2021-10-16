@@ -22,13 +22,13 @@ public class LobbyServiceImpl implements LobbyService {
 	private RoomService roomService;
 	
 	@Override
-	public void addUser(EzyUser user) {
-		MMOPlayer player = new MMOPlayer(user.getName());
+	public void addNewPlayer(String playerName) {
+		MMOPlayer player = new MMOPlayer(playerName);
 		synchronized (lobbyRoom) {
 			if (lobbyRoom.getPlayerManager().containsPlayer(player)) {
 				return;
 			}
-			lobbyRoom.addUser(user, player);
+			lobbyRoom.addPlayer(player);
 			player.setCurrentRoomId(lobbyRoom.getId());
 		}
 		

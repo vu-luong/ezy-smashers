@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using _2___Scripts.shared;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -11,12 +10,20 @@ public class GameLoungeController : MonoBehaviour
 
     private void Awake()
     {
-        GetMMORoomPlayersResponse.mmoRoomPlayersResponseEvent += OnGetMMORoomPlayersResponse;
+        GetMMORoomPlayersResponseHandler.mmoRoomPlayersResponseEvent += OnGetMMORoomPlayersResponse;
         AnotherJoinMMORoomHandler.anotherJoinMMORoomEvent += OnAnotherJoinMMORoom;
         AnotherExitMMORoomHandler.anotherExitMMORoomEvent += OnAnotherExitMMORoom;
         StartGameResponseHandler.startGameResponseEvent += OnGameStart;
         SetRoomTitle();
         GetMMORoomPlayers();
+    }
+
+    private void UnregisterEvents()
+    {
+        GetMMORoomPlayersResponseHandler.mmoRoomPlayersResponseEvent -= OnGetMMORoomPlayersResponse;
+        AnotherJoinMMORoomHandler.anotherJoinMMORoomEvent -= OnAnotherJoinMMORoom;
+        AnotherExitMMORoomHandler.anotherExitMMORoomEvent -= OnAnotherExitMMORoom;
+        StartGameResponseHandler.startGameResponseEvent -= OnGameStart;
     }
 
     private void GetMMORoomPlayers()
@@ -55,6 +62,7 @@ public class GameLoungeController : MonoBehaviour
         Debug.Log("GameLoungeController.OnGameStart");
 
         GameManager.getInstance().PlayersSpawnData = playersSpawnData;
+        UnregisterEvents();
         SceneManager.LoadScene("MainScene");
     }
 

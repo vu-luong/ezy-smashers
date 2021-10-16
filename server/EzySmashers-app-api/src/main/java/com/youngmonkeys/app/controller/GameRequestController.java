@@ -7,9 +7,11 @@ import com.tvd12.ezyfox.io.EzyLists;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
+import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
+import com.youngmonkeys.app.exception.JoinNotWaitingRoomException;
 import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.shared.PlayerHitData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
@@ -45,7 +47,7 @@ public class GameRequestController extends EzyLoggable {
 	public void joinLobby(EzyUser user) {
 		logger.info("user {} join lobby room", user);
 		
-		lobbyService.addUser(user);
+		lobbyService.addNewPlayer(user.getName());
 		long lobbyRoomId = lobbyService.getRoomId();
 		
 		responseFactory.newObjectResponse()
@@ -98,6 +100,9 @@ public class GameRequestController extends EzyLoggable {
 		logger.info("user {} join room {}", user.getName(), request.getRoomId());
 		long roomId = request.getRoomId();
 		GameRoom room = roomService.playerJoinMMORoom(user.getName(), roomId);
+		if (room.getStatus() != RoomStatus.WAITING) {
+			throw new JoinNotWaitingRoomException(user.getName(), room);
+		}
 		List<String> playerNames = roomService.getRoomPlayerNames(room);
 		
 		responseFactory.newObjectResponse()
@@ -117,6 +122,7 @@ public class GameRequestController extends EzyLoggable {
 	public void startGame(EzyUser user) {
 		logger.info("user {} start game", user);
 		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
+		currentRoom.setStatus(RoomStatus.PLAYING);
 		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
 		gamePlayService.resetPlayersPositionHistory(playerNames);
 		
@@ -148,7 +154,6 @@ public class GameRequestController extends EzyLoggable {
 		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
 		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
 		
-		// TODO: send to neighbourhood only - only render dead effect (not attack effect)
 		if (isValidHit) {
 			responseFactory.newObjectResponse()
 					.command(Commands.PLAYER_BEING_ATTACKED)
@@ -158,6 +163,10 @@ public class GameRequestController extends EzyLoggable {
 					.param("b", playerHitData.getVictimName())
 					.usernames(playerNames)
 					.execute();
+			
+			roomService.removePlayerFromGameRoom(playerHitData.getVictimName(), currentRoom);
+		} else {
+			logger.warn("Player {} send invalid hit ", user.getName());
 		}
 	}
 	
