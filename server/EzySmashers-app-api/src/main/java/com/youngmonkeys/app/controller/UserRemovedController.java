@@ -7,9 +7,9 @@ import com.tvd12.ezyfoxserver.context.EzyAppContext;
 import com.tvd12.ezyfoxserver.controller.EzyAbstractAppEventController;
 import com.tvd12.ezyfoxserver.event.EzyUserRemovedEvent;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
+import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.NormalRoom;
 import com.youngmonkeys.app.constant.Commands;
-import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.service.RoomService;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class UserRemovedController
 		String playerName = event.getUser().getName();
 		NormalRoom room = roomService.removePlayer(playerName);
 		
-		if (!(room instanceof GameRoom)) {
+		if (!(room instanceof MMORoom)) {
 			return;
 		}
 		

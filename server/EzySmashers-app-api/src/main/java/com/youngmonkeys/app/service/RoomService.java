@@ -2,9 +2,9 @@ package com.youngmonkeys.app.service;
 
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.MMOPlayer;
+import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.NormalRoom;
 import com.tvd12.gamebox.entity.Player;
-import com.youngmonkeys.app.game.GameRoom;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface RoomService {
 	
 	void addPlayer(MMOPlayer player);
 	
-	GameRoom newGameRoom(EzyUser user);
+	MMORoom newMMORoom(EzyUser user);
 	
 	MMOPlayer getPlayer(String playerName);
 	
@@ -29,9 +29,9 @@ public interface RoomService {
 	
 	Player getMaster(NormalRoom currentRoom);
 	
-	GameRoom playerJoinMMORoom(String playerName, long roomId);
+	MMORoom playerJoinMMORoom(String playerName, long roomId);
 	
-	void removePlayerFromGameRoom(String playerName, GameRoom room);
+	void removePlayerFromGameRoom(String playerName, MMORoom room);
 	
 	boolean contains(MMOPlayer player);
 }
