@@ -9,10 +9,10 @@ import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
 import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.MMOPlayer;
+import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.Player;
 import com.youngmonkeys.app.constant.Commands;
 import com.youngmonkeys.app.exception.JoinNotWaitingRoomException;
-import com.youngmonkeys.app.game.GameRoom;
 import com.youngmonkeys.app.game.shared.PlayerHitData;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.shared.PlayerSpawnData;
@@ -60,7 +60,7 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.CREATE_MMO_ROOM)
 	public void createMMORoom(EzyUser user) {
 		logger.info("user {} create an MMO room", user);
-		GameRoom room = roomService.newGameRoom(user);
+		MMORoom room = roomService.newMMORoom(user);
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.CREATE_MMO_ROOM)
@@ -83,7 +83,7 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.GET_MMO_ROOM_PLAYERS)
 	public void getMMORoomPlayers(EzyUser user) {
 		logger.info("user {} getMMORoomPlayers", user);
-		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
+		MMORoom currentRoom = (MMORoom) roomService.getCurrentRoom(user.getName());
 		List<String> players = roomService.getRoomPlayerNames(currentRoom);
 		Player master = roomService.getMaster(currentRoom);
 		
@@ -99,7 +99,7 @@ public class GameRequestController extends EzyLoggable {
 	public void joinMMORoom(EzyUser user, JoinMMORoomRequest request) {
 		logger.info("user {} join room {}", user.getName(), request.getRoomId());
 		long roomId = request.getRoomId();
-		GameRoom room = roomService.playerJoinMMORoom(user.getName(), roomId);
+		MMORoom room = roomService.playerJoinMMORoom(user.getName(), roomId);
 		if (room.getStatus() != RoomStatus.WAITING) {
 			throw new JoinNotWaitingRoomException(user.getName(), room);
 		}
@@ -121,7 +121,7 @@ public class GameRequestController extends EzyLoggable {
 	@EzyDoHandle(Commands.START_GAME)
 	public void startGame(EzyUser user) {
 		logger.info("user {} start game", user);
-		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
+		MMORoom currentRoom = (MMORoom) roomService.getCurrentRoom(user.getName());
 		currentRoom.setStatus(RoomStatus.PLAYING);
 		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
 		gamePlayService.resetPlayersPositionHistory(playerNames);
@@ -151,7 +151,7 @@ public class GameRequestController extends EzyLoggable {
 				playerHitData
 		);
 		
-		GameRoom currentRoom = (GameRoom) roomService.getCurrentRoom(user.getName());
+		MMORoom currentRoom = (MMORoom) roomService.getCurrentRoom(user.getName());
 		List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
 		
 		if (isValidHit) {

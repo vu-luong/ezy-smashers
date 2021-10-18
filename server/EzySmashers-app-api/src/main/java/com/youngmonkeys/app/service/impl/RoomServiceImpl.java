@@ -9,8 +9,7 @@ import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
-import com.youngmonkeys.app.game.GameRoom;
-import com.youngmonkeys.app.game.GameRoomFactory;
+import com.youngmonkeys.app.game.MMORoomFactory;
 import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
@@ -26,7 +25,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	private MMOVirtualWorld mmoVirtualWorld;
 	
 	@EzyAutoBind
-	private GameRoomFactory gameRoomFactory;
+	private MMORoomFactory gameRoomFactory;
 	
 	@EzyAutoBind
 	private PlayerManager<Player> globalPlayerManager;
@@ -63,12 +62,12 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	}
 	
 	@Override
-	public GameRoom newGameRoom(EzyUser user) {
+	public MMORoom newMMORoom(EzyUser user) {
 		MMOPlayer player = getPlayer(user.getName());
 		if (player.getCurrentRoomId() != lobbyRoom.getId()) {
 			throw new CreateRoomNotFromLobbyException(player.getName());
 		}
-		GameRoom room = gameRoomFactory.newGameRoom();
+		MMORoom room = gameRoomFactory.newMMORoom();
 		room.setStatus(RoomStatus.WAITING);
 		room.addPlayer(player);
 		lobbyRoom.removePlayer(player);
@@ -128,8 +127,8 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	@Override
 	public Player getMaster(NormalRoom room) {
 		synchronized (room) {
-			if (room instanceof GameRoom) {
-				return ((GameRoom) room).getMaster();
+			if (room instanceof MMORoom) {
+				return ((MMORoom) room).getMaster();
 			} else {
 				return null;
 			}
@@ -143,10 +142,10 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	 * @param roomId     id of an MMORoom
 	 */
 	@Override
-	public GameRoom playerJoinMMORoom(String playerName, long roomId) {
+	public MMORoom playerJoinMMORoom(String playerName, long roomId) {
 		Player player = globalPlayerManager.getPlayer(playerName);
 		lobbyRoom.removePlayer(player);
-		GameRoom room = (GameRoom) globalRoomManager.getRoom(roomId);
+		MMORoom room = (MMORoom) globalRoomManager.getRoom(roomId);
 		
 		synchronized (room) {
 			room.addPlayer((MMOPlayer) player);
@@ -157,7 +156,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	}
 	
 	@Override
-	public void removePlayerFromGameRoom(String playerName, GameRoom room) {
+	public void removePlayerFromGameRoom(String playerName, MMORoom room) {
 		MMOPlayer victim = getPlayer(playerName);
 		room.removePlayer(victim); // synchronized already
 		synchronized (victim) {

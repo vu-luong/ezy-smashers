@@ -3,12 +3,12 @@ package com.youngmonkeys.app.game;
 import com.tvd12.ezyfox.annotation.EzyProperty;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
+import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
-import com.tvd12.gamebox.handler.SyncPositionRoomUpdatedHandler;
 import com.youngmonkeys.app.config.AppConfig;
 
 @EzySingleton
-public class GameRoomFactory {
+public class MMORoomFactory {
 
     @EzyProperty("game.room.max_players")
     private int maxPlayers;
@@ -22,8 +22,8 @@ public class GameRoomFactory {
     @EzyAutoBind
     private AppConfig appConfig;
 
-    public GameRoom newGameRoom() {
-        return (GameRoom) GameRoom.builder()
+    public MMORoom newMMORoom() {
+        return MMORoom.builder()
                 .defaultPlayerManager(maxPlayers)
                 .distanceOfInterest(distanceOfInterest)
                 .addRoomUpdatedHandler(roomUpdatedHandler)

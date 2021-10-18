@@ -7,7 +7,6 @@ import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.Player;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.math.Vec3;
-import com.tvd12.gamebox.math.Vec3s;
 import com.youngmonkeys.app.game.PlayerLogic;
 import com.youngmonkeys.app.game.constant.GameConstants;
 import com.youngmonkeys.app.game.shared.PlayerHitData;
@@ -60,7 +59,7 @@ public class GamePlayServiceImpl extends EzyLoggable implements GamePlayService 
 		List<PlayerSpawnData> answer = playerNames.stream().map(
 				playerName -> new PlayerSpawnData(
 						playerName,
-						Vec3s.toArray(
+						Vec3.toArray(
 								new Vec3(
 										ThreadLocalRandom.current().nextFloat() * 10,
 										0,

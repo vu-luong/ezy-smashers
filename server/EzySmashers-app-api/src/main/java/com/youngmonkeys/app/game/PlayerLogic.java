@@ -4,7 +4,6 @@ import com.tvd12.gamebox.math.Vec3;
 import com.youngmonkeys.app.game.constant.GameConstants;
 import com.youngmonkeys.app.game.shared.PlayerInputData;
 import com.youngmonkeys.app.game.utils.InputUtils;
-import com.youngmonkeys.app.game.utils.Vec3Utils;
 
 public class PlayerLogic {
 	
@@ -19,9 +18,9 @@ public class PlayerLogic {
 		Vec3 movement = InputUtils.ComputeMovementFromInput(upInput, leftInput, downInput, rightInput);
 		
 		// moveDirection = Vec3Utils.forward * movement.z + Vec3Utils.right * movement.x
-		Vec3 moveDirection = new Vec3(Vec3Utils.forward);
+		Vec3 moveDirection = new Vec3(Vec3.forward);
 		moveDirection.multiply(movement.z);
-		Vec3 temp = new Vec3(Vec3Utils.right);
+		Vec3 temp = new Vec3(Vec3.right);
 		temp.multiply(movement.x);
 		moveDirection.add(temp);
 		
