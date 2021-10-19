@@ -46,7 +46,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 		if (room != null) {
 			synchronized (room) {
 				room.removePlayer(player);
-				if (room.getPlayerManager().isEmpty()) {
+				if (room.getPlayerManager().isEmpty() && (room.getId() != lobbyRoom.getId())) {
 					globalRoomManager.removeRoom(room);
 				}
 			}
