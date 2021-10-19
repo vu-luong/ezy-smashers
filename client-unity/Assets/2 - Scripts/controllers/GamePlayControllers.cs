@@ -20,9 +20,6 @@ public class GamePlayControllers : MonoBehaviour
 	private void Awake()
 	{
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
-		// ClientPlayer.playerInputEvent += OnPlayerInputChange;
-		// ClientPlayer.playerAttackEvent += OnPlayerAttack;
-		// ClientPlayer.gameOverEvent += OnGameOver;
 		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
 		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
 		PlayerAttackDataHandler.playerAttackEvent += OnPlayerAttackResponse;

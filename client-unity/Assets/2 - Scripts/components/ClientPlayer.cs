@@ -15,12 +15,15 @@ public class ClientPlayer : MonoBehaviour
 	private Transform attackPoint;
 
 	private bool isDead = false;
-
 	private bool allowedOtherPlayerTick = false;
 
 	[SerializeField]
 	private Hammer hammer;
-	
+
+	[SerializeField]
+	// private SkinnedMeshRenderer renderer;
+	Renderer[] characterMaterials;
+
 	[Space]
 	[Header("Animation Smoothing")]
 	[Range(0, 1f)]
@@ -32,6 +35,7 @@ public class ClientPlayer : MonoBehaviour
 	private PlayerInterpolation playerInterpolation;
 
 	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
+	private Color eyeColor;
 
 	public int ClientTick { get; set; }
 
@@ -58,8 +62,7 @@ public class ClientPlayer : MonoBehaviour
 	{
 		anim = GetComponent<Animator>();
 		playerInterpolation = GetComponent<PlayerInterpolation>();
-		// playerInterpolation.CurrentData = new PlayerStateData(transform.position, transform.rotation);
-		// playerInterpolation.PreviousData = new PlayerStateData(transform.position, transform.rotation);
+		eyeColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1.0f);
 	}
 
 	private void FixedUpdate()
@@ -199,6 +202,21 @@ public class ClientPlayer : MonoBehaviour
 		ClientTick = 0;
 		playerInterpolation.CurrentData = new PlayerStateData(playerSpawnData.position, transform.rotation);
 		playerInterpolation.PreviousData = new PlayerStateData(playerSpawnData.position, transform.rotation);
+
+		characterMaterials = GetComponentsInChildren<Renderer>();
+		Color mainColor = new Color(
+			playerSpawnData.color.x,
+			playerSpawnData.color.y,
+			playerSpawnData.color.z,
+			1.0f
+		);
+		for (int i = 0; i < characterMaterials.Length; i++)
+		{
+			if (characterMaterials[i].transform.CompareTag("PlayerEyes"))
+				characterMaterials[i].material.SetColor("_EmissionColor", eyeColor);
+			else
+				characterMaterials[i].material.SetColor("_Color", mainColor);
+		}
 	}
 
 	public void OnBeingAttacked()

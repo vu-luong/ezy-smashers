@@ -143,7 +143,13 @@ class StartGameResponseHandler : EzyAbstractAppDataHandler<EzyArray>
 			EzyObject item = data.get<EzyObject>(i);
 			string playerName = item.get<string>("playerName");
 			List<float> position = item.get<EzyArray>("position").toList<float>();
-			spawnData.Add(new PlayerSpawnData(playerName, new Vector3(position[0], position[1], position[2])));
+			List<float> color = item.get<EzyArray>("color").toList<float>();
+			spawnData.Add(new PlayerSpawnData(
+				              playerName,
+				              new Vector3(position[0], position[1], position[2]),
+				              new Vector3(color[0], color[1], color[2])
+			              )
+			);
 		}
 		startGameResponseEvent?.Invoke(spawnData);
 	}
