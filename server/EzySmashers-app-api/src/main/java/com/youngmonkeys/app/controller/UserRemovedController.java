@@ -37,7 +37,7 @@ public class UserRemovedController
 			return;
 		}
 		
-		List<String> playerNames = roomService.getRoomPlayerNames(room);
+		List<String> playerNames = roomService.getRoomPlayerNames(room).copyToList();
 		
 		responseFactory.newObjectResponse()
 				.command(Commands.ANOTHER_EXIT_MMO_ROOM)

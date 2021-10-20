@@ -2,22 +2,20 @@ package com.youngmonkeys.app.service.impl;
 
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
-import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.NormalRoom;
+import com.tvd12.gamebox.util.ReadOnlySet;
 import com.youngmonkeys.app.exception.AlreadyJoinedRoomException;
-import com.youngmonkeys.app.service.RoomService;
 import com.youngmonkeys.app.service.LobbyService;
+import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
-
-import java.util.List;
 
 @Setter
 @EzySingleton
 public class LobbyServiceImpl implements LobbyService {
 	
 	@EzyAutoBind
-	private NormalRoom lobbyRoom;
+	private NormalRoom<MMOPlayer> lobbyRoom;
 	
 	@EzyAutoBind
 	private RoomService roomService;
@@ -37,7 +35,7 @@ public class LobbyServiceImpl implements LobbyService {
 	}
 	
 	@Override
-	public List<String> getPlayerNames() {
+	public ReadOnlySet<String> getPlayerNames() {
 		synchronized (lobbyRoom) {
 			return lobbyRoom.getPlayerManager().getPlayerNames();
 		}

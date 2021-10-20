@@ -8,19 +8,19 @@ import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
-import com.tvd12.gamebox.util.ReadOnlyList;
+import com.tvd12.gamebox.util.ReadOnlyCollection;
+import com.tvd12.gamebox.util.ReadOnlySet;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.MMORoomFactory;
 import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Setter
 @EzySingleton
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked"})
 public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	
 	@EzyAutoBind
@@ -85,16 +85,16 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	}
 	
 	@Override
-	public List<String> getRoomPlayerNames(NormalRoom room) {
+	public ReadOnlySet<String> getRoomPlayerNames(NormalRoom room) {
 		synchronized (room) {
 			return room.getPlayerManager().getPlayerNames();
 		}
 	}
 	
 	@Override
-	public ReadOnlyList<Player> getRoomPlayers(NormalRoom room) {
+	public ReadOnlyCollection<Player> getRoomPlayers(NormalRoom room) {
 		synchronized (room) {
-			return room.getPlayerManager().getPlayerList();
+			return room.getPlayerManager().getPlayerCollection();
 		}
 	}
 	

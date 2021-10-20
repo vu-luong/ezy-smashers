@@ -1,13 +1,11 @@
 package com.youngmonkeys.app.service;
 
-import com.tvd12.ezyfoxserver.entity.EzyUser;
-
-import java.util.List;
+import com.tvd12.gamebox.util.ReadOnlySet;
 
 public interface LobbyService {
 	void addNewPlayer(String playerName);
 	
-	List<String> getPlayerNames();
+	ReadOnlySet<String> getPlayerNames();
 	
 	long getRoomId();
 }

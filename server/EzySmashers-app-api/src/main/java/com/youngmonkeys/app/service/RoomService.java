@@ -5,7 +5,8 @@ import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.NormalRoom;
 import com.tvd12.gamebox.entity.Player;
-import com.tvd12.gamebox.util.ReadOnlyList;
+import com.tvd12.gamebox.util.ReadOnlyCollection;
+import com.tvd12.gamebox.util.ReadOnlySet;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public interface RoomService {
 	
 	MMOPlayer getPlayer(String playerName);
 	
-	List<String> getRoomPlayerNames(NormalRoom room);
+	ReadOnlySet<String> getRoomPlayerNames(NormalRoom room);
 	
-	ReadOnlyList<Player> getRoomPlayers(NormalRoom room);
+	ReadOnlyCollection<Player> getRoomPlayers(NormalRoom room);
 	
 	void addRoom(NormalRoom room);
 	
