@@ -8,11 +8,13 @@ import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.tvd12.gamebox.util.ReadOnlyList;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.MMORoomFactory;
 import com.youngmonkeys.app.service.RoomService;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,7 +92,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	}
 	
 	@Override
-	public List<Player> getRoomPlayers(NormalRoom room) {
+	public ReadOnlyList<Player> getRoomPlayers(NormalRoom room) {
 		synchronized (room) {
 			return room.getPlayerManager().getPlayerList();
 		}
@@ -110,6 +112,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 	public List<Long> getMMORoomIdList() {
 		return globalRoomManager
 				.getRoomList()
+				.copyToList()
 				.stream()
 				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
 				.filter(room -> room.getStatus() == RoomStatus.WAITING)

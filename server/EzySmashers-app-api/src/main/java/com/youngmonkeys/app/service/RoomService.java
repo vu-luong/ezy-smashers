@@ -5,6 +5,7 @@ import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.NormalRoom;
 import com.tvd12.gamebox.entity.Player;
+import com.tvd12.gamebox.util.ReadOnlyList;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface RoomService {
 	
 	List<String> getRoomPlayerNames(NormalRoom room);
 	
-	List<Player> getRoomPlayers(NormalRoom room);
+	ReadOnlyList<Player> getRoomPlayers(NormalRoom room);
 	
 	void addRoom(NormalRoom room);
 	
