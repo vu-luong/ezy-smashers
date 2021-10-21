@@ -15,7 +15,7 @@ import lombok.Setter;
 public class LobbyServiceImpl implements LobbyService {
 	
 	@EzyAutoBind
-	private NormalRoom<MMOPlayer> lobbyRoom;
+	private NormalRoom lobbyRoom;
 	
 	@EzyAutoBind
 	private RoomService roomService;
