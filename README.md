@@ -19,15 +19,9 @@ An MMO socket game using Ezyfox server and Unity client
     - Install mongodb ([Tutorial](https://docs.mongodb.com/manual/administration/install-community/))
     - Create `ezy-smashers` database with `user=root` and `password=123456` using mongo shell:
       ```
-        use ezy-smashers;
-        db.temp.insert({"key": "value"});
-        db.createUser(
-           {
-             user:"root",
-             pwd:"123456”,
-             roles:[ { role: "readWrite", db: "ezy-smashers" }]
-           }
-        )
+        > use ezy-smashers;
+        > db.temp.insert({"key": "value"});
+        > db.createUser({user: "root", pwd: "123456", roles:[{role: "readWrite", db: "ezy-smashers"}]})
       ```
     - Import ```server``` folder into an IDE (Eclipse, Intellij, Netbean)
     - Run file [ApplicationStartup.java](https://github.com/vu-luong/EzySmashers/blob/master/server/EzySmashers-startup/src/main/java/com/youngmonkeys/ApplicationStartup.java)
