@@ -2,7 +2,7 @@
 
 An MMO socket game using Ezyfox server and Unity client
 
-![demo1](https://user-images.githubusercontent.com/8142030/138590569-605af715-9d2c-4bf2-8c49-e668843b265d.gif)
+![demo2](https://user-images.githubusercontent.com/8142030/138592739-6fa73afd-69a0-492e-82f0-d1917506e1d9.gif)
 
 # How to run?
 
