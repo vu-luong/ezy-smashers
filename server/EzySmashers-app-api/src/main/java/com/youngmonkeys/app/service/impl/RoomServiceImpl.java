@@ -8,8 +8,6 @@ import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
-import com.tvd12.gamebox.util.ReadOnlyCollection;
-import com.tvd12.gamebox.util.ReadOnlySet;
 import com.youngmonkeys.app.exception.CreateRoomNotFromLobbyException;
 import com.youngmonkeys.app.game.MMORoomFactory;
 import com.youngmonkeys.app.service.RoomService;
@@ -22,22 +20,22 @@ import java.util.stream.Collectors;
 @EzySingleton
 @SuppressWarnings({"unchecked"})
 public class RoomServiceImpl extends EzyLoggable implements RoomService {
-	
+
 	@EzyAutoBind
 	private MMOVirtualWorld mmoVirtualWorld;
-	
+
 	@EzyAutoBind
 	private MMORoomFactory gameRoomFactory;
-	
+
 	@EzyAutoBind
 	private PlayerManager<Player> globalPlayerManager;
-	
+
 	@EzyAutoBind
 	private RoomManager<NormalRoom> globalRoomManager;
-	
+
 	@EzyAutoBind
 	private NormalRoom lobbyRoom;
-	
+
 	@Override
 	public NormalRoom removePlayer(String username) {
 		Player player = globalPlayerManager.getPlayer(username);
@@ -53,16 +51,16 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 				}
 			}
 		}
-		
+
 		globalPlayerManager.removePlayer(player);
 		return room;
 	}
-	
+
 	@Override
 	public void addPlayer(MMOPlayer player) {
 		globalPlayerManager.addPlayer(player);
 	}
-	
+
 	@Override
 	public MMORoom newMMORoom(EzyUser user) {
 		MMOPlayer player = getPlayer(user.getName());
@@ -74,30 +72,30 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 		room.addPlayer(player);
 		lobbyRoom.removePlayer(player);
 		player.setCurrentRoomId(room.getId());
-		
+
 		this.addRoom(room);
 		return room;
 	}
-	
+
 	@Override
 	public MMOPlayer getPlayer(String playerName) {
 		return (MMOPlayer) globalPlayerManager.getPlayer(playerName);
 	}
-	
+
 	@Override
-	public ReadOnlySet<String> getRoomPlayerNames(NormalRoom room) {
+	public List<String> getRoomPlayerNames(NormalRoom room) {
 		synchronized (room) {
 			return room.getPlayerManager().getPlayerNames();
 		}
 	}
-	
+
 	@Override
-	public ReadOnlyCollection<Player> getRoomPlayers(NormalRoom room) {
+	public List<Player> getRoomPlayers(NormalRoom room) {
 		synchronized (room) {
-			return room.getPlayerManager().getPlayerCollection();
+			return room.getPlayerManager().getPlayerList();
 		}
 	}
-	
+
 	@Override
 	public void addRoom(NormalRoom room) {
 		if (room instanceof MMORoom) {
@@ -107,26 +105,25 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 		}
 		globalRoomManager.addRoom(room);
 	}
-	
+
 	@Override
 	public List<Long> getMMORoomIdList() {
 		return globalRoomManager
 				.getRoomList()
-				.copyToList()
 				.stream()
 				.filter(room -> !room.getName().equals(lobbyRoom.getName()))
 				.filter(room -> room.getStatus() == RoomStatus.WAITING)
 				.map(Room::getId)
 				.collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public NormalRoom getCurrentRoom(String playerName) {
 		Player player = globalPlayerManager.getPlayer(playerName);
 		long currentRoomId = player.getCurrentRoomId();
 		return globalRoomManager.getRoom(currentRoomId);
 	}
-	
+
 	@Override
 	public Player getMaster(NormalRoom room) {
 		synchronized (room) {
@@ -137,7 +134,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 			}
 		}
 	}
-	
+
 	/**
 	 * MMOPlayer join MMORoom
 	 *
@@ -149,15 +146,15 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 		Player player = globalPlayerManager.getPlayer(playerName);
 		lobbyRoom.removePlayer(player);
 		MMORoom room = (MMORoom) globalRoomManager.getRoom(roomId);
-		
+
 		synchronized (room) {
 			room.addPlayer((MMOPlayer) player);
 			player.setCurrentRoomId(room.getId());
 		}
-		
+
 		return room;
 	}
-	
+
 	@Override
 	public void removePlayerFromGameRoom(String playerName, MMORoom room) {
 		MMOPlayer victim = getPlayer(playerName);
@@ -167,7 +164,7 @@ public class RoomServiceImpl extends EzyLoggable implements RoomService {
 			victim.setCurrentRoomId(lobbyRoom.getId());
 		}
 	}
-	
+
 	@Override
 	public boolean contains(MMOPlayer player) {
 		return globalPlayerManager.containsPlayer(player);

@@ -1,11 +1,12 @@
 package com.youngmonkeys.app.service;
 
-import com.tvd12.gamebox.util.ReadOnlySet;
+
+import java.util.List;
 
 public interface LobbyService {
 	void addNewPlayer(String playerName);
-	
-	ReadOnlySet<String> getPlayerNames();
-	
+
+	List<String> getPlayerNames();
+
 	long getRoomId();
 }
