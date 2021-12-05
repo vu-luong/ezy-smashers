@@ -176,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4082748907388647701, guid: ced3348e305a34a0092050afedffb25b, type: 3}
       propertyPath: host
-      value: ec2-54-251-91-218.ap-southeast-1.compute.amazonaws.com
+      value: 127.0.0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4082748907388647702, guid: ced3348e305a34a0092050afedffb25b, type: 3}
       propertyPath: m_Name
