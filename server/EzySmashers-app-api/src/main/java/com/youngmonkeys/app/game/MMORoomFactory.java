@@ -5,8 +5,9 @@ import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.handler.MMORoomUpdatedHandler;
-import com.youngmonkeys.app.config.AppConfig;
+import lombok.Setter;
 
+@Setter
 @EzySingleton
 public class MMORoomFactory {
 
@@ -19,9 +20,6 @@ public class MMORoomFactory {
     @EzyAutoBind
     private MMORoomUpdatedHandler roomUpdatedHandler;
     
-    @EzyAutoBind
-    private AppConfig appConfig;
-
     public MMORoom newMMORoom() {
         return MMORoom.builder()
                 .defaultPlayerManager(maxPlayers)
