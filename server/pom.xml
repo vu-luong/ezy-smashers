@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>com.tvd12</groupId>
 		<artifactId>ezyfox-server</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	
+
 	<groupId>com.youngmonkeys</groupId>
 	<artifactId>EzySmashers</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	
+
 	<name>EzySmashers</name>
 	<url>https://youngmonkeys.org/</url>
 
@@ -20,7 +20,7 @@
 		<directory.apps>apps</directory.apps>
 		<directory.entries>entries</directory.entries>
 		<directory.common>common</directory.common>
-		<ezy.version>1.1.9</ezy.version>
+		<ezy.version>1.2.1</ezy.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

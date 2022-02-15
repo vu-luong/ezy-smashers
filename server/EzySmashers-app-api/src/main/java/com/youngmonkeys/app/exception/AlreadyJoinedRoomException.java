@@ -1,6 +1,5 @@
 package com.youngmonkeys.app.exception;
 
-import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.Room;
 
 public class AlreadyJoinedRoomException extends RuntimeException {
