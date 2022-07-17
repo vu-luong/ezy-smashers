@@ -45,10 +45,14 @@ To run by `ezyfox-server` you need follow by steps:
 
 # Deploy mapping
 Modules after will deploy to `ezyfox-server` will be mapped like this:
-1. EzySmashers-app-api => `ezyfox-server/apps/common/EzySmashers-app-api-1.0-SNAPSHOT.jar`
+1. EzySmashers-app-api => `ezyfox-server/apps/common/EzySmashers-app-api-1.0.0.jar`
 2. EzySmashers-app-entry => `ezyfox-server/apps/entries/EzySmashers-app`
-3. EzySmashers-common => `ezyfox-server/common/ EzySmashers-common-1.0-SNAPSHOT.jar`
+3. EzySmashers-common => `ezyfox-server/common/ EzySmashers-common-1.0.0.jar`
 4. EzySmashers-plugin => `ezyfox-server/plugins/EzySmashers-plugin`
+
+# How to deploy?
+
+You can take a look this guide: [Deploy EzyFox Server](https://youngmonkeys.org/deploy-ezyfox-server/)
 
 # How to test?
 
