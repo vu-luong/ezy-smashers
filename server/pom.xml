@@ -4,13 +4,13 @@
 
 	<parent>
 		<groupId>com.tvd12</groupId>
-		<artifactId>ezyfox-server</artifactId>
-		<version>1.0.0</version>
+		<artifactId>ezyfox</artifactId>
+		<version>1.0.4</version>
 	</parent>
 
-	<groupId>com.youngmonkeys</groupId>
+	<groupId>org.youngmonkeys</groupId>
 	<artifactId>EzySmashers</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>EzySmashers</name>
@@ -21,7 +21,7 @@
 		<directory.entries>entries</directory.entries>
 		<directory.common>common</directory.common>
 		<ezy.version>1.2.3</ezy.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<ezy.boot.version>1.0.5</ezy.boot.version>
 	</properties>
 
 	<dependencies>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.tvd12</groupId>
 			<artifactId>ezyfox-boot-autoconfigure</artifactId>
-			<version>1.0.5</version>
+			<version>${ezy.boot.version}</version>
 		</dependency>
 	</dependencies>
 	<profiles>
@@ -47,14 +47,16 @@
 			<build>
 				<plugins>
 					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<phase>install</phase>
 								<configuration>
-									<tasks>
-										<ant antfile="${project.basedir}/build.xml" />
-									</tasks>
+									<target>
+										<ant antfile="${project.basedir}/build.xml"/>
+									</target>
 								</configuration>
 								<goals>
 									<goal>run</goal>

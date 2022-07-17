@@ -4,7 +4,7 @@
 
     <test name="All">
     	<packages>
-    		<package name="com.youngmonkeys.common.test"/>
+    		<package name="org.youngmonkeys.common.test"/>
     	</packages>
     </test>
 </suite>
