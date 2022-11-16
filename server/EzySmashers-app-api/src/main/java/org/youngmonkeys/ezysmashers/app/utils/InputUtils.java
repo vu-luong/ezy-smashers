@@ -1,8 +1,10 @@
-package org.youngmonkeys.ezysmashers.app.game.utils;
+package org.youngmonkeys.ezysmashers.app.utils;
 
 import com.tvd12.gamebox.math.Vec3;
 
-public class InputUtils {
+public final class InputUtils {
+    
+    private InputUtils() {}
 
     public static Vec3 computeMovementFromInput(
         boolean upInput,

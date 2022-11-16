@@ -1,18 +1,39 @@
 package org.youngmonkeys.ezysmashers.plugin.service;
 
-
+import com.tvd12.ezyfox.bean.annotation.EzySingleton;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
 import org.youngmonkeys.ezysmashers.common.entity.User;
+import org.youngmonkeys.ezysmashers.common.repo.UserRepo;
 
 import java.util.List;
 
-public interface UserService {
+@Setter
+@AllArgsConstructor
+@EzySingleton("userService")
+public class UserService {
 
-    void saveUser(User user);
+    private final UserRepo userRepo;
+    private final MaxIdService maxIdService;
 
-    User createUser(String username, String password);
+    public void saveUser(User user) {
+        userRepo.save(user);
+    }
 
-    User getUser(String username);
+    public User createUser(String username, String password) {
+        User user = new User();
+        user.setId(maxIdService.incrementAndGet("user"));
+        user.setUsername(username);
+        user.setPassword(password);
+        userRepo.save(user);
+        return user;
+    }
 
-    List<User> getAllUsers();
+    public User getUser(String username) {
+        return userRepo.findByField("username", username);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
 }
-

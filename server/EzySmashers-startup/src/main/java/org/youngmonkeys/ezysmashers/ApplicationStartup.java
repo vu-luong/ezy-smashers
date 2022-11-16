@@ -57,7 +57,6 @@ public class ApplicationStartup {
             .settings(settings)
             .build();
         server.start();
-
     }
 
     public static class DecoratedAppEntryLoader extends AppEntryLoader {

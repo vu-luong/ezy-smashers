@@ -17,5 +17,4 @@ public class ServerReadyController
     public void handle(EzyAppContext ctx, EzyServerReadyEvent event) {
         logger.info("EzySmashers app: fire custom app ready");
     }
-
 }

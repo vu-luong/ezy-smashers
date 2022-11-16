@@ -52,10 +52,10 @@ public class GamePlayControllers : MonoBehaviour
 		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
 	}
 
-	private void OnPlayersBeingAttacked(string playerBeingAttacked, string attackerName)
+	private void OnPlayersBeingAttacked(string victimName, string attackerName)
 	{
-		Debug.Log("playerBeingAttacked " + playerBeingAttacked);
-		PlayersMap[playerBeingAttacked].OnBeingAttacked();
+		Debug.Log("playerBeingAttacked " + victimName);
+		PlayersMap[victimName].OnBeingAttacked();
 	}
 
 	private void OnPlayerHit(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
