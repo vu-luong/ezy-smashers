@@ -1,9 +1,9 @@
 package org.youngmonkeys.ezysmashers.app.game;
 
 import com.tvd12.gamebox.math.Vec3;
-import org.youngmonkeys.ezysmashers.app.game.constant.GameConstants;
+import org.youngmonkeys.ezysmashers.app.constant.GameConstants;
 import org.youngmonkeys.ezysmashers.app.game.shared.PlayerInputData;
-import org.youngmonkeys.ezysmashers.app.game.utils.InputUtils;
+import org.youngmonkeys.ezysmashers.app.utils.InputUtils;
 
 public class PlayerLogic {
 

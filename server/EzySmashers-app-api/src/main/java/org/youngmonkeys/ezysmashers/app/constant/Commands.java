@@ -16,6 +16,5 @@ public final class Commands {
     public static final String PLAYER_BEING_ATTACKED = "b";
     public static final String PLAYER_ATTACK_DATA = "a";
 
-
     private Commands() {}
 }

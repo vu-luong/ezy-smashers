@@ -183,13 +183,13 @@ class PlayerBeingAttackedHandler : EzyAbstractAppDataHandler<EzyObject>
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Being Attacked: " + data);
-		var playerBeingAttacked = data.get<string>("b");
+		var victimName = data.get<string>("v");
 		var attackTime = data.get<float>("t");
 		var attackerName = data.get<string>("a");
 		var attackPosition = data.get<EzyArray>("p");
-		logger.info("playerBeingAttacked: " + playerBeingAttacked);
+		logger.info("victimName: " + victimName);
 		logger.info("Attacker: " + attackerName);
-		playersBeingAttackedEvent?.Invoke(playerBeingAttacked, attackerName);
+		playersBeingAttackedEvent?.Invoke(victimName, attackerName);
 	}
 }
 

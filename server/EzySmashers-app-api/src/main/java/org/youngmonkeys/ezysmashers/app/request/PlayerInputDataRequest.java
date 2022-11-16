@@ -7,7 +7,7 @@ import lombok.Data;
 @EzyObjectBinding
 @SuppressWarnings("MemberName")
 public class PlayerInputDataRequest {
-    int t;
-    boolean[] k;
-    float[] r;
+    private int t;
+    private boolean[] k;
+    private float[] r;
 }

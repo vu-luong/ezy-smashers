@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 @EzyObjectBinding
 @SuppressWarnings("MemberName")
-public class PlayerHitDataRequest {
-    int m;
-    int o;
-    String v;
-    float[] p;
+public class PlayerHitRequest {
+    private int m; // myClientTick
+    private int o; // otherClientTick
+    private String v; // victimName
+    private float[] p; // attackPosition
 }

@@ -10,5 +10,4 @@ public class JoinNotWaitingRoomException extends RuntimeException {
             "player: " + playerName + " join room with status " + room.getStatus() + " instead of "
                 + RoomStatus.WAITING);
     }
-
 }

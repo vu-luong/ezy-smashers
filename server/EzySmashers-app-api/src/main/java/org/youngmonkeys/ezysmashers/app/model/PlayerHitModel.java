@@ -1,15 +1,17 @@
-package org.youngmonkeys.ezysmashers.app.game.shared;
+package org.youngmonkeys.ezysmashers.app.model;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
-public class PlayerHitData {
-    float[] attackPosition;
-    int myClientTick;
-    int otherClientTick;
-    String victimName;
+@Getter
+@Builder
+public class PlayerHitModel {
+    private float[] attackPosition;
+    private int myClientTick;
+    private int otherClientTick;
+    private String victimName;
 
-    public PlayerHitData(
+    public PlayerHitModel(
         float[] attackPosition,
         int myClientTick,
         int otherClientTick,

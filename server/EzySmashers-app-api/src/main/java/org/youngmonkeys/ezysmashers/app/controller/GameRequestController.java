@@ -1,6 +1,5 @@
 package org.youngmonkeys.ezysmashers.app.controller;
 
-import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.core.annotation.EzyDoHandle;
 import com.tvd12.ezyfox.core.annotation.EzyRequestController;
 import com.tvd12.ezyfox.io.EzyLists;
@@ -11,14 +10,16 @@ import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.Player;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.youngmonkeys.ezysmashers.app.constant.Commands;
+import org.youngmonkeys.ezysmashers.app.converter.RequestToModelConverter;
 import org.youngmonkeys.ezysmashers.app.exception.JoinNotWaitingRoomException;
-import org.youngmonkeys.ezysmashers.app.game.shared.PlayerHitData;
 import org.youngmonkeys.ezysmashers.app.game.shared.PlayerInputData;
 import org.youngmonkeys.ezysmashers.app.game.shared.PlayerSpawnData;
+import org.youngmonkeys.ezysmashers.app.model.PlayerHitModel;
 import org.youngmonkeys.ezysmashers.app.request.JoinMMORoomRequest;
-import org.youngmonkeys.ezysmashers.app.request.PlayerHitDataRequest;
+import org.youngmonkeys.ezysmashers.app.request.PlayerHitRequest;
 import org.youngmonkeys.ezysmashers.app.request.PlayerInputDataRequest;
 import org.youngmonkeys.ezysmashers.app.service.GamePlayService;
 import org.youngmonkeys.ezysmashers.app.service.LobbyService;
@@ -27,21 +28,18 @@ import org.youngmonkeys.ezysmashers.app.service.RoomService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.youngmonkeys.ezysmashers.app.constant.PlayerHitConstants.*;
+
 @Setter
+@AllArgsConstructor
 @EzyRequestController
 public class GameRequestController extends EzyLoggable {
 
-    @EzyAutoBind
-    private LobbyService lobbyService;
-
-    @EzyAutoBind
-    private RoomService roomService;
-
-    @EzyAutoBind
-    private GamePlayService gamePlayService;
-
-    @EzyAutoBind
-    private EzyResponseFactory responseFactory;
+    private final LobbyService lobbyService;
+    private final RoomService roomService;
+    private final GamePlayService gamePlayService;
+    private final EzyResponseFactory responseFactory;
+    private final RequestToModelConverter requestToModelConverter;
 
     @EzyDoHandle(Commands.JOIN_LOBBY)
     public void joinLobby(EzyUser user) {
@@ -146,18 +144,13 @@ public class GameRequestController extends EzyLoggable {
     }
 
     @EzyDoHandle(Commands.PLAYER_HIT)
-    public void handlePlayerHit(EzyUser user, PlayerHitDataRequest request) {
+    public void handlePlayerHit(EzyUser user, PlayerHitRequest request) {
         logger.info("user {} send hit command {}", user.getName(), request);
-        PlayerHitData playerHitData = new PlayerHitData(
-            request.getP(),
-            request.getM(),
-            request.getO(),
-            request.getV()
-        );
+        PlayerHitModel playerHitModel = requestToModelConverter.toModel(request);
 
         boolean isValidHit = gamePlayService.authorizeHit(
             user.getName(),
-            playerHitData
+            playerHitModel
         );
 
         MMORoom currentRoom = (MMORoom) roomService.getCurrentRoom(user.getName());
@@ -166,14 +159,14 @@ public class GameRequestController extends EzyLoggable {
         if (isValidHit) {
             responseFactory.newObjectResponse()
                 .command(Commands.PLAYER_BEING_ATTACKED)
-                .param("a", user.getName())
-                .param("t", playerHitData.getMyClientTick())
-                .param("p", playerHitData.getAttackPosition())
-                .param("b", playerHitData.getVictimName())
+                .param(FIELD_ATTACKER_NAME, user.getName())
+                .param(FIELD_ATTACK_TIME, playerHitModel.getMyClientTick())
+                .param(FIELD_ATTACK_POSITION, playerHitModel.getAttackPosition())
+                .param(FIELD_VICTIM_NAME, playerHitModel.getVictimName())
                 .usernames(playerNames)
                 .execute();
 
-            roomService.removePlayerFromGameRoom(playerHitData.getVictimName(), currentRoom);
+            roomService.removePlayerFromGameRoom(playerHitModel.getVictimName(), currentRoom);
         } else {
             logger.warn("Player {} send invalid hit ", user.getName());
         }

@@ -1,6 +1,5 @@
 package org.youngmonkeys.ezysmashers.app.controller;
 
-import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfox.core.annotation.EzyEventHandler;
 import com.tvd12.ezyfoxserver.context.EzyAppContext;
@@ -9,6 +8,7 @@ import com.tvd12.ezyfoxserver.event.EzyUserRemovedEvent;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
 import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.NormalRoom;
+import lombok.AllArgsConstructor;
 import org.youngmonkeys.ezysmashers.app.constant.Commands;
 import org.youngmonkeys.ezysmashers.app.service.RoomService;
 
@@ -17,15 +17,13 @@ import java.util.List;
 import static com.tvd12.ezyfoxserver.constant.EzyEventNames.USER_REMOVED;
 
 @EzySingleton
+@AllArgsConstructor
 @EzyEventHandler(USER_REMOVED)
 public class UserRemovedController
     extends EzyAbstractAppEventController<EzyUserRemovedEvent> {
 
-    @EzyAutoBind
-    private RoomService roomService;
-
-    @EzyAutoBind
-    private EzyResponseFactory responseFactory;
+    private final RoomService roomService;
+    private final EzyResponseFactory responseFactory;
 
     @Override
     public void handle(EzyAppContext ctx, EzyUserRemovedEvent event) {
