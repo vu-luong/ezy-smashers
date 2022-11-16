@@ -4,15 +4,20 @@ import lombok.Data;
 
 @Data
 public class PlayerHitData {
-	float[] attackPosition;
-	int myClientTick;
-	int otherClientTick;
-	String victimName;
-	
-	public PlayerHitData(float[] attackPosition, int myClientTick, int otherClientTick, String victimName) {
-		this.attackPosition = attackPosition;
-		this.myClientTick = myClientTick;
-		this.otherClientTick = otherClientTick;
-		this.victimName = victimName;
-	}
+    float[] attackPosition;
+    int myClientTick;
+    int otherClientTick;
+    String victimName;
+
+    public PlayerHitData(
+        float[] attackPosition,
+        int myClientTick,
+        int otherClientTick,
+        String victimName
+    ) {
+        this.attackPosition = attackPosition;
+        this.myClientTick = myClientTick;
+        this.otherClientTick = otherClientTick;
+        this.victimName = victimName;
+    }
 }

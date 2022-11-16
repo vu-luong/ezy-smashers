@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 @EzyCollection
 public class User {
-	@EzyId
-	Long id;
-	
-	String username;
-	String password;
+    @EzyId
+    Long id;
+
+    String username;
+    String password;
 }
 

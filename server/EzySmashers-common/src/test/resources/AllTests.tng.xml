@@ -3,8 +3,8 @@
 <suite name="All-Test">
 
     <test name="All">
-    	<packages>
-    		<package name="org.youngmonkeys.common.test"/>
-    	</packages>
+        <packages>
+            <package name="org.youngmonkeys.common.test"/>
+        </packages>
     </test>
 </suite>

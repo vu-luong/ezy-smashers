@@ -5,9 +5,10 @@ import lombok.Data;
 
 @Data
 @EzyObjectBinding
+@SuppressWarnings("MemberName")
 public class PlayerHitDataRequest {
-	int m;
-	int o;
-	String v;
-	float[] p;
+    int m;
+    int o;
+    String v;
+    float[] p;
 }

@@ -5,8 +5,8 @@ import com.tvd12.ezyfoxserver.ext.EzyPluginEntry;
 
 public class PluginEntryLoader extends EzyAbstractPluginEntryLoader {
 
-	@Override
-	public EzyPluginEntry load() {
-		return new PluginEntry();
-	}
+    @Override
+    public EzyPluginEntry load() {
+        return new PluginEntry();
+    }
 }
