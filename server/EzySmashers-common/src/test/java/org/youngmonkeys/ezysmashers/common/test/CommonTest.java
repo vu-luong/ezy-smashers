@@ -4,8 +4,8 @@ import org.testng.annotations.Test;
 
 public class CommonTest {
 
-	@Test
-	public void test() {
-	}
-	
+    @Test
+    public void test() {
+    }
+
 }

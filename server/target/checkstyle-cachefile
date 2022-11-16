@@ -1,0 +1,4 @@
+#Wed Nov 16 22:18:11 AEST 2022
+module-resource*?\:checkstyle-suppressions.xml=1F2CC5054CAF33654C6BA3FDF49108ADB90FD3FA
+module-resource*?\:checkstyle-xpath-suppressions.xml=AE5F06C2A19F22F7EE7C63DD8924F6E3E1FF7CE8
+configuration*?=5BB5B98BD99431477EAB815919659AA6F11B6084

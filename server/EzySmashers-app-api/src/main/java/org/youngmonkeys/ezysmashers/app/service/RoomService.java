@@ -9,29 +9,29 @@ import com.tvd12.gamebox.entity.Player;
 import java.util.List;
 
 public interface RoomService {
-	NormalRoom removePlayer(String username);
+    NormalRoom removePlayer(String username);
 
-	void addPlayer(MMOPlayer player);
+    void addPlayer(MMOPlayer player);
 
-	MMORoom newMMORoom(EzyUser user);
+    MMORoom newMMORoom(EzyUser user);
 
-	MMOPlayer getPlayer(String playerName);
+    MMOPlayer getPlayer(String playerName);
 
-	List<String> getRoomPlayerNames(NormalRoom room);
+    List<String> getRoomPlayerNames(NormalRoom room);
 
-	List<Player> getRoomPlayers(NormalRoom room);
+    List<Player> getRoomPlayers(NormalRoom room);
 
-	void addRoom(NormalRoom room);
+    void addRoom(NormalRoom room);
 
-	List<Long> getMMORoomIdList();
+    List<Long> getMMORoomIdList();
 
-	NormalRoom getCurrentRoom(String playerName);
+    NormalRoom getCurrentRoom(String playerName);
 
-	Player getMaster(NormalRoom currentRoom);
+    Player getMaster(NormalRoom currentRoom);
 
-	MMORoom playerJoinMMORoom(String playerName, long roomId);
+    MMORoom playerJoinMMORoom(String playerName, long roomId);
 
-	void removePlayerFromGameRoom(String playerName, MMORoom room);
+    void removePlayerFromGameRoom(String playerName, MMORoom room);
 
-	boolean contains(MMOPlayer player);
+    boolean contains(MMOPlayer player);
 }

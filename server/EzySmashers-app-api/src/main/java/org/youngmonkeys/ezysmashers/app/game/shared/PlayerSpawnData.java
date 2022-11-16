@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 @EzyObjectBinding
 public class PlayerSpawnData {
-	String playerName;
-	EzyArray position;
-	EzyArray color;
-	
-	public PlayerSpawnData(String playerName, EzyArray position, EzyArray color) {
-		this.playerName = playerName;
-		this.position = position;
-		this.color = color;
-	}
+    String playerName;
+    EzyArray position;
+    EzyArray color;
+
+    public PlayerSpawnData(String playerName, EzyArray position, EzyArray color) {
+        this.playerName = playerName;
+        this.position = position;
+        this.color = color;
+    }
 }

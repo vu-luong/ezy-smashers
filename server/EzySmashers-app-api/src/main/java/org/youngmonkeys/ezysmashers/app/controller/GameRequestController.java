@@ -11,6 +11,7 @@ import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.Player;
+import lombok.Setter;
 import org.youngmonkeys.ezysmashers.app.constant.Commands;
 import org.youngmonkeys.ezysmashers.app.exception.JoinNotWaitingRoomException;
 import org.youngmonkeys.ezysmashers.app.game.shared.PlayerHitData;
@@ -22,7 +23,6 @@ import org.youngmonkeys.ezysmashers.app.request.PlayerInputDataRequest;
 import org.youngmonkeys.ezysmashers.app.service.GamePlayService;
 import org.youngmonkeys.ezysmashers.app.service.LobbyService;
 import org.youngmonkeys.ezysmashers.app.service.RoomService;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;

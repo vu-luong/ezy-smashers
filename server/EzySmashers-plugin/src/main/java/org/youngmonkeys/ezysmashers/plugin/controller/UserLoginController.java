@@ -17,34 +17,34 @@ import static com.tvd12.ezyfoxserver.constant.EzyEventNames.USER_LOGIN;
 @EzySingleton
 @EzyEventHandler(USER_LOGIN)
 public class UserLoginController extends EzyAbstractPluginEventController<EzyUserLoginEvent> {
-	
-	@EzyAutoBind
-	private UserService userService;
-	
-	@Override
-	public void handle(EzyPluginContext ctx, EzyUserLoginEvent event) {
-		logger.info("{} login in", event.getUsername());
-		
-		String username = event.getUsername();
-		String password = encodePassword(event.getPassword());
-		
-		User user = userService.getUser(username);
-		
-		if (user == null) {
-			logger.info("User doesn't exist in db, create a new one!");
-			user = userService.createUser(username, password);
-			userService.saveUser(user);
-		}
-		
-		if (!user.getPassword().equals(password)) {
-			throw new EzyLoginErrorException(EzyLoginError.INVALID_PASSWORD);
-		}
-		
-		logger.info("user and password match, accept user: {}", username);
-	}
-	
-	private String encodePassword(String password) {
-		return EzySHA256.cryptUtfToLowercase(password);
-	}
-	
+
+    @EzyAutoBind
+    private UserService userService;
+
+    @Override
+    public void handle(EzyPluginContext ctx, EzyUserLoginEvent event) {
+        logger.info("{} login in", event.getUsername());
+
+        String username = event.getUsername();
+        String password = encodePassword(event.getPassword());
+
+        User user = userService.getUser(username);
+
+        if (user == null) {
+            logger.info("User doesn't exist in db, create a new one!");
+            user = userService.createUser(username, password);
+            userService.saveUser(user);
+        }
+
+        if (!user.getPassword().equals(password)) {
+            throw new EzyLoginErrorException(EzyLoginError.INVALID_PASSWORD);
+        }
+
+        logger.info("user and password match, accept user: {}", username);
+    }
+
+    private String encodePassword(String password) {
+        return EzySHA256.cryptUtfToLowercase(password);
+    }
+
 }

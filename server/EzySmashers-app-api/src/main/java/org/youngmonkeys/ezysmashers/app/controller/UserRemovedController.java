@@ -19,30 +19,30 @@ import static com.tvd12.ezyfoxserver.constant.EzyEventNames.USER_REMOVED;
 @EzySingleton
 @EzyEventHandler(USER_REMOVED)
 public class UserRemovedController
-		extends EzyAbstractAppEventController<EzyUserRemovedEvent> {
+    extends EzyAbstractAppEventController<EzyUserRemovedEvent> {
 
-	@EzyAutoBind
-	private RoomService roomService;
+    @EzyAutoBind
+    private RoomService roomService;
 
-	@EzyAutoBind
-	private EzyResponseFactory responseFactory;
+    @EzyAutoBind
+    private EzyResponseFactory responseFactory;
 
-	@Override
-	public void handle(EzyAppContext ctx, EzyUserRemovedEvent event) {
-		logger.info("EzySmashers app: user {} removed", event.getUser());
-		String playerName = event.getUser().getName();
-		NormalRoom room = roomService.removePlayer(playerName);
+    @Override
+    public void handle(EzyAppContext ctx, EzyUserRemovedEvent event) {
+        logger.info("EzySmashers app: user {} removed", event.getUser());
+        String playerName = event.getUser().getName();
+        NormalRoom room = roomService.removePlayer(playerName);
 
-		if (!(room instanceof MMORoom)) {
-			return;
-		}
+        if (!(room instanceof MMORoom)) {
+            return;
+        }
 
-		List<String> playerNames = roomService.getRoomPlayerNames(room);
+        List<String> playerNames = roomService.getRoomPlayerNames(room);
 
-		responseFactory.newObjectResponse()
-				.command(Commands.ANOTHER_EXIT_MMO_ROOM)
-				.param("playerName", playerName)
-				.usernames(playerNames)
-				.execute();
-	}
+        responseFactory.newObjectResponse()
+            .command(Commands.ANOTHER_EXIT_MMO_ROOM)
+            .param("playerName", playerName)
+            .usernames(playerNames)
+            .execute();
+    }
 }
