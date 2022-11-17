@@ -1,19 +1,18 @@
-package org.youngmonkeys.ezysmashers.app.game;
+package org.youngmonkeys.ezysmashers.app.utils;
 
 import com.tvd12.gamebox.math.Vec3;
 import org.youngmonkeys.ezysmashers.app.constant.GameConstants;
-import org.youngmonkeys.ezysmashers.app.game.shared.PlayerInputData;
-import org.youngmonkeys.ezysmashers.app.utils.InputUtils;
+import org.youngmonkeys.ezysmashers.app.model.PlayerInputModel;
 
-public class PlayerLogic {
+import static org.youngmonkeys.ezysmashers.app.constant.PlayerConstants.PLAYER_VELOCITY;
 
-    public static float velocity = 6f;
+public final class PlayerUtils {
 
-    public static Vec3 getNextPosition(PlayerInputData inputData, Vec3 currentPosition) {
-        boolean upInput = inputData.getInputs()[0];
-        boolean leftInput = inputData.getInputs()[1];
-        boolean downInput = inputData.getInputs()[2];
-        boolean rightInput = inputData.getInputs()[3];
+    public static Vec3 getNextPosition(PlayerInputModel model, Vec3 currentPosition) {
+        boolean upInput = model.getInputs()[0];
+        boolean leftInput = model.getInputs()[1];
+        boolean downInput = model.getInputs()[2];
+        boolean rightInput = model.getInputs()[3];
 
         Vec3 movement = InputUtils.computeMovementFromInput(
             upInput,
@@ -31,7 +30,7 @@ public class PlayerLogic {
 
         // moveVector = moveDirection * fixedDeltaTime * velocity
         Vec3 moveVector = new Vec3(moveDirection);
-        moveVector.multiply(GameConstants.CLIENT_FIXED_DELTA_TIME * velocity);
+        moveVector.multiply(GameConstants.CLIENT_FIXED_DELTA_TIME * PLAYER_VELOCITY);
 
         // nextPosition = currentPosition + moveVector
         Vec3 nextPosition = new Vec3(currentPosition);
@@ -39,5 +38,4 @@ public class PlayerLogic {
 
         return nextPosition;
     }
-
 }

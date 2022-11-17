@@ -6,4 +6,6 @@ public final class PlayerHitConstants {
     public static final String FIELD_VICTIM_NAME = "v";
     public static final String FIELD_ATTACK_TIME = "t";
     public static final String FIELD_ATTACK_POSITION = "p";
+    
+    private PlayerHitConstants() {}
 }
