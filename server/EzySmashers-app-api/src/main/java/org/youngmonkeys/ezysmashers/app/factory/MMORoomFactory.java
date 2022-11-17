@@ -1,4 +1,4 @@
-package org.youngmonkeys.ezysmashers.app.game;
+package org.youngmonkeys.ezysmashers.app.factory;
 
 import com.tvd12.ezyfox.annotation.EzyProperty;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;

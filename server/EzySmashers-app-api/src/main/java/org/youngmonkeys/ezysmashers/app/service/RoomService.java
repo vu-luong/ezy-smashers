@@ -10,7 +10,7 @@ import com.tvd12.gamebox.manager.RoomManager;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.youngmonkeys.ezysmashers.app.exception.CreateRoomNotFromLobbyException;
-import org.youngmonkeys.ezysmashers.app.game.MMORoomFactory;
+import org.youngmonkeys.ezysmashers.app.factory.MMORoomFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -3,16 +3,20 @@ package org.youngmonkeys.ezysmashers.app.service;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfox.util.EzyLoggable;
+import com.tvd12.ezyfoxserver.entity.EzyUser;
+import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.MMOPlayer;
+import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.Player;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.math.Vec3;
 import lombok.Setter;
 import org.youngmonkeys.ezysmashers.app.constant.GameConstants;
-import org.youngmonkeys.ezysmashers.app.game.PlayerLogic;
+import org.youngmonkeys.ezysmashers.app.utils.PlayerUtils;
 import org.youngmonkeys.ezysmashers.app.model.PlayerHitModel;
-import org.youngmonkeys.ezysmashers.app.game.shared.PlayerInputData;
-import org.youngmonkeys.ezysmashers.app.game.shared.PlayerSpawnData;
+import org.youngmonkeys.ezysmashers.app.model.PlayerInputModel;
+import org.youngmonkeys.ezysmashers.app.model.PlayerSpawnModel;
+import org.youngmonkeys.ezysmashers.app.model.StartGameModel;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,44 +34,48 @@ public class GamePlayService extends EzyLoggable {
 
     private Map<String, SortedMap<Integer, Vec3>> positionHistoryByPlayerName = new HashMap<>();
 
-    public void handlePlayerInputData(
+    public void handlePlayerInput(
         String playerName,
-        PlayerInputData inputData,
-        float[] nextRotation
+        PlayerInputModel model
     ) {
         MMOPlayer player = roomService.getPlayer(playerName);
         synchronized (player) {
             Vec3 currentPosition = player.getPosition();
-            Vec3 nextPosition = PlayerLogic.getNextPosition(inputData, currentPosition);
+            Vec3 nextPosition = PlayerUtils.getNextPosition(model, currentPosition);
+            float[] nextRotation = model.getRotation();
             logger.info("next position = {}", nextPosition);
             player.setPosition(nextPosition);
             player.setRotation(nextRotation[0], nextRotation[1], nextRotation[2]);
-            player.setClientTimeTick(inputData.getTime());
+            player.setClientTimeTick(model.getTime());
 
             SortedMap<Integer, Vec3> playerPositionHistory = positionHistoryByPlayerName.get(
                 playerName);
-            playerPositionHistory.put(inputData.getTime(), nextPosition);
+            playerPositionHistory.put(model.getTime(), nextPosition);
             if (playerPositionHistory.size() > GameConstants.MAX_HISTORY_SIZE) {
                 playerPositionHistory.remove(playerPositionHistory.firstKey());
             }
         }
     }
 
-    public List<PlayerSpawnData> spawnPlayers(List<String> playerNames) {
-        List<PlayerSpawnData> answer = playerNames.stream().map(
-            playerName -> new PlayerSpawnData(
-                playerName,
-                new Vec3(
-                    ThreadLocalRandom.current().nextFloat() * 10,
-                    0,
-                    ThreadLocalRandom.current().nextFloat() * 10
-                ).toArray(),
-                new Vec3(
-                    ThreadLocalRandom.current().nextFloat(),
-                    ThreadLocalRandom.current().nextFloat(),
-                    ThreadLocalRandom.current().nextFloat()
-                ).toArray()
-            )
+    public List<PlayerSpawnModel> spawnPlayers(List<String> playerNames) {
+        List<PlayerSpawnModel> answer = playerNames.stream().map(
+            playerName -> PlayerSpawnModel.builder()
+                .playerName(playerName)
+                .position(
+                    new Vec3(
+                        ThreadLocalRandom.current().nextFloat() * 10,
+                        0,
+                        ThreadLocalRandom.current().nextFloat() * 10
+                    ).toArray()
+                )
+                .color(
+                    new Vec3(
+                        ThreadLocalRandom.current().nextFloat(),
+                        ThreadLocalRandom.current().nextFloat(),
+                        ThreadLocalRandom.current().nextFloat()
+                    ).toArray()
+                )
+                .build()
         ).collect(Collectors.toList());
 
         answer.forEach(playerSpawnData -> {
@@ -94,14 +102,14 @@ public class GamePlayService extends EzyLoggable {
         return answer;
     }
 
-    public boolean authorizeHit(String playerName, PlayerHitModel playerHitData) {
+    public boolean authorizeHit(String playerName, PlayerHitModel model) {
         Vec3 attackPosition = new Vec3(
-            playerHitData.getAttackPosition()[0],
-            playerHitData.getAttackPosition()[1],
-            playerHitData.getAttackPosition()[2]
+            model.getAttackPosition()[0],
+            model.getAttackPosition()[1],
+            model.getAttackPosition()[2]
         );
-        int victimTick = playerHitData.getOtherClientTick();
-        String victimName = playerHitData.getVictimName();
+        int victimTick = model.getOtherClientTick();
+        String victimName = model.getVictimName();
 
         // Roll back to get victim position at victimTick, a.k.a Lag compensation
         SortedMap<Integer, Vec3> victimPositionHistory
@@ -140,5 +148,17 @@ public class GamePlayService extends EzyLoggable {
                 positionHistoryByPlayerName.get(playerName).clear();
             }
         });
+    }
+
+    public StartGameModel startGame(EzyUser user) {
+        MMORoom currentRoom = (MMORoom) roomService.getCurrentRoom(user.getName());
+        currentRoom.setStatus(RoomStatus.PLAYING);
+        List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
+        resetPlayersPositionHistory(playerNames);
+        List<PlayerSpawnModel> playerSpawns = spawnPlayers(playerNames);
+        return StartGameModel.builder()
+            .playerNames(playerNames)
+            .playerSpawns(playerSpawns)
+            .build();
     }
 }
