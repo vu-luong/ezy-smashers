@@ -11,7 +11,7 @@ import com.tvd12.gamebox.entity.MMORoom;
 import com.tvd12.gamebox.entity.Player;
 import lombok.AllArgsConstructor;
 import org.youngmonkeys.ezysmashers.app.constant.Commands;
-import org.youngmonkeys.ezysmashers.app.exception.JoinNotWaitingRoomException;
+import org.youngmonkeys.ezysmashers.app.exception.JoinNonWaitingRoomException;
 import org.youngmonkeys.ezysmashers.app.request.JoinMMORoomRequest;
 import org.youngmonkeys.ezysmashers.app.service.LobbyService;
 import org.youngmonkeys.ezysmashers.app.service.RoomService;
@@ -84,7 +84,7 @@ public class RoomController extends EzyLoggable {
         long roomId = request.getRoomId();
         MMORoom room = roomService.playerJoinMMORoom(user.getName(), roomId);
         if (room.getStatus() != RoomStatus.WAITING) {
-            throw new JoinNotWaitingRoomException(user.getName(), room);
+            throw new JoinNonWaitingRoomException(user.getName(), room);
         }
         List<String> playerNames = roomService.getRoomPlayerNames(room);
 

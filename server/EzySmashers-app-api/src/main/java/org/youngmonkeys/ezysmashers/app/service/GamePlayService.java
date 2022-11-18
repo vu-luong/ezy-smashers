@@ -12,11 +12,9 @@ import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.math.Vec3;
 import lombok.Setter;
 import org.youngmonkeys.ezysmashers.app.constant.GameConstants;
+import org.youngmonkeys.ezysmashers.app.exception.InvalidPlayerHitException;
+import org.youngmonkeys.ezysmashers.app.model.*;
 import org.youngmonkeys.ezysmashers.app.utils.PlayerUtils;
-import org.youngmonkeys.ezysmashers.app.model.PlayerHitModel;
-import org.youngmonkeys.ezysmashers.app.model.PlayerInputModel;
-import org.youngmonkeys.ezysmashers.app.model.PlayerSpawnModel;
-import org.youngmonkeys.ezysmashers.app.model.StartGameModel;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -102,7 +100,30 @@ public class GamePlayService extends EzyLoggable {
         return answer;
     }
 
-    public boolean authorizeHit(String playerName, PlayerHitModel model) {
+    public AuthorizeHitModel authorizePlayerHit(
+        String playerName,
+        PlayerHitModel model
+    ) {
+        boolean isValidHit = checkHit(playerName, model);
+
+        if (!isValidHit) {
+            logger.warn("Player {} send invalid hit ", playerName);
+            throw new InvalidPlayerHitException(playerName);
+        }
+
+        roomService.removePlayerFromGameRoom(
+            model.getVictimName(),
+            (MMORoom) roomService.getCurrentRoom(playerName)
+        );
+
+        return AuthorizeHitModel.builder()
+            .isValidHit(isValidHit)
+            .playerName(playerName)
+            .playerHit(model)
+            .build();
+    }
+
+    private boolean checkHit(String playerName, PlayerHitModel model) {
         Vec3 attackPosition = new Vec3(
             model.getAttackPosition()[0],
             model.getAttackPosition()[1],
