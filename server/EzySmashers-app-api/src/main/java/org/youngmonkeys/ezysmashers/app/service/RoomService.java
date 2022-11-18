@@ -9,7 +9,7 @@ import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import org.youngmonkeys.ezysmashers.app.exception.CreateRoomNotFromLobbyException;
+import org.youngmonkeys.ezysmashers.app.exception.CreateRoomWhenNotInLobbyException;
 import org.youngmonkeys.ezysmashers.app.factory.MMORoomFactory;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class RoomService extends EzyLoggable {
     public MMORoom newMMORoom(EzyUser user) {
         MMOPlayer player = getPlayer(user.getName());
         if (player.getCurrentRoomId() != lobbyRoom.getId()) {
-            throw new CreateRoomNotFromLobbyException(player.getName());
+            throw new CreateRoomWhenNotInLobbyException(player.getName());
         }
         MMORoom room = gameRoomFactory.newMMORoom();
         room.setStatus(RoomStatus.WAITING);
