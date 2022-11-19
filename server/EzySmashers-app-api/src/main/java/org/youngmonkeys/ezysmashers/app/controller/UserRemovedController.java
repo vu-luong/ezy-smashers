@@ -28,6 +28,7 @@ public class UserRemovedController
     @Override
     public void handle(EzyAppContext ctx, EzyUserRemovedEvent event) {
         logger.info("EzySmashers app: user {} removed", event.getUser());
+        
         String playerName = event.getUser().getName();
         NormalRoom room = roomService.removePlayer(playerName);
 

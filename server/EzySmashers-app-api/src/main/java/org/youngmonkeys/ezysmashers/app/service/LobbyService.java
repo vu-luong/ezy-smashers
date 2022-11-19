@@ -4,12 +4,10 @@ import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.gamebox.entity.MMOPlayer;
 import com.tvd12.gamebox.entity.NormalRoom;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import org.youngmonkeys.ezysmashers.app.exception.AlreadyJoinedRoomException;
 
 import java.util.List;
 
-@Setter
 @AllArgsConstructor
 @EzySingleton
 public class LobbyService {

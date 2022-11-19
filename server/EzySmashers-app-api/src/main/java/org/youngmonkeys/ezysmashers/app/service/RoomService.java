@@ -8,14 +8,16 @@ import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import org.youngmonkeys.ezysmashers.app.exception.CreateRoomWhenNotInLobbyException;
+import org.youngmonkeys.ezysmashers.app.exception.JoinNonWaitingRoomException;
 import org.youngmonkeys.ezysmashers.app.factory.MMORoomFactory;
+import org.youngmonkeys.ezysmashers.app.model.JoinMMORoomModel;
+import org.youngmonkeys.ezysmashers.app.model.JoinedMMORoomModel;
+import org.youngmonkeys.ezysmashers.app.model.MMORoomPlayerNamesModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Setter
 @EzySingleton
 @AllArgsConstructor
 @SuppressWarnings({"unchecked"})
@@ -116,25 +118,21 @@ public class RoomService extends EzyLoggable {
         }
     }
 
-    /**
-     * MMOPlayer join MMORoom.
-     *
-     * @param playerName
-     *     name of player to join MMO room
-     * @param roomId
-     *     id of an MMORoom
-     */
-    public MMORoom playerJoinMMORoom(String playerName, long roomId) {
-        Player player = globalPlayerManager.getPlayer(playerName);
+    public JoinedMMORoomModel playerJoinMMORoom(JoinMMORoomModel model) {
+        Player player = globalPlayerManager.getPlayer(model.getPlayerName());
         lobbyRoom.removePlayer(player);
-        MMORoom room = (MMORoom) globalRoomManager.getRoom(roomId);
-
+        MMORoom room = (MMORoom) globalRoomManager.getRoom(model.getRoomId());
+        if (room.getStatus() != RoomStatus.WAITING) {
+            throw new JoinNonWaitingRoomException(player.getName(), room);
+        }
         synchronized (room) {
-            room.addPlayer((MMOPlayer) player);
+            room.addPlayer(player);
             player.setCurrentRoomId(room.getId());
         }
-
-        return room;
+        return JoinedMMORoomModel.builder()
+            .roomId(room.getId())
+            .playerNames(getRoomPlayerNames(room))
+            .build();
     }
 
     public void removePlayerFromGameRoom(String playerName, MMORoom room) {
@@ -148,5 +146,15 @@ public class RoomService extends EzyLoggable {
 
     public boolean contains(MMOPlayer player) {
         return globalPlayerManager.containsPlayer(player);
+    }
+
+    public MMORoomPlayerNamesModel getMMORoomPlayerNames(String playerName) {
+        MMORoom currentRoom = (MMORoom) getCurrentRoom(playerName);
+        List<String> playerNames = getRoomPlayerNames(currentRoom);
+        Player master = getMaster(currentRoom);
+        return MMORoomPlayerNamesModel.builder()
+            .playerNames(playerNames)
+            .masterPlayerName(master.getName())
+            .build();
     }
 }

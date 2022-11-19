@@ -2,21 +2,23 @@ package org.youngmonkeys.ezysmashers.app.controller;
 
 import com.tvd12.ezyfox.core.annotation.EzyDoHandle;
 import com.tvd12.ezyfox.core.annotation.EzyRequestController;
-import com.tvd12.ezyfox.io.EzyLists;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
-import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.MMORoom;
-import com.tvd12.gamebox.entity.Player;
 import lombok.AllArgsConstructor;
 import org.youngmonkeys.ezysmashers.app.constant.Commands;
-import org.youngmonkeys.ezysmashers.app.exception.JoinNonWaitingRoomException;
+import org.youngmonkeys.ezysmashers.app.converter.ModelToResponseConverter;
+import org.youngmonkeys.ezysmashers.app.converter.RequestToModelConverter;
+import org.youngmonkeys.ezysmashers.app.model.JoinedMMORoomModel;
+import org.youngmonkeys.ezysmashers.app.model.MMORoomPlayerNamesModel;
 import org.youngmonkeys.ezysmashers.app.request.JoinMMORoomRequest;
 import org.youngmonkeys.ezysmashers.app.service.LobbyService;
 import org.youngmonkeys.ezysmashers.app.service.RoomService;
 
 import java.util.List;
+
+import static org.youngmonkeys.ezysmashers.app.constant.RoomConstants.FIELD_LOBBY_ROOM_ID;
 
 @AllArgsConstructor
 @EzyRequestController
@@ -25,17 +27,18 @@ public class RoomController extends EzyLoggable {
     private final LobbyService lobbyService;
     private final RoomService roomService;
     private final EzyResponseFactory responseFactory;
+    private final ModelToResponseConverter modelToResponseConverter;
+    private final RequestToModelConverter requestToModelConverter;
 
     @EzyDoHandle(Commands.JOIN_LOBBY)
     public void joinLobby(EzyUser user) {
         logger.info("user {} join lobby room", user);
 
         lobbyService.addNewPlayer(user.getName());
-        long lobbyRoomId = lobbyService.getRoomId();
 
         responseFactory.newObjectResponse()
             .command(Commands.JOIN_LOBBY)
-            .param("lobbyRoomId", lobbyRoomId)
+            .param(FIELD_LOBBY_ROOM_ID, lobbyService.getRoomId())
             .user(user)
             .execute();
     }
@@ -43,6 +46,7 @@ public class RoomController extends EzyLoggable {
     @EzyDoHandle(Commands.CREATE_MMO_ROOM)
     public void createMMORoom(EzyUser user) {
         logger.info("user {} create an MMO room", user);
+
         MMORoom room = roomService.newMMORoom(user);
 
         responseFactory.newObjectResponse()
@@ -55,7 +59,9 @@ public class RoomController extends EzyLoggable {
     @EzyDoHandle(Commands.GET_MMO_ROOM_ID_LIST)
     public void getMMORoomIdList(EzyUser user) {
         logger.info("user {} get MMO room list", user);
+
         List<Long> mmoRoomIdList = roomService.getMMORoomIdList();
+
         responseFactory.newArrayResponse()
             .command(Commands.GET_MMO_ROOM_ID_LIST)
             .param(mmoRoomIdList)
@@ -66,14 +72,11 @@ public class RoomController extends EzyLoggable {
     @EzyDoHandle(Commands.GET_MMO_ROOM_PLAYERS)
     public void getMMORoomPlayers(EzyUser user) {
         logger.info("user {} getMMORoomPlayers", user);
-        MMORoom currentRoom = (MMORoom) roomService.getCurrentRoom(user.getName());
-        List<String> players = roomService.getRoomPlayerNames(currentRoom);
-        Player master = roomService.getMaster(currentRoom);
 
-        responseFactory.newObjectResponse()
+        MMORoomPlayerNamesModel model = roomService.getMMORoomPlayerNames(user.getName());
+
+        modelToResponseConverter.toResponse(model)
             .command(Commands.GET_MMO_ROOM_PLAYERS)
-            .param("players", players)
-            .param("master", master.getName())
             .user(user)
             .execute();
     }
@@ -81,23 +84,17 @@ public class RoomController extends EzyLoggable {
     @EzyDoHandle(Commands.JOIN_MMO_ROOM)
     public void joinMMORoom(EzyUser user, JoinMMORoomRequest request) {
         logger.info("user {} join room {}", user.getName(), request.getRoomId());
-        long roomId = request.getRoomId();
-        MMORoom room = roomService.playerJoinMMORoom(user.getName(), roomId);
-        if (room.getStatus() != RoomStatus.WAITING) {
-            throw new JoinNonWaitingRoomException(user.getName(), room);
-        }
-        List<String> playerNames = roomService.getRoomPlayerNames(room);
 
-        responseFactory.newObjectResponse()
+        JoinedMMORoomModel model = roomService.playerJoinMMORoom(
+            requestToModelConverter.toModel(user.getName(), request.getRoomId())
+        );
+
+        modelToResponseConverter.toResponse(user, model)
             .command(Commands.JOIN_MMO_ROOM)
-            .param("roomId", roomId)
-            .user(user)
             .execute();
 
-        responseFactory.newObjectResponse()
+        modelToResponseConverter.toResponse(user.getName(), model)
             .command(Commands.ANOTHER_JOIN_MMO_ROOM)
-            .param("playerName", user.getName())
-            .usernames(EzyLists.filter(playerNames, it -> !it.equals(user.getName())))
             .execute();
     }
 }

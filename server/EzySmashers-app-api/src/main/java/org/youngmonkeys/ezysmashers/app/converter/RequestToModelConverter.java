@@ -2,6 +2,7 @@ package org.youngmonkeys.ezysmashers.app.converter;
 
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
+import org.youngmonkeys.ezysmashers.app.model.JoinMMORoomModel;
 import org.youngmonkeys.ezysmashers.app.model.PlayerHitModel;
 import org.youngmonkeys.ezysmashers.app.model.PlayerInputModel;
 import org.youngmonkeys.ezysmashers.app.request.PlayerHitRequest;
@@ -25,6 +26,13 @@ public class RequestToModelConverter {
             .time(request.getT())
             .inputs(request.getK())
             .rotation(request.getR())
+            .build();
+    }
+
+    public JoinMMORoomModel toModel(String playerName, long roomId) {
+        return JoinMMORoomModel.builder()
+            .playerName(playerName)
+            .roomId(roomId)
             .build();
     }
 }

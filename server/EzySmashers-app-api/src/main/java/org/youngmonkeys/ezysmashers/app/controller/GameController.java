@@ -9,10 +9,7 @@ import lombok.AllArgsConstructor;
 import org.youngmonkeys.ezysmashers.app.constant.Commands;
 import org.youngmonkeys.ezysmashers.app.converter.ModelToResponseConverter;
 import org.youngmonkeys.ezysmashers.app.model.StartGameModel;
-import org.youngmonkeys.ezysmashers.app.response.PlayerSpawnResponse;
 import org.youngmonkeys.ezysmashers.app.service.GamePlayService;
-
-import java.util.List;
 
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
@@ -29,14 +26,15 @@ public class GameController extends EzyLoggable {
         logger.info("user {} start game", user);
         
         StartGameModel startGame = gamePlayService.startGame(user);
-        List<PlayerSpawnResponse> responseData = newArrayList(
-            startGame.getPlayerSpawns(),
-            modelToResponseConverter::toResponse
-        );
 
         responseFactory.newArrayResponse()
             .command(Commands.START_GAME)
-            .data(responseData)
+            .data(
+                newArrayList(
+                    startGame.getPlayerSpawns(),
+                    modelToResponseConverter::toResponse
+                )
+            )
             .usernames(startGame.getPlayerNames())
             .execute();
     }

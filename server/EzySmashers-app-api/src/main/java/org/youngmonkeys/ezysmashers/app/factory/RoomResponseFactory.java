@@ -11,12 +11,12 @@ import java.util.List;
 
 @EzySingleton
 @AllArgsConstructor
-public class PlayerResponseFactory {
+public class RoomResponseFactory {
 
     private final RoomService roomService;
     private final EzyResponseFactory responseFactory;
     
-    public EzyObjectResponse newObjectResponse(String playerName) {
+    public EzyObjectResponse newSameRoomPlayersResponse(String playerName) {
         MMORoom currentRoom = (MMORoom) roomService.getCurrentRoom(playerName);
         List<String> playerNames = roomService.getRoomPlayerNames(currentRoom);
         
