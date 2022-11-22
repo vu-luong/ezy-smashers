@@ -20,9 +20,9 @@ public class GamePlayControllers : MonoBehaviour
 	private void Awake()
 	{
 		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
-		SyncPositionHandler.syncPositionEvent += OnPlayerSyncPosition;
-		PlayerBeingAttackedHandler.playersBeingAttackedEvent += OnPlayersBeingAttacked;
-		PlayerAttackDataHandler.playerAttackEvent += OnPlayerAttackResponse;
+		SyncPositionHandler.action += OnPlayerSyncPosition;
+		PlayerBeingAttackedHandler.action += OnPlayersBeingAttacked;
+		PlayerAttackDataHandler.action += OnPlayerAttackResponse;
 	}
 
 	private void UnregisterEvents()
@@ -31,9 +31,9 @@ public class GamePlayControllers : MonoBehaviour
 		myPlayer.PlayerAttackEvent -= OnPlayerAttack;
 		myPlayer.GameOverEvent -= OnGameOver;
 		myPlayer.Hammer1.PlayerHitEvent -= OnPlayerHit;
-		SyncPositionHandler.syncPositionEvent -= OnPlayerSyncPosition;
-		PlayerBeingAttackedHandler.playersBeingAttackedEvent -= OnPlayersBeingAttacked;
-		PlayerAttackDataHandler.playerAttackEvent -= OnPlayerAttackResponse;
+		SyncPositionHandler.action -= OnPlayerSyncPosition;
+		PlayerBeingAttackedHandler.action -= OnPlayersBeingAttacked;
+		PlayerAttackDataHandler.action -= OnPlayerAttackResponse;
 	}
 
 	private void OnGameOver()

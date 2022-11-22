@@ -10,20 +10,20 @@ public class GameLoungeController : MonoBehaviour
 
     private void Awake()
     {
-        GetMMORoomPlayersResponseHandler.mmoRoomPlayersResponseEvent += OnGetMMORoomPlayersResponse;
-        AnotherJoinMMORoomHandler.anotherJoinMMORoomEvent += OnAnotherJoinMMORoom;
-        AnotherExitMMORoomHandler.anotherExitMMORoomEvent += OnAnotherExitMMORoom;
-        StartGameResponseHandler.startGameResponseEvent += OnGameStart;
+        GetMMORoomPlayersResponseHandler.action += OnGetMMORoomPlayersResponse;
+        AnotherJoinMMORoomHandler.action += OnAnotherJoinMMORoom;
+        AnotherExitMMORoomHandler.action += OnAnotherExitMMORoom;
+        StartGameResponseHandler.action += OnGameStart;
         SetRoomTitle();
         GetMMORoomPlayers();
     }
 
     private void UnregisterEvents()
     {
-        GetMMORoomPlayersResponseHandler.mmoRoomPlayersResponseEvent -= OnGetMMORoomPlayersResponse;
-        AnotherJoinMMORoomHandler.anotherJoinMMORoomEvent -= OnAnotherJoinMMORoom;
-        AnotherExitMMORoomHandler.anotherExitMMORoomEvent -= OnAnotherExitMMORoom;
-        StartGameResponseHandler.startGameResponseEvent -= OnGameStart;
+        GetMMORoomPlayersResponseHandler.action -= OnGetMMORoomPlayersResponse;
+        AnotherJoinMMORoomHandler.action -= OnAnotherJoinMMORoom;
+        AnotherExitMMORoomHandler.action -= OnAnotherExitMMORoom;
+        StartGameResponseHandler.action -= OnGameStart;
     }
 
     private void GetMMORoomPlayers()

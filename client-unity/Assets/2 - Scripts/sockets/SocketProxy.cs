@@ -53,38 +53,38 @@ class AppAccessHandler : EzyAppAccessHandler
 
 class JoinLobbyResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action joinedLobbyEvent;
+	public static event Action action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
-		joinedLobbyEvent?.Invoke();
+		action?.Invoke();
 	}
 }
 
 class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<int> roomCreatedEvent;
+	public static event Action<int> action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Room created successfully: " + data.ToString());
-		roomCreatedEvent?.Invoke(data.get<int>("roomId"));
+		action?.Invoke(data.get<int>("roomId"));
 	}
 }
 
-class GetMMORoomIdListResponse : EzyAbstractAppDataHandler<EzyArray>
+class GetMMORoomIdListResponseHandler : EzyAbstractAppDataHandler<EzyArray>
 {
-	public static event Action<List<int>> mmoRoomIdListResponseEvent;
+	public static event Action<List<int>> action;
 	protected override void process(EzyApp app, EzyArray data)
 	{
 		logger.info("Room id list: " + data.get<EzyArray>(0).ToString());
 		// TODO: should change to toList<long>() in the next version
 		List<int> roomIdList = data.get<EzyArray>(0).toList<int>();
-		mmoRoomIdListResponseEvent?.Invoke(roomIdList);
+		action?.Invoke(roomIdList);
 	}
 }
 
 class GetMMORoomPlayersResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<List<string>, string> mmoRoomPlayersResponseEvent;
+	public static event Action<List<string>, string> action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Current room's players: " + data);
@@ -93,46 +93,46 @@ class GetMMORoomPlayersResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 		logger.info("Player Names: " + string.Join(",", playerNames));
 		logger.info("Master Name: " + masterName);
 
-		mmoRoomPlayersResponseEvent?.Invoke(playerNames, masterName);
+		action?.Invoke(playerNames, masterName);
 	}
 }
 
 class JoinMMORoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<int> joinRoomResponseEvent;
+	public static event Action<int> action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("room id: " + data);
 		int roomId = data.get<int>("roomId");
-		joinRoomResponseEvent?.Invoke(roomId);
+		action?.Invoke(roomId);
 	}
 }
 
 class AnotherJoinMMORoomHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<string> anotherJoinMMORoomEvent;
+	public static event Action<string> action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Another player join room: " + data);
 		string anotherName = data.get<string>("playerName");
-		anotherJoinMMORoomEvent?.Invoke(anotherName);
+		action?.Invoke(anotherName);
 	}
 }
 
 class AnotherExitMMORoomHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<string> anotherExitMMORoomEvent;
+	public static event Action<string> action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Another player exit room: " + data);
 		string anotherName = data.get<string>("playerName");
-		anotherExitMMORoomEvent?.Invoke(anotherName);
+		action?.Invoke(anotherName);
 	}
 }
 
 class StartGameResponseHandler : EzyAbstractAppDataHandler<EzyArray>
 {
-	public static event Action<List<PlayerSpawnData>> startGameResponseEvent;
+	public static event Action<List<PlayerSpawnData>> action;
 	protected override void process(EzyApp app, EzyArray data)
 	{
 		logger.info("Game start response" + data);
@@ -144,20 +144,21 @@ class StartGameResponseHandler : EzyAbstractAppDataHandler<EzyArray>
 			string playerName = item.get<string>("playerName");
 			List<float> position = item.get<EzyArray>("position").toList<float>();
 			List<float> color = item.get<EzyArray>("color").toList<float>();
-			spawnData.Add(new PlayerSpawnData(
-				              playerName,
-				              new Vector3(position[0], position[1], position[2]),
-				              new Vector3(color[0], color[1], color[2])
-			              )
+			spawnData.Add(
+				new PlayerSpawnData(
+					playerName,
+					new Vector3(position[0], position[1], position[2]),
+					new Vector3(color[0], color[1], color[2])
+				)
 			);
 		}
-		startGameResponseEvent?.Invoke(spawnData);
+		action?.Invoke(spawnData);
 	}
 }
 
 class SyncPositionHandler : EzyAbstractAppDataHandler<EzyArray>
 {
-	public static event Action<string, Vector3, Vector3, int> syncPositionEvent;
+	public static event Action<string, Vector3, Vector3, int> action;
 	protected override void process(EzyApp app, EzyArray data)
 	{
 		logger.info("Sync position: " + data);
@@ -165,21 +166,25 @@ class SyncPositionHandler : EzyAbstractAppDataHandler<EzyArray>
 		EzyArray positionArray = data.get<EzyArray>(1);
 		EzyArray rotationArray = data.get<EzyArray>(2);
 		int time = data.get<int>(3);
-		Vector3 position = new Vector3(positionArray.get<float>(0),
-		                               positionArray.get<float>(1),
-		                               positionArray.get<float>(2));
+		Vector3 position = new Vector3(
+			positionArray.get<float>(0),
+			positionArray.get<float>(1),
+			positionArray.get<float>(2)
+		);
 
-		Vector3 rotation = new Vector3(rotationArray.get<float>(0),
-		                               rotationArray.get<float>(1),
-		                               rotationArray.get<float>(2));
+		Vector3 rotation = new Vector3(
+			rotationArray.get<float>(0),
+			rotationArray.get<float>(1),
+			rotationArray.get<float>(2)
+		);
 
-		syncPositionEvent?.Invoke(playerName, position, rotation, time);
+		action?.Invoke(playerName, position, rotation, time);
 	}
 }
 
 class PlayerBeingAttackedHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<string, string> playersBeingAttackedEvent;
+	public static event Action<string, string> action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Being Attacked: " + data);
@@ -189,18 +194,18 @@ class PlayerBeingAttackedHandler : EzyAbstractAppDataHandler<EzyObject>
 		var attackPosition = data.get<EzyArray>("p");
 		logger.info("victimName: " + victimName);
 		logger.info("Attacker: " + attackerName);
-		playersBeingAttackedEvent?.Invoke(victimName, attackerName);
+		action?.Invoke(victimName, attackerName);
 	}
 }
 
 class PlayerAttackDataHandler : EzyAbstractAppDataHandler<EzyObject>
 {
-	public static event Action<string> playerAttackEvent;
+	public static event Action<string> action;
 	protected override void process(EzyApp app, EzyObject data)
 	{
 		logger.info("Attack: " + data);
 		var attackerName = data.get<string>("a");
-		playerAttackEvent?.Invoke(attackerName);
+		action?.Invoke(attackerName);
 	}
 
 }
@@ -254,7 +259,7 @@ public class SocketProxy : EzyLoggable
 		var appSetup = setup.setupApp(APP_NAME);
 		appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
 		appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
-		appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponse());
+		appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponseHandler());
 		appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponseHandler());
 		appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponseHandler());
 		appSetup.addDataHandler(Commands.ANOTHER_JOIN_MMO_ROOM, new AnotherJoinMMORoomHandler());

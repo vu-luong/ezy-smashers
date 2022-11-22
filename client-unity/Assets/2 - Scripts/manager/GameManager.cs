@@ -13,7 +13,7 @@ public class GameManager : EzyLoggable
 
 	public GameManager()
 	{
-		JoinLobbyResponseHandler.joinedLobbyEvent += SetUpPlayer;
+		JoinLobbyResponseHandler.action += SetUpPlayer;
 	}
 
 	public static GameManager getInstance()

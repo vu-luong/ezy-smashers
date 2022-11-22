@@ -9,16 +9,16 @@ public class LobbyController : MonoBehaviour
 
 	private void Awake()
 	{
-		CreateRoomResponseHandler.roomCreatedEvent += JoinRoom;
-		GetMMORoomIdListResponse.mmoRoomIdListResponseEvent += OnMMORoomIdListResponse;
-		JoinMMORoomResponseHandler.joinRoomResponseEvent += JoinRoom;
+		CreateRoomResponseHandler.action += JoinRoom;
+		GetMMORoomIdListResponseHandler.action += OnMMORoomIdListResponse;
+		JoinMMORoomResponseHandler.action += JoinRoom;
 	}
 
 	private void UnregisterEvents()
 	{
-		CreateRoomResponseHandler.roomCreatedEvent -= JoinRoom;
-		GetMMORoomIdListResponse.mmoRoomIdListResponseEvent -= OnMMORoomIdListResponse;
-		JoinMMORoomResponseHandler.joinRoomResponseEvent -= JoinRoom;
+		CreateRoomResponseHandler.action -= JoinRoom;
+		GetMMORoomIdListResponseHandler.action -= OnMMORoomIdListResponse;
+		JoinMMORoomResponseHandler.action -= JoinRoom;
 	}
 
 	private void Start()

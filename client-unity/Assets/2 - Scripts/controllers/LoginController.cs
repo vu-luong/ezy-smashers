@@ -5,17 +5,15 @@ public class LoginController : MonoBehaviour
 {
 	public StringVariable username;
 	public StringVariable password;
-	// public float fixedDeltaTime = 0.02f;
 
 	private void Awake()
 	{
-		// Time.fixedDeltaTime = fixedDeltaTime;
-		JoinLobbyResponseHandler.joinedLobbyEvent += OnJoinedLobby;
+		JoinLobbyResponseHandler.action += OnJoinedLobby;
 	}
 
 	private void UnregisterEvents()
 	{
-		JoinLobbyResponseHandler.joinedLobbyEvent -= OnJoinedLobby;
+		JoinLobbyResponseHandler.action -= OnJoinedLobby;
 	}
 	
 	public void OnLogin()

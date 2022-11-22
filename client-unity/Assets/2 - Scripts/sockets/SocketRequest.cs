@@ -47,8 +47,7 @@ public class SocketRequest : EzyLoggable
 	public void SendJoinMMORoomRequest(int roomId)
 	{
 		var client = SocketProxy.getInstance().Client;
-		EzyObject data = EzyEntityFactory
-			.newObjectBuilder()
+		EzyObject data = EzyEntityFactory.newObjectBuilder()
 			.append("roomId", roomId)
 			.build();
 		client.getApp().send(Commands.JOIN_MMO_ROOM, data);
@@ -59,6 +58,7 @@ public class SocketRequest : EzyLoggable
 		var client = SocketProxy.getInstance().Client;
 		client.getApp().send(Commands.START_GAME);
 	}
+
 	public void SendPlayerInputData(PlayerInputData inputData, Vector3 nextRotation)
 	{
 		var client = SocketProxy.getInstance().Client;
@@ -66,12 +66,13 @@ public class SocketRequest : EzyLoggable
 			.newObjectBuilder()
 			.append("t", inputData.Time)
 			.append("k", inputData.KeyInputs)
-			.append("r",
-			        EzyEntityFactory.newArrayBuilder()
-				        .append(nextRotation.x)
-				        .append(nextRotation.y)
-				        .append(nextRotation.z)
-				        .build()
+			.append(
+				"r",
+				EzyEntityFactory.newArrayBuilder()
+					.append(nextRotation.x)
+					.append(nextRotation.y)
+					.append(nextRotation.z)
+					.build()
 			)
 			.build();
 		client.getApp().send(Commands.PLAYER_INPUT_DATA, data);
@@ -85,12 +86,13 @@ public class SocketRequest : EzyLoggable
 			.append("m", myClientTick)
 			.append("o", otherClientTick)
 			.append("v", victimName)
-			.append("p",
-			        EzyEntityFactory.newArrayBuilder()
-				        .append(attackPosition.x)
-				        .append(attackPosition.y)
-				        .append(attackPosition.z)
-				        .build()
+			.append(
+				"p",
+				EzyEntityFactory.newArrayBuilder()
+					.append(attackPosition.x)
+					.append(attackPosition.y)
+					.append(attackPosition.z)
+					.build()
 			)
 			.build();
 		client.getApp().send(Commands.PLAYER_HIT, data);
@@ -100,5 +102,4 @@ public class SocketRequest : EzyLoggable
 		var client = SocketProxy.getInstance().Client;
 		client.getApp().send(Commands.PLAYER_ATTACK_DATA);
 	}
-
 }
