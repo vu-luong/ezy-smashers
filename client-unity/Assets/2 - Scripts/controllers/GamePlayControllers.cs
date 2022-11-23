@@ -97,7 +97,6 @@ public class GamePlayControllers : MonoBehaviour
 
 	private void OnPlayerInputChange(PlayerInputData inputData, Quaternion nextRotation)
 	{
-		Debug.Log("Den day roi!!!!");
 		SocketRequest.getInstance().SendPlayerInputData(inputData, nextRotation.eulerAngles);
 	}
 

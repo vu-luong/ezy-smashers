@@ -3901,6 +3901,7 @@ MonoBehaviour:
   lookPoint: {fileID: 127609211}
   attackPoint: {fileID: 1296971529}
   hammer: {fileID: 172746140}
+  characterMaterials: []
   startAnimTime: 0.3
   stopAnimTime: 0.15
 --- !u!1 &5691424516104455779
