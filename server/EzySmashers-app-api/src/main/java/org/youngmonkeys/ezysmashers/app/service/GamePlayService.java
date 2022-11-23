@@ -20,6 +20,8 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import static org.youngmonkeys.ezysmashers.app.constant.GameConstants.*;
+
 @Setter
 @EzySingleton
 public class GamePlayService extends EzyLoggable {
@@ -39,11 +41,19 @@ public class GamePlayService extends EzyLoggable {
         MMOPlayer player = roomService.getPlayer(playerName);
         synchronized (player) {
             Vec3 currentPosition = player.getPosition();
+            Vec3 currentRotation = player.getRotation();
             Vec3 nextPosition = PlayerUtils.getNextPosition(model, currentPosition);
-            float[] nextRotation = model.getRotation();
+            Vec3 nextRotation = new Vec3(model.getRotation());
+            boolean playerOutsideMap =
+                Math.abs(nextPosition.getX()) >= (MAP_MAX_X - MAP_BORDER_OFFSET)
+                    || Math.abs(nextPosition.getZ()) >= (MAP_MAX_Z - MAP_BORDER_OFFSET);
+            if (playerOutsideMap) {
+                nextPosition = currentPosition;
+                nextRotation = currentRotation;
+            }
             logger.info("next position = {}", nextPosition);
             player.setPosition(nextPosition);
-            player.setRotation(nextRotation[0], nextRotation[1], nextRotation[2]);
+            player.setRotation(nextRotation);
             player.setClientTimeTick(model.getTime());
 
             SortedMap<Integer, Vec3> playerPositionHistory = positionHistoryByPlayerName.get(
@@ -61,9 +71,9 @@ public class GamePlayService extends EzyLoggable {
                 .playerName(playerName)
                 .position(
                     new Vec3(
-                        ThreadLocalRandom.current().nextFloat() * 10,
+                        ThreadLocalRandom.current().nextFloat() * (MAP_MAX_X - 1),
                         0,
-                        ThreadLocalRandom.current().nextFloat() * 10
+                        ThreadLocalRandom.current().nextFloat() * (MAP_MAX_Z - 1)
                     ).toArray()
                 )
                 .color(
