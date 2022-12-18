@@ -7,6 +7,7 @@ import com.tvd12.gamebox.constant.RoomStatus;
 import com.tvd12.gamebox.entity.*;
 import com.tvd12.gamebox.manager.PlayerManager;
 import com.tvd12.gamebox.manager.RoomManager;
+import com.tvd12.gamebox.math.Vec3;
 import lombok.AllArgsConstructor;
 import org.youngmonkeys.ezysmashers.app.exception.CreateRoomWhenNotInLobbyException;
 import org.youngmonkeys.ezysmashers.app.exception.JoinNonWaitingRoomException;
@@ -101,11 +102,15 @@ public class RoomService extends EzyLoggable {
             .map(Room::getId)
             .collect(Collectors.toList());
     }
+    
+    public NormalRoom getCurrentRoom(Player player) {
+        long currentRoomId = player.getCurrentRoomId();
+        return globalRoomManager.getRoom(currentRoomId);
+    }
 
     public NormalRoom getCurrentRoom(String playerName) {
         Player player = globalPlayerManager.getPlayer(playerName);
-        long currentRoomId = player.getCurrentRoomId();
-        return globalRoomManager.getRoom(currentRoomId);
+        return getCurrentRoom(player);
     }
 
     public Player getMaster(NormalRoom room) {
@@ -156,5 +161,10 @@ public class RoomService extends EzyLoggable {
             .playerNames(playerNames)
             .masterPlayerName(master.getName())
             .build();
+    }
+    
+    public void setPlayerPosition(MMOPlayer player, Vec3 nextPosition) {
+        MMOGridRoom currentRoom = (MMOGridRoom) getCurrentRoom(player);
+        currentRoom.setPlayerPosition(player, nextPosition);
     }
 }

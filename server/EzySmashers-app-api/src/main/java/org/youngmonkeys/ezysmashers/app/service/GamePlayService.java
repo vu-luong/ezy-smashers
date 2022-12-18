@@ -52,7 +52,12 @@ public class GamePlayService extends EzyLoggable {
                 nextRotation = currentRotation;
             }
             logger.info("next position = {}", nextPosition);
+<<<<<<< HEAD
+//            player.setPosition(nextPosition);
+            roomService.setPlayerPosition(player, nextPosition);
+=======
             player.setPosition(nextPosition);
+>>>>>>> master
             player.setRotation(nextRotation);
             player.setClientTimeTick(model.getTime());
 
@@ -95,9 +100,10 @@ public class GamePlayService extends EzyLoggable {
                     playerSpawnData.getPosition().get(1),
                     playerSpawnData.getPosition().get(2)
                 );
-                player.setPosition(
-                    initialPosition
-                );
+                roomService.setPlayerPosition(player, initialPosition);
+//                player.setPosition(
+//                    initialPosition
+//                );
                 player.setClientTimeTick(0);
 
                 SortedMap<Integer, Vec3> playerPositionHistory
