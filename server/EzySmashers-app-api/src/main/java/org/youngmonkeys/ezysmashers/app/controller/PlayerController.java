@@ -6,6 +6,7 @@ import com.tvd12.ezyfox.core.annotation.EzyRequestController;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
+import com.tvd12.gamebox.entity.MMORoom;
 import lombok.AllArgsConstructor;
 import org.youngmonkeys.ezysmashers.app.constant.Commands;
 import org.youngmonkeys.ezysmashers.app.converter.ModelToResponseConverter;
@@ -15,13 +16,15 @@ import org.youngmonkeys.ezysmashers.app.request.PlayerHitRequest;
 import org.youngmonkeys.ezysmashers.app.request.PlayerInputRequest;
 import org.youngmonkeys.ezysmashers.app.service.GamePlayService;
 import org.youngmonkeys.ezysmashers.app.service.PlayerService;
+import org.youngmonkeys.ezysmashers.app.service.RoomService;
 
 import static org.youngmonkeys.ezysmashers.app.constant.PlayerHitConstants.FIELD_ATTACKER_NAME;
 
 @AllArgsConstructor
 @EzyRequestController
 public class PlayerController extends EzyLoggable {
-
+    
+    private final RoomService roomService;
     private final PlayerService playerService;
     private final GamePlayService gamePlayService;
     private final EzyResponseFactory responseFactory;
@@ -50,6 +53,13 @@ public class PlayerController extends EzyLoggable {
         modelToResponseConverter.toResponse(authorizePlayerHit)
             .command(Commands.PLAYER_BEING_ATTACKED)
             .execute();
+        
+        if (authorizePlayerHit.isValidHit()) {
+            roomService.removePlayerFromGameRoom(
+                authorizePlayerHit.getPlayerHit().getVictimName(),
+                (MMORoom) roomService.getCurrentRoom(authorizePlayerHit.getPlayerName())
+            );
+        }
     }
 
     @EzyDoHandle(Commands.PLAYER_ATTACK)

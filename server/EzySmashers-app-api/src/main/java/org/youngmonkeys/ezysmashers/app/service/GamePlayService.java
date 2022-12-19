@@ -45,8 +45,10 @@ public class GamePlayService extends EzyLoggable {
             Vec3 nextPosition = PlayerUtils.getNextPosition(model, currentPosition);
             Vec3 nextRotation = new Vec3(model.getRotation());
             boolean playerOutsideMap =
-                Math.abs(nextPosition.getX()) >= (MAP_MAX_X - MAP_BORDER_OFFSET)
-                    || Math.abs(nextPosition.getZ()) >= (MAP_MAX_Z - MAP_BORDER_OFFSET);
+                nextPosition.getX() <= MAP_BORDER_OFFSET
+                    || nextPosition.getX() >= (MAP_MAX_X - MAP_BORDER_OFFSET)
+                    || nextPosition.getZ() <= MAP_BORDER_OFFSET
+                    || nextPosition.getZ() >= (MAP_MAX_Z - MAP_BORDER_OFFSET);
             if (playerOutsideMap) {
                 nextPosition = currentPosition;
                 nextRotation = currentRotation;
@@ -122,11 +124,6 @@ public class GamePlayService extends EzyLoggable {
             logger.warn("Player {} send invalid hit ", playerName);
             throw new InvalidPlayerHitException(playerName);
         }
-
-        roomService.removePlayerFromGameRoom(
-            model.getVictimName(),
-            (MMORoom) roomService.getCurrentRoom(playerName)
-        );
 
         return AuthorizeHitModel.builder()
             .isValidHit(isValidHit)
