@@ -54,7 +54,6 @@ public class GamePlayService extends EzyLoggable {
                 nextRotation = currentRotation;
             }
             logger.info("next position = {}", nextPosition);
-//            player.setPosition(nextPosition);
             roomService.setPlayerPosition(player, nextPosition);
             player.setRotation(nextRotation);
             player.setClientTimeTick(model.getTime());
@@ -99,9 +98,6 @@ public class GamePlayService extends EzyLoggable {
                     playerSpawnData.getPosition().get(2)
                 );
                 roomService.setPlayerPosition(player, initialPosition);
-//                player.setPosition(
-//                    initialPosition
-//                );
                 player.setClientTimeTick(0);
 
                 SortedMap<Integer, Vec3> playerPositionHistory

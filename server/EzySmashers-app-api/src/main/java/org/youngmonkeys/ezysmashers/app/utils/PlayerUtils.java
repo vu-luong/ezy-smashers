@@ -22,9 +22,9 @@ public final class PlayerUtils {
         );
 
         // moveDirection = Vec3Utils.forward * movement.z + Vec3Utils.right * movement.x
-        Vec3 moveDirection = new Vec3(Vec3.forward);
+        Vec3 moveDirection = new Vec3(Vec3.FORWARD);
         moveDirection.multiply(movement.z);
-        Vec3 temp = new Vec3(Vec3.right);
+        Vec3 temp = new Vec3(Vec3.RIGHT);
         temp.multiply(movement.x);
         moveDirection.add(temp);
 

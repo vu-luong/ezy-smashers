@@ -14,16 +14,16 @@ public final class InputUtils {
     ) {
         Vec3 answer = new Vec3();
         if (upInput) {
-            answer.add(Vec3.forward);
+            answer.add(Vec3.FORWARD);
         }
         if (leftInput) {
-            answer.add(Vec3.left);
+            answer.add(Vec3.LEFT);
         }
         if (downInput) {
-            answer.add(Vec3.backward);
+            answer.add(Vec3.BACKWARD);
         }
         if (rightInput) {
-            answer.add(Vec3.right);
+            answer.add(Vec3.RIGHT);
         }
         return answer;
     }
