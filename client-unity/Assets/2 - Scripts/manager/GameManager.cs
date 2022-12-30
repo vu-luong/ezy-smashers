@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
 
@@ -11,19 +12,14 @@ public class GameManager : EzyLoggable
 
 	public List<PlayerSpawnData> PlayersSpawnData { get; set; }
 
-	public GameManager()
-	{
-		JoinLobbyResponseHandler.action += SetUpPlayer;
-	}
-
 	public static GameManager getInstance()
 	{
 		return INSTANCE;
 	}
 
-	public void SetUpPlayer()
+	public void SetUpMyPlayer(String username)
 	{
 		Debug.Log("GameManager.setupPlayer");
-		myPlayer = new Player(SocketProxy.getInstance().UserAuthenInfo.Username);
+		myPlayer = new Player(username);
 	}
 }

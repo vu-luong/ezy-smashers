@@ -1485,7 +1485,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7733247471964424289}
         m_TargetAssemblyTypeName: GameLoungeController, Assembly-CSharp
-        m_MethodName: SendStartGameRequest
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

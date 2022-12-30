@@ -1,34 +1,29 @@
 ﻿using System.Collections.Generic;
+using com.tvd12.ezyfoxserver.client.entity;
+using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class GameLoungeController : MonoBehaviour
+public class GameLoungeController : DefaultMonoBehaviour
 {
     public UnityEvent<string> setRoomTitleEvent;
     public UnityEvent updateRoomPlayersEvent;
 
     private void Awake()
     {
-        GetMMORoomPlayersResponseHandler.action += OnGetMMORoomPlayersResponse;
-        AnotherJoinMMORoomHandler.action += OnAnotherJoinMMORoom;
-        AnotherExitMMORoomHandler.action += OnAnotherExitMMORoom;
-        StartGameResponseHandler.action += OnGameStart;
+        AddHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
+        AddHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
+        AddHandler<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
+        AddHandler<EzyArray>(Commands.START_GAME, OnGameStarted);
         SetRoomTitle();
         GetMMORoomPlayers();
     }
 
-    private void UnregisterEvents()
-    {
-        GetMMORoomPlayersResponseHandler.action -= OnGetMMORoomPlayersResponse;
-        AnotherJoinMMORoomHandler.action -= OnAnotherJoinMMORoom;
-        AnotherExitMMORoomHandler.action -= OnAnotherExitMMORoom;
-        StartGameResponseHandler.action -= OnGameStart;
-    }
-
     private void GetMMORoomPlayers()
     {
-        SocketRequest.getInstance().SendGetMMORoomPlayersRequest();
+        SocketRequest.getInstance()
+            .SendGetMMORoomPlayersRequest();
     }
 
     private void SetRoomTitle()
@@ -37,39 +32,59 @@ public class GameLoungeController : MonoBehaviour
         setRoomTitleEvent?.Invoke("Room #" + currentRoomId);
     }
 
-    private void OnGetMMORoomPlayersResponse(List<string> playerNames, string master) 
+    private void OnGetMMORoomPlayersResponse(EzyAppProxy proxy, EzyObject data) 
     {
-        Debug.Log("GameLoungeController.OnGetMMORoomPlayersResponse");
-        RoomManager.getInstance().SetCurrentRoomPlayers(playerNames, master);
-
+        List<string> playerNames = data.get<EzyArray>("players").toList<string>();
+        string masterName = data.get<string>("master");
+        logger.debug("OnGetMMORoomPlayersResponse");
+        logger.debug("Player Names: " + string.Join(",", playerNames));
+        logger.debug("Master Name: " + masterName);
+        RoomManager.getInstance().SetCurrentRoomPlayers(playerNames, masterName);
         updateRoomPlayersEvent.Invoke();
     }
 
-    private void OnAnotherJoinMMORoom(string anotherName) 
+    private void OnAnotherJoinMMORoom(EzyAppProxy proxy, EzyObject data) 
     {
-        Debug.Log("GameLoungeController.OnAnotherJoinMMORoom");
+        string anotherPlayerName = data.get<string>("playerName");
+        logger.debug("OnAnotherJoinMMORoom anotherPlayerName = " + anotherPlayerName);
         GetMMORoomPlayers();
     }
 
-    private void OnAnotherExitMMORoom(string anotherName) 
+    private void OnAnotherExitMMORoom(EzyAppProxy proxy, EzyObject data) 
     {
-        Debug.Log("GameLoungeController.OnAnotherExitMMORoom");
+        string anotherName = data.get<string>("playerName");
+        logger.debug("OnAnotherExitMMORoom anotherPlayerName = " + anotherName);
         GetMMORoomPlayers();
     }
 
-    private void OnGameStart(List<PlayerSpawnData> playersSpawnData)
+    private void OnGameStarted(EzyAppProxy proxy, EzyArray data)
     { 
-        Debug.Log("GameLoungeController.OnGameStart");
+        logger.debug("OnGameStart");
+        List<PlayerSpawnData> spawnData = new List<PlayerSpawnData>();
 
-        GameManager.getInstance().PlayersSpawnData = playersSpawnData;
-        UnregisterEvents();
+        for (int i = 0; i < data.size(); i++)
+        {
+            EzyObject item = data.get<EzyObject>(i);
+            string playerName = item.get<string>("playerName");
+            List<float> position = item.get<EzyArray>("position").toList<float>();
+            List<float> color = item.get<EzyArray>("color").toList<float>();
+            spawnData.Add(
+                new PlayerSpawnData(
+                    playerName,
+                    new Vector3(position[0], position[1], position[2]),
+                    new Vector3(color[0], color[1], color[2])
+                )
+            );
+        }
+        GameManager.getInstance().PlayersSpawnData = spawnData;
         SceneManager.LoadScene("MainScene");
     }
 
     #region public methods
 
-    public void SendStartGameRequest() {
-        SocketRequest.getInstance().SendStartGameRequest();
+    public void StartGame() {
+        SocketRequest.getInstance()
+            .SendStartGameRequest();
     }
 
     #endregion

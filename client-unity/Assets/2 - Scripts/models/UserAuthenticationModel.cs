@@ -1,4 +1,4 @@
-﻿public class User
+﻿public class UserAuthenticationModel
 {
     private string username = "";
     private string password = "";
@@ -6,12 +6,12 @@
     public string Username { get => username; set => username = value; }
     public string Password { get => password; set => password = value; }
 
-    public User(string username, string password)
+    public UserAuthenticationModel(string username, string password)
     {
-        SetUser(username, password);
+        SetUserAuthentication(username, password);
     }
 
-    public void SetUser(string username, string password)
+    public void SetUserAuthentication(string username, string password)
     {
         this.username = username;
         this.password = password;

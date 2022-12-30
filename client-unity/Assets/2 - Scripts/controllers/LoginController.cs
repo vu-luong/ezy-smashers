@@ -1,32 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine.SceneManagement;
 
-public class LoginController : MonoBehaviour
+public class LoginController : DefaultMonoBehaviour
 {
 	public StringVariable username;
 	public StringVariable password;
 
 	private void Awake()
 	{
-		JoinLobbyResponseHandler.action += OnJoinedLobby;
+		AddHandler<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);
 	}
 
-	private void UnregisterEvents()
-	{
-		JoinLobbyResponseHandler.action -= OnJoinedLobby;
-	}
-	
-	public void OnLogin()
+	public void Login()
 	{
 		// Login to socket server
-		SocketProxy.getInstance().login(username.Value, password.Value);
+		SocketManager.GetInstance()
+			.login(username.Value, password.Value);
 	}
 
-	void OnJoinedLobby()
+	void OnJoinedLobby(EzyAppProxy appProxy, Object data)
 	{
-		GameManager.getInstance().SetUpPlayer();
-		UnregisterEvents();
-		// Change scene here
+		GameManager.getInstance().SetUpMyPlayer(username.Value);
 		SceneManager.LoadScene("LobbyScene");
 	}
 }

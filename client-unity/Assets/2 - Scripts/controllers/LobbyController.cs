@@ -1,54 +1,52 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using com.tvd12.ezyfoxserver.client.entity;
+using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class LobbyController : MonoBehaviour
+public class LobbyController : DefaultMonoBehaviour
 {
 	public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 
 	private void Awake()
 	{
-		CreateRoomResponseHandler.action += JoinRoom;
-		GetMMORoomIdListResponseHandler.action += OnMMORoomIdListResponse;
-		JoinMMORoomResponseHandler.action += JoinRoom;
-	}
-
-	private void UnregisterEvents()
-	{
-		CreateRoomResponseHandler.action -= JoinRoom;
-		GetMMORoomIdListResponseHandler.action -= OnMMORoomIdListResponse;
-		JoinMMORoomResponseHandler.action -= JoinRoom;
+		logger.debug("Awake");
+		AddHandler<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
+		AddHandler<EzyArray>(Commands.GET_MMO_ROOM_ID_LIST, OnMMORoomIdListResponse);
+		AddHandler<EzyObject>(Commands.JOIN_MMO_ROOM, JoinRoom);
 	}
 
 	private void Start()
 	{
-		OnRefreshRoomIdList();
+		RefreshRoomIdList();
 	}
 
-	private void JoinRoom(int roomId)
+	private void JoinRoom(EzyAppProxy appProxy, EzyObject data)
 	{
+		int roomId = data.get<int>("roomId");
+		logger.debug("JoinRoom roomId = " + roomId);
 		RoomManager.getInstance().CurrentRoomId = roomId;
-		UnregisterEvents();
 		SceneManager.LoadScene("GameLoungeScene");
 	}
 
-	private void OnMMORoomIdListResponse(List<int> roomIdList)
+	private void OnMMORoomIdListResponse(EzyAppProxy appProxy, EzyArray data)
 	{
+		List<int> roomIdList = data.get<EzyArray>(0).toList<int>();
+		logger.debug("OnMMORoomIdListResponse roomIdList = " + string.Join(", ", roomIdList));
 		mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
 	}
 
 	#region public methods
 
-	public void OnRefreshRoomIdList()
+	public void RefreshRoomIdList()
 	{
-		Debug.Log("LobbyController: OnRefreshRoomIdList");
+		logger.debug("OnRefreshRoomIdList");
 		SocketRequest.getInstance().SendGetMMORoomIdListRequest();
 	}
 
 	public void OnCreateMMORoom()
 	{
-		Debug.Log("LobbyController: OnCreateMMORoom!");
+		logger.debug("OnCreateMMORoom");
 		SocketRequest.getInstance().SendCreateMMORoomRequest();
 	}
 

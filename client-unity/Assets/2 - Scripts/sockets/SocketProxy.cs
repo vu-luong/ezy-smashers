@@ -1,64 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using com.tvd12.ezyfoxserver.client;
-using com.tvd12.ezyfoxserver.client.config;
 using com.tvd12.ezyfoxserver.client.constant;
 using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.handler;
 using com.tvd12.ezyfoxserver.client.request;
+using com.tvd12.ezyfoxserver.client.support;
 using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
-
-class HandshakeHandler : EzyHandshakeHandler
-{
-	protected override EzyRequest getLoginRequest()
-	{
-		return new EzyLoginRequest(
-			SocketProxy.ZONE_NAME,
-			SocketProxy.getInstance().UserAuthenInfo.Username,
-			SocketProxy.getInstance().UserAuthenInfo.Password
-		);
-	}
-}
-
-class LoginSuccessHandler : EzyLoginSuccessHandler
-{
-	protected override void handleLoginSuccess(EzyData responseData)
-	{
-		logger.debug("Log in successfully");
-		// connect to udp port
-		client.udpConnect(2611);
-	}
-}
-
-class UdpHandshakeHandler : EzyUdpHandshakeHandler
-{
-	protected override void onAuthenticated(EzyArray data)
-	{
-		logger.debug("UdpHandshakeHandler authenticated");
-		SocketRequest.getInstance().SendAppAccessRequest();
-	}
-}
-
-class AppAccessHandler : EzyAppAccessHandler
-{
-	protected override void postHandle(EzyApp app, EzyArray data)
-	{
-		logger.debug("App access successfully");
-		SocketRequest.getInstance().SendJoinLobbyRequest();
-	}
-}
+using Object = System.Object;
 
 #region App Data Handler
-
-class JoinLobbyResponseHandler : EzyAbstractAppDataHandler<EzyObject>
-{
-	public static event Action action;
-	protected override void process(EzyApp app, EzyObject data)
-	{
-		action?.Invoke();
-	}
-}
 
 class CreateRoomResponseHandler : EzyAbstractAppDataHandler<EzyObject>
 {
@@ -219,15 +171,17 @@ public class SocketProxy : EzyLoggable
 	public const string ZONE_NAME = "EzySmashers";
 	public const string APP_NAME = "EzySmashers";
 
+	private UserAuthenticationModel userAuthenticationModelAuthenInfo = new UserAuthenticationModel("test", "test1234");
 	private EzyUTClient client;
-	private User userAuthenInfo = new User("test", "test1234");
 	private string host;
 	private int port;
+	private EzySocketProxy socketProxy;
+	private EzyAppProxy appProxy;
 
 	public EzyUTClient Client { get => client; }
-	public User UserAuthenInfo { get => userAuthenInfo; set => userAuthenInfo = value; }
-	public string Host { get => host; }
-	public int Port { get => port; }
+	public UserAuthenticationModel UserAuthenticationModelAuthenInfo { get => userAuthenticationModelAuthenInfo; set => userAuthenticationModelAuthenInfo = value; }
+	public EzyAppProxy AppProxy { get => appProxy; set => appProxy = value; }
+	public EzySocketProxy Proxy { get => socketProxy; set => socketProxy = value; }
 
 	public static SocketProxy getInstance()
 	{
@@ -240,45 +194,67 @@ public class SocketProxy : EzyLoggable
 		this.port = port;
 
 		logger.debug("Set up socket client");
-		var config = EzyClientConfig.builder()
-			.clientName(ZONE_NAME)
-			.build();
 
-		var clients = EzyClients.getInstance();
-		client = new EzyUTClient(config);
-		clients.addClient(client);
+		SocketProxyManager socketProxyManager = SocketProxyManager.getInstance();
+		socketProxyManager.setDefaultZoneName(ZONE_NAME);
+		socketProxyManager.init();
 
-		var setup = client.setup();
+		socketProxy = socketProxyManager
+			.getDefaultSocketProxy()
+			.setTransportType(EzyTransportType.UDP)
+			.setHost(host)
+			.setLoginUsername(userAuthenticationModelAuthenInfo.Username)
+			.setLoginPassword(userAuthenticationModelAuthenInfo.Password)
+			.setDefaultAppName(APP_NAME);
 
-		setup.addDataHandler(EzyCommand.HANDSHAKE, new HandshakeHandler());
-		setup.addDataHandler(EzyCommand.LOGIN, new LoginSuccessHandler());
-		setup.addDataHandler(EzyCommand.UDP_HANDSHAKE, new UdpHandshakeHandler());
-		setup.addDataHandler(EzyCommand.APP_ACCESS, new AppAccessHandler());
+		socketProxy.onLoginSuccess<Object>(HandleLoginSuccess);
+		socketProxy.onAppAccessed<Object>(HandleAppAccessed);
+		appProxy = socketProxy.getDefaultAppProxy();
+		// appProxy.on<Object>(Commands.JOIN_LOBBY, (proxy, data) => )
+		
+		// setup.addDataHandler(EzyCommand.HANDSHAKE, new HandshakeHandler());
+		// setup.addDataHandler(EzyCommand.LOGIN, new LoginSuccessHandler());
+		// setup.addDataHandler(EzyCommand.UDP_HANDSHAKE, new UdpHandshakeHandler());
+		// setup.addDataHandler(EzyCommand.APP_ACCESS, new AppAccessHandler());
 
 		// Set up EzySmashers app
-		var appSetup = setup.setupApp(APP_NAME);
-		appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
-		appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
-		appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponseHandler());
-		appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponseHandler());
-		appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponseHandler());
-		appSetup.addDataHandler(Commands.ANOTHER_JOIN_MMO_ROOM, new AnotherJoinMMORoomHandler());
-		appSetup.addDataHandler(Commands.ANOTHER_EXIT_MMO_ROOM, new AnotherExitMMORoomHandler());
-		appSetup.addDataHandler(Commands.START_GAME, new StartGameResponseHandler());
-		appSetup.addDataHandler(Commands.SYNC_POSITION, new SyncPositionHandler());
-		appSetup.addDataHandler(Commands.PLAYER_BEING_ATTACKED, new PlayerBeingAttackedHandler());
-		appSetup.addDataHandler(Commands.PLAYER_ATTACK_DATA, new PlayerAttackDataHandler());
+		// var appSetup = setup.setupApp(APP_NAME);
+		// appSetup.addDataHandler(Commands.JOIN_LOBBY, new JoinLobbyResponseHandler());
+		// appSetup.addDataHandler(Commands.CREATE_MMO_ROOM, new CreateRoomResponseHandler());
+		// appSetup.addDataHandler(Commands.GET_MMO_ROOM_ID_LIST, new GetMMORoomIdListResponseHandler());
+		// appSetup.addDataHandler(Commands.GET_MMO_ROOM_PLAYERS, new GetMMORoomPlayersResponseHandler());
+		// appSetup.addDataHandler(Commands.JOIN_MMO_ROOM, new JoinMMORoomResponseHandler());
+		// appSetup.addDataHandler(Commands.ANOTHER_JOIN_MMO_ROOM, new AnotherJoinMMORoomHandler());
+		// appSetup.addDataHandler(Commands.ANOTHER_EXIT_MMO_ROOM, new AnotherExitMMORoomHandler());
+		// appSetup.addDataHandler(Commands.START_GAME, new StartGameResponseHandler());
+		// appSetup.addDataHandler(Commands.SYNC_POSITION, new SyncPositionHandler());
+		// appSetup.addDataHandler(Commands.PLAYER_BEING_ATTACKED, new PlayerBeingAttackedHandler());
+		// appSetup.addDataHandler(Commands.PLAYER_ATTACK_DATA, new PlayerAttackDataHandler());
 
 		// Init RoomManager
 		RoomManager.getInstance();
+		client = (EzyUTClient)socketProxy.getClient();
 
 		return client;
 	}
 
+	private void HandleLoginSuccess(EzySocketProxy socketProxy, Object data)
+	{
+		logger.debug("Log in successfully");
+		// connect to udp port
+		socketProxy.getClient().udpConnect(2611);
+	}
+
+	private void HandleAppAccessed(EzyAppProxy appProxy, Object data)
+	{
+		logger.debug("App access successfully");
+		SocketRequest.getInstance().SendJoinLobbyRequest();
+	}
+
 	public void login(string username, string password)
 	{
-		userAuthenInfo.Username = username;
-		userAuthenInfo.Password = password;
+		userAuthenticationModelAuthenInfo.Username = username;
+		userAuthenticationModelAuthenInfo.Password = password;
 		client.connect(host, port);
 	}
 }

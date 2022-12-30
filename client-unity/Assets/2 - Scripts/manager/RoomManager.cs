@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using com.tvd12.ezyfoxserver.client.util;
-using UnityEngine;
 
 public class RoomManager : EzyLoggable
 {
@@ -21,7 +20,7 @@ public class RoomManager : EzyLoggable
 
     public void SetCurrentRoomPlayers(List<string> playerNames, string master)
     {
-        Debug.Log("RoomManager.OnGetMMORoomPlayersResponse");
+        logger.debug("SetCurrentRoomPlayers");
         CurrentRoomPlayers = new List<Player>();
         foreach (string playerName in playerNames)
         {
@@ -40,7 +39,7 @@ public class RoomManager : EzyLoggable
 
     public void SetCurrentRoomId(long roomId)
     {
-        Debug.Log("RoomManager.setCurrentRoomId");
+        logger.debug("SetCurrentRoomId");
         currentRoomId = roomId;
     }
 
