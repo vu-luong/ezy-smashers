@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerInterpolation))]
 public class ClientPlayer : MonoBehaviour
@@ -47,9 +49,14 @@ public class ClientPlayer : MonoBehaviour
 
 	public Transform AttackPoint => attackPoint;
 
-	public UnityAction<PlayerInputData, Quaternion> PlayerInputEvent { get; set; }
-	public UnityAction<Vector3, int> PlayerAttackEvent { get; set; }
-	public UnityAction GameOverEvent { get; set; }
+	[SerializeField]
+	private UnityEvent<Vector3, int> playerAttackEvent;
+	
+	[SerializeField]
+	private UnityEvent<PlayerInputData, Quaternion> playerInputEvent;
+
+	[SerializeField]
+	private UnityEvent deadEvent;
 
 	public Hammer Hammer1
 	{
@@ -110,7 +117,7 @@ public class ClientPlayer : MonoBehaviour
 			if (!Anim.IsInTransition(0))
 			{
 				Anim.SetTrigger("slash");
-				PlayerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
+				playerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
 			}
 			else
 			{
@@ -135,7 +142,7 @@ public class ClientPlayer : MonoBehaviour
 			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
 			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
 			playerInterpolation.SetFramePosition(nextStateData);
-			PlayerInputEvent?.Invoke(inputData, nextStateData.Rotation);
+			playerInputEvent?.Invoke(inputData, nextStateData.Rotation);
 			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextStateData.Position.ToString("F8"));
 			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextStateData, inputData));
 		}
@@ -232,7 +239,7 @@ public class ClientPlayer : MonoBehaviour
 		yield return new WaitForSeconds(0.1f);
 		if (IsMyPlayer)
 		{
-			GameOverEvent?.Invoke();
+			deadEvent?.Invoke();
 		}
 	}
 
