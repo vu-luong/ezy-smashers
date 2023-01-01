@@ -89,25 +89,12 @@ public class GamePlayController : DefaultMonoBehaviour
 			// todo vu: refactor this, this is highly coupling with ClientPlayer
 			// myPlayer.playerInputEvent += OnPlayerInputChange;
 			// myPlayer.PlayerAttackEvent += OnPlayerAttack;
-			// myPlayer.gameOverEvent += OnGameOver;
-			myPlayer.Hammer1.PlayerHitEvent += OnPlayerHit;
+			// myPlayer.gameOverEvent += OnMyPlayerDead;
+			// myPlayer.Hammer1.playerHitEvent += OnPlayerHit;
 			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;
 		}
 	}
 	
-	private void OnPlayerHit(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
-	{
-		SocketRequest.getInstance().SendPlayerHit(victimName, attackPosition, myClientTick, otherClientTick);
-	}
-	
-	private void UnregisterEvents()
-	{
-		// myPlayer.playerInputEvent -= OnPlayerInputChange;
-		// myPlayer.PlayerAttackEvent -= OnPlayerAttack;
-		// myPlayer.gameOverEvent -= OnGameOver;
-		myPlayer.Hammer1.PlayerHitEvent -= OnPlayerHit;
-	}
-
 	#region Public Methods
 	
 	public void OnPlayerAttack(Vector3 attackPosition, int clientTick)
@@ -125,10 +112,19 @@ public class GamePlayController : DefaultMonoBehaviour
 		Debug.Log("OnMyPlayerDead");
 		gameOverUIUpdateEvent?.Invoke();
 	}
+	
+	public void OnPlayerHit(PlayerHitModel playerHit)
+	{
+		string victimName = playerHit.VictimName;
+		Vector3 attackPosition = playerHit.AttackPosition;
+		int myClientTick = playerHit.AttackerTick;
+		int otherClientTick = playerHit.VictimTick;
+		// todo vu: should convert to PlayerHitRequest
+		SocketRequest.getInstance().SendPlayerHit(victimName, attackPosition, myClientTick, otherClientTick);
+	}
 
 	public void ExitGameRoom()
 	{
-		UnregisterEvents();
 		SceneManager.LoadScene("LobbyScene");
 	}
 

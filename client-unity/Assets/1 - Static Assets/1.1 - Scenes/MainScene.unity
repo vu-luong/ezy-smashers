@@ -1075,6 +1075,7 @@ GameObject:
   - component: {fileID: 1253428387}
   - component: {fileID: 1253428388}
   - component: {fileID: 1253428389}
+  - component: {fileID: 1253428390}
   m_Layer: 0
   m_Name: GamePlayControllers
   m_TagString: Untagged
@@ -1230,6 +1231,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: GamePlayController, Assembly-CSharp
         m_MethodName: OnMyPlayerDead
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1253428390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253428383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e7547035cc44469dec322f9a1f8e51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: ebdd264f5eb9ddb3c93aff7770c1d3ce, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1253428384}
+        m_TargetAssemblyTypeName: GamePlayController, Assembly-CSharp
+        m_MethodName: OnPlayerHit
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -4,11 +4,11 @@ using UnityEngine.Events;
 
 public class Hammer : MonoBehaviour
 {
-	public ClientPlayer clientPlayer;
 	private bool hasEntered;
-	HashSet<string> playersBeingAttacked = new HashSet<string>();
+	public ClientPlayer clientPlayer;
+	private readonly HashSet<string> playersBeingAttacked = new();
 
-	public UnityAction<string, Vector3, int, int> PlayerHitEvent { get; set; }
+	public UnityEvent<PlayerHitModel> playerHitEvent;
 
 	private void OnCollisionEnter(Collision other)
 	{
@@ -22,10 +22,14 @@ public class Hammer : MonoBehaviour
 				Debug.Log(other.gameObject.name);
 				playersBeingAttacked.Add(other.gameObject.name);
 				// Invoke event
-				PlayerHitEvent?.Invoke(other.gameObject.name,
-				                       clientPlayer.AttackPoint.position,
-				                       clientPlayer.ClientTick,
-				                       other.gameObject.GetComponent<ClientPlayer>().ClientTick);
+				playerHitEvent?.Invoke(
+					new PlayerHitModel(
+						other.gameObject.name,
+						clientPlayer.AttackPoint.position,
+						clientPlayer.ClientTick,
+						other.gameObject.GetComponent<ClientPlayer>().ClientTick
+					)
+				);
 			}
 		}
 	}
