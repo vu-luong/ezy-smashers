@@ -32,7 +32,7 @@ public class PlayerInterpolation : MonoBehaviour
 		}
 
 		float timeSinceLastInput = Time.time - lastInputTime;
-		float duration = clientPlayer.IsMyPlayer ? Time.fixedDeltaTime : SocketConstants.SERVER_FIXED_DELTA_TIME;
+		float duration = clientPlayer.IsMyPlayer ? Time.fixedDeltaTime : GameConstants.SERVER_FIXED_DELTA_TIME;
 		float t = timeSinceLastInput / duration;
 
 		if (!clientPlayer.IsMyPlayer)

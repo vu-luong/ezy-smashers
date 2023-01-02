@@ -196,7 +196,7 @@ public class ClientPlayer : MonoBehaviour
 	 */
 	IEnumerator OtherPlayerUpdateTimeTick(int time)
 	{
-		yield return new WaitForSeconds(SocketConstants.SERVER_FIXED_DELTA_TIME);
+		yield return new WaitForSeconds(GameConstants.SERVER_FIXED_DELTA_TIME);
 		ClientTick = time;
 		allowedOtherPlayerTick = false;
 		// Debug.Log("OtherPlayerUpdateTimeTick " + ClientTick);

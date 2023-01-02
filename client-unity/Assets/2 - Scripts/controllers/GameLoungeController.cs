@@ -10,7 +10,7 @@ public class GameLoungeController : DefaultMonoBehaviour
     public UnityEvent<string> setRoomTitleEvent;
     public UnityEvent updateRoomPlayersEvent;
 
-    private void Awake()
+    private void Start()
     {
         AddHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
         AddHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
@@ -28,7 +28,7 @@ public class GameLoungeController : DefaultMonoBehaviour
 
     private void SetRoomTitle()
     {
-        long currentRoomId = RoomManager.getInstance().CurrentRoomId;
+        long currentRoomId = RoomManager.GetInstance().CurrentRoomId;
         setRoomTitleEvent?.Invoke("Room #" + currentRoomId);
     }
 
@@ -39,7 +39,7 @@ public class GameLoungeController : DefaultMonoBehaviour
         logger.debug("OnGetMMORoomPlayersResponse");
         logger.debug("Player Names: " + string.Join(",", playerNames));
         logger.debug("Master Name: " + masterName);
-        RoomManager.getInstance().SetCurrentRoomPlayers(playerNames, masterName);
+        RoomManager.GetInstance().SetCurrentRoomPlayers(playerNames, masterName);
         updateRoomPlayersEvent.Invoke();
     }
 

@@ -13,7 +13,7 @@ public class RoomManager : EzyLoggable
     {
     }
 
-    public static RoomManager getInstance()
+    public static RoomManager GetInstance()
     {
         return INSTANCE;
     }

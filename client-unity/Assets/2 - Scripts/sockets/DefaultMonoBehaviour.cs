@@ -20,7 +20,7 @@ public class DefaultMonoBehaviour : MonoBehaviour
 		handlers.Add(
 			new Tuple<String, Object>(
 				cmd,
-				SocketManager.GetInstance()
+				DefaultSocketManager.GetInstance()
 					.AppProxy
 					.on(cmd, handler)
 			)
@@ -32,7 +32,7 @@ public class DefaultMonoBehaviour : MonoBehaviour
 		logger.debug("OnDestroy");
 		foreach (Tuple<String, Object> tuple in handlers)
 		{
-			SocketManager.GetInstance()
+			DefaultSocketManager.GetInstance()
 				.AppProxy.unbind(tuple.Item1, tuple.Item2);
 		}
 	}

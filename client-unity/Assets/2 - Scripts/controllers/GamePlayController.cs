@@ -14,11 +14,9 @@ public class GamePlayController : DefaultMonoBehaviour
 	[FormerlySerializedAs("gameOverTextChange")]
 	public UnityEvent gameOverUIUpdateEvent;
 
-	private ClientPlayer myPlayer;
-	private Dictionary<string, ClientPlayer> playerByName = new();
-	private Dictionary<string, ClientPlayer> PlayerByName => playerByName;
+	private readonly Dictionary<string, ClientPlayer> playerByName = new();
 
-	private void Awake()
+	private void Start()
 	{
 		AddHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
 		AddHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayersBeingAttacked);
@@ -28,7 +26,7 @@ public class GamePlayController : DefaultMonoBehaviour
 
 	private void OnPlayerSyncPosition(EzyAppProxy proxy, EzyArray data)
 	{
-		logger.info("OnPlayerSyncPosition: " + data);
+		logger.debug("OnPlayerSyncPosition: " + data);
 		string playerName = data.get<string>(0);
 		EzyArray positionArray = data.get<EzyArray>(1);
 		EzyArray rotationArray = data.get<EzyArray>(2);
@@ -43,7 +41,7 @@ public class GamePlayController : DefaultMonoBehaviour
 			rotationArray.get<float>(1),
 			rotationArray.get<float>(2)
 		);
-		PlayerByName[playerName].OnServerDataUpdate(position, rotation, time);
+		playerByName[playerName].OnServerDataUpdate(position, rotation, time);
 	}
 	
 	private void OnPlayersBeingAttacked(EzyAppProxy proxy, EzyObject data)
@@ -52,18 +50,18 @@ public class GamePlayController : DefaultMonoBehaviour
 		var attackTime = data.get<float>("t");
 		var attackerName = data.get<string>("a");
 		var attackPosition = data.get<EzyArray>("p");
-		logger.info(
+		logger.debug(
 			"victimName: " + victimName + "; attackTime: " + attackTime +
 			"; attackerName: " + attackerName + "; attackPosition: " + attackPosition
 		);
-		PlayerByName[victimName].OnBeingAttacked();
+		playerByName[victimName].OnBeingAttacked();
 	}
 	
 	private void OnPlayerAttackResponse(EzyAppProxy proxy, EzyObject data)
 	{
 		var attackerName = data.get<string>("a");
 		logger.debug("OnPlayerAttackResponse - attackerName = " + attackerName);
-		PlayerByName[attackerName].OnServerAttack();
+		playerByName[attackerName].OnServerAttack();
 	}
 	
 	private void SpawnPlayers(List<PlayerSpawnData> playersSpawnData)
@@ -82,15 +80,9 @@ public class GamePlayController : DefaultMonoBehaviour
 		go.name = playerSpawnData.playerName;
 		ClientPlayer clientPlayer = go.GetComponent<ClientPlayer>();
 		clientPlayer.Initialize(playerSpawnData, isMyPlayer);
-		PlayerByName.Add(playerSpawnData.playerName, clientPlayer);
+		playerByName.Add(playerSpawnData.playerName, clientPlayer);
 		if (isMyPlayer)
 		{
-			myPlayer = clientPlayer;
-			// todo vu: refactor this, this is highly coupling with ClientPlayer
-			// myPlayer.playerInputEvent += OnPlayerInputChange;
-			// myPlayer.PlayerAttackEvent += OnPlayerAttack;
-			// myPlayer.gameOverEvent += OnMyPlayerDead;
-			// myPlayer.Hammer1.playerHitEvent += OnPlayerHit;
 			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;
 		}
 	}

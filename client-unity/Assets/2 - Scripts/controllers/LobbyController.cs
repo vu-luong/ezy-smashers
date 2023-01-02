@@ -8,16 +8,11 @@ public class LobbyController : DefaultMonoBehaviour
 {
 	public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 
-	private void Awake()
+	private void Start()
 	{
-		logger.debug("Awake");
 		AddHandler<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
 		AddHandler<EzyArray>(Commands.GET_MMO_ROOM_ID_LIST, OnMMORoomIdListResponse);
 		AddHandler<EzyObject>(Commands.JOIN_MMO_ROOM, JoinRoom);
-	}
-
-	private void Start()
-	{
 		RefreshRoomIdList();
 	}
 
@@ -25,7 +20,7 @@ public class LobbyController : DefaultMonoBehaviour
 	{
 		int roomId = data.get<int>("roomId");
 		logger.debug("JoinRoom roomId = " + roomId);
-		RoomManager.getInstance().CurrentRoomId = roomId;
+		RoomManager.GetInstance().CurrentRoomId = roomId;
 		SceneManager.LoadScene("GameLoungeScene");
 	}
 

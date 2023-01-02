@@ -4,10 +4,10 @@ using com.tvd12.ezyfoxserver.client.support;
 using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
 
-public class SocketRequest : EzyLoggable
+public sealed class SocketRequest : EzyLoggable
 {
 	private static readonly SocketRequest INSTANCE = new();
-	private EzyAppProxy appProxy;
+	private readonly EzyAppProxy appProxy;
 
 	public static SocketRequest getInstance()
 	{
@@ -16,7 +16,7 @@ public class SocketRequest : EzyLoggable
 
 	public SocketRequest()
 	{
-		appProxy = SocketManager.GetInstance()
+		appProxy = DefaultSocketManager.GetInstance()
 			.AppProxy;
 	}
 
