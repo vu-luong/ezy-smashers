@@ -53,12 +53,12 @@ public sealed class SocketRequest : EzyLoggable
 		appProxy.send(Commands.START_GAME);
 	}
 
-	public void SendPlayerInputData(PlayerInputData inputData, Vector3 nextRotation)
+	public void SendPlayerInputData(PlayerInputModel playerInput, Vector3 nextRotation)
 	{
 		EzyObject data = EzyEntityFactory
 			.newObjectBuilder()
-			.append("t", inputData.Time)
-			.append("k", inputData.KeyInputs)
+			.append("t", playerInput.Time)
+			.append("k", playerInput.KeyInputs)
 			.append(
 				"r",
 				EzyEntityFactory.newArrayBuilder()

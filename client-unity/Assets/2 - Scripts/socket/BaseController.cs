@@ -5,12 +5,12 @@ using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
 using Object = System.Object;
 
-public class DefaultMonoBehaviour : MonoBehaviour
+public class BaseController : MonoBehaviour
 {
 	private readonly List<Tuple<String, Object>> handlers = new();
 	protected readonly EzyLogger logger;
 
-	public DefaultMonoBehaviour()
+	public BaseController()
 	{
 		logger = EzyLoggerFactory.getLogger(GetType());
 	}

@@ -13,10 +13,8 @@ public class ButtonUI : MonoBehaviour
         if (index == -1) 
         { 
             return transform.GetSiblingIndex();
-        } else
-        {
-            return index;
         }
+        return index;
     }
 
     public void OnClick()

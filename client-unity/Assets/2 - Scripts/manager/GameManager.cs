@@ -10,7 +10,7 @@ public class GameManager : EzyLoggable
 	public PlayerModel MyPlayer => myPlayer;
 	public List<PlayerSpawnInfoModel> PlayersSpawnInfo { get; set; }
 
-	public static GameManager getInstance()
+	public static GameManager GetInstance()
 	{
 		return INSTANCE;
 	}

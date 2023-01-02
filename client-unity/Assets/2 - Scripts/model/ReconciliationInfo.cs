@@ -2,12 +2,12 @@ public class ReconciliationInfo
 {
 	public int TimeTick { get; }
 	public PlayerStateModel PlayerState { get; }
-	public PlayerInputData InputData { get; }
+	public PlayerInputModel PlayerInput { get; }
 	
-	public ReconciliationInfo(int timeTick, PlayerStateModel playerState, PlayerInputData inputData)
+	public ReconciliationInfo(int timeTick, PlayerStateModel playerState, PlayerInputModel playerInput)
 	{
 		TimeTick = timeTick;
 		PlayerState = playerState;
-		InputData = inputData;
+		PlayerInput = playerInput;
 	}
 }

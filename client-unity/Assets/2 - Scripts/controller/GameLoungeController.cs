@@ -5,12 +5,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class GameLoungeController : DefaultMonoBehaviour
+public class GameLoungeController : BaseController
 {
     public UnityEvent<string> setRoomTitleEvent;
     public UnityEvent updateRoomPlayersEvent;
 
-    private void Start()
+    private void Awake()
     {
         AddHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
         AddHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
@@ -76,7 +76,7 @@ public class GameLoungeController : DefaultMonoBehaviour
                 )
             );
         }
-        GameManager.getInstance().PlayersSpawnInfo = spawnData;
+        GameManager.GetInstance().PlayersSpawnInfo = spawnData;
         SceneManager.LoadScene("MainScene");
     }
 

@@ -7,7 +7,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(PlayerInterpolation))]
 public class ClientPlayer : MonoBehaviour
 {
-	private string playerName;
 	private bool isMyPlayer;
 	[SerializeField]
 	private Transform lookPoint;
@@ -34,7 +33,7 @@ public class ClientPlayer : MonoBehaviour
 	private Animator anim;
 	private PlayerInterpolation playerInterpolation;
 
-	private Queue<ReconciliationInfo> reconciliationHistory = new Queue<ReconciliationInfo>();
+	private Queue<ReconciliationInfo> reconciliationHistory = new();
 	private Color eyeColor;
 
 	public int ClientTick { get; set; }
@@ -51,16 +50,10 @@ public class ClientPlayer : MonoBehaviour
 	private UnityEvent<Vector3, int> playerAttackEvent;
 
 	[SerializeField]
-	private UnityEvent<PlayerInputData, Quaternion> playerInputEvent;
+	private UnityEvent<PlayerInputModel, Quaternion> playerInputEvent;
 
 	[SerializeField]
 	private UnityEvent deadEvent;
-
-	public Hammer Hammer1
-	{
-		get => hammer;
-		set => hammer = value;
-	}
 
 	// Use this for initialization
 	void Awake()
@@ -137,12 +130,12 @@ public class ClientPlayer : MonoBehaviour
 			Debug.Log("movement = " + movement);
 			Anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
 
-			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
-			PlayerStateModel nextPlayerState = PlayerLogic.GetPlayerStateOfNextFrame(inputData, playerInterpolation.CurrentPlayerState);
+			PlayerInputModel playerInput = new PlayerInputModel(inputs, ClientTick);
+			PlayerStateModel nextPlayerState = PlayerLogic.GetPlayerStateOfNextFrame(playerInput, playerInterpolation.CurrentPlayerState);
 			playerInterpolation.SetFramePosition(nextPlayerState);
-			playerInputEvent?.Invoke(inputData, nextPlayerState.Rotation);
+			playerInputEvent?.Invoke(playerInput, nextPlayerState.Rotation);
 			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextPlayerState.Position.ToString("F8"));
-			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextPlayerState, inputData));
+			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextPlayerState, playerInput));
 		}
 		else
 		{
@@ -174,7 +167,7 @@ public class ClientPlayer : MonoBehaviour
 					for (int i = 0; i < infos.Count; i++)
 					{
 						PlayerStateModel playerState =
-							PlayerLogic.GetPlayerStateOfNextFrame(infos[i].InputData, playerInterpolation.CurrentPlayerState);
+							PlayerLogic.GetPlayerStateOfNextFrame(infos[i].PlayerInput, playerInterpolation.CurrentPlayerState);
 						playerInterpolation.SetFramePosition(playerState);
 					}
 				}
@@ -201,19 +194,18 @@ public class ClientPlayer : MonoBehaviour
 		// Debug.Log("OtherPlayerUpdateTimeTick " + ClientTick);
 	}
 
-	public void Initialize(PlayerSpawnInfoModel playerSpawnData, bool isMyPlayer)
+	public void Initialize(PlayerSpawnInfoModel playerSpawnInfo, bool isMyPlayer)
 	{
-		playerName = playerSpawnData.PlayerName;
 		this.isMyPlayer = isMyPlayer;
 		ClientTick = 0;
-		playerInterpolation.CurrentPlayerState = new PlayerStateModel(playerSpawnData.Position, transform.rotation);
-		playerInterpolation.PreviousPlayerState = new PlayerStateModel(playerSpawnData.Position, transform.rotation);
+		playerInterpolation.CurrentPlayerState = new PlayerStateModel(playerSpawnInfo.Position, transform.rotation);
+		playerInterpolation.PreviousPlayerState = new PlayerStateModel(playerSpawnInfo.Position, transform.rotation);
 
 		characterMaterials = GetComponentsInChildren<Renderer>();
 		Color mainColor = new Color(
-			playerSpawnData.PlayerColor.x,
-			playerSpawnData.PlayerColor.y,
-			playerSpawnData.PlayerColor.z,
+			playerSpawnInfo.PlayerColor.x,
+			playerSpawnInfo.PlayerColor.y,
+			playerSpawnInfo.PlayerColor.z,
 			1.0f
 		);
 		for (int i = 0; i < characterMaterials.Length; i++)

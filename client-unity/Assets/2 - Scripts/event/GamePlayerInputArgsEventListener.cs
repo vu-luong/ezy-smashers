@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 
-public class GamePlayerInputArgsEventListener : GameEventListener<PlayerInputData, Quaternion>
+public class GamePlayerInputArgsEventListener : GameEventListener<PlayerInputModel, Quaternion>
 {
 }

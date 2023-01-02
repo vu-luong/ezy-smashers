@@ -3,15 +3,11 @@ using com.tvd12.ezyfoxserver.client.util;
 
 public class RoomManager : EzyLoggable
 {
-    private static readonly RoomManager INSTANCE = new RoomManager();
+    private static readonly RoomManager INSTANCE = new();
     private long currentRoomId;
 
     public long CurrentRoomId { get => currentRoomId; set => currentRoomId = value; }
     public List<PlayerModel> CurrentRoomPlayers { get; private set; }
-
-    public RoomManager()
-    {
-    }
 
     public static RoomManager GetInstance()
     {
@@ -25,14 +21,14 @@ public class RoomManager : EzyLoggable
         foreach (string playerName in playerNames)
         {
             PlayerModel player;
-            if (playerName.Equals(GameManager.getInstance().MyPlayer.PlayerName))
+            if (playerName.Equals(GameManager.GetInstance().MyPlayer.PlayerName))
             {
-                player = GameManager.getInstance().MyPlayer;
+                player = GameManager.GetInstance().MyPlayer;
             } else
             { 
                 player = new PlayerModel(playerName);
             }
-            player.IsMaster = (playerName.Equals(master));
+            player.IsMaster = playerName.Equals(master);
             CurrentRoomPlayers.Add(player);
         }
     }

@@ -4,15 +4,19 @@ using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class LobbyController : DefaultMonoBehaviour
+public class LobbyController : BaseController
 {
 	public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 
-	private void Start()
+	private void Awake()
 	{
 		AddHandler<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
 		AddHandler<EzyArray>(Commands.GET_MMO_ROOM_ID_LIST, OnMMORoomIdListResponse);
 		AddHandler<EzyObject>(Commands.JOIN_MMO_ROOM, JoinRoom);
+	}
+
+	private void Start()
+	{
 		RefreshRoomIdList();
 	}
 

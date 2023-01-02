@@ -2,12 +2,12 @@
 using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine.SceneManagement;
 
-public class LoginController : DefaultMonoBehaviour
+public class LoginController : BaseController
 {
 	public StringVariable username;
 	public StringVariable password;
 
-	private void Start()
+	private void Awake()
 	{
 		AddHandler<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);
 	}
@@ -21,7 +21,7 @@ public class LoginController : DefaultMonoBehaviour
 
 	void OnJoinedLobby(EzyAppProxy appProxy, Object data)
 	{
-		GameManager.getInstance().SetUpMyPlayer(username.Value);
+		GameManager.GetInstance().SetUpMyPlayer(username.Value);
 		SceneManager.LoadScene("LobbyScene");
 	}
 }

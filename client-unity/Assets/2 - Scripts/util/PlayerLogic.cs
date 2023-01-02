@@ -6,13 +6,13 @@ public class PlayerLogic
 	public static float desiredRotationSpeed = 0.2f;
 
 	public static PlayerStateModel GetPlayerStateOfNextFrame(
-		PlayerInputData inputData,
+		PlayerInputModel playerInput,
 		PlayerStateModel currentPlayerState)
 	{
-		bool upInput = inputData.KeyInputs[0];
-		bool leftInput = inputData.KeyInputs[1];
-		bool downInput = inputData.KeyInputs[2];
-		bool rightInput = inputData.KeyInputs[3];
+		bool upInput = playerInput.KeyInputs[0];
+		bool leftInput = playerInput.KeyInputs[1];
+		bool downInput = playerInput.KeyInputs[2];
+		bool rightInput = playerInput.KeyInputs[3];
 
 		// Calculate the rotation based on inputs
 		var movement = InputUtils.ComputeMovementFromInput(upInput, leftInput, downInput, rightInput);

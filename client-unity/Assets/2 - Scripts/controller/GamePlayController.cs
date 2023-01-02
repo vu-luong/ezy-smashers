@@ -1,27 +1,25 @@
-﻿using System.Collections.Generic;
-using Cinemachine;
-using com.tvd12.ezyfoxserver.client.entity;
+﻿using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
-public class GamePlayController : DefaultMonoBehaviour
+public class GamePlayController : BaseController
 {
-	public GameObject playerPrefab;
-	public CinemachineVirtualCamera cinemachineVirtualCamera;
-	[FormerlySerializedAs("gameOverTextChange")]
-	public UnityEvent gameOverUIUpdateEvent;
-
-	private readonly Dictionary<string, ClientPlayer> playerByName = new();
-
-	private void Start()
+	[SerializeField]
+	private UnityEvent<PlayerSyncPositionModel> playerSyncPositionEvent;
+	
+	[SerializeField]
+	private UnityEvent<string> playerBeingAttackedEvent;
+	
+	[SerializeField]
+	private UnityEvent<string> otherPlayerAttackEvent;
+	
+	private void Awake()
 	{
 		AddHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
-		AddHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayersBeingAttacked);
+		AddHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
 		AddHandler<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
-		SpawnPlayers(GameManager.getInstance().PlayersSpawnInfo);
 	}
 
 	private void OnPlayerSyncPosition(EzyAppProxy proxy, EzyArray data)
@@ -41,10 +39,10 @@ public class GamePlayController : DefaultMonoBehaviour
 			rotationArray.get<float>(1),
 			rotationArray.get<float>(2)
 		);
-		playerByName[playerName].OnServerDataUpdate(position, rotation, time);
+		playerSyncPositionEvent?.Invoke(new PlayerSyncPositionModel(playerName, position, rotation, time));
 	}
 	
-	private void OnPlayersBeingAttacked(EzyAppProxy proxy, EzyObject data)
+	private void OnPlayerBeingAttacked(EzyAppProxy proxy, EzyObject data)
 	{
 		var victimName = data.get<string>("v");
 		var attackTime = data.get<float>("t");
@@ -54,37 +52,14 @@ public class GamePlayController : DefaultMonoBehaviour
 			"victimName: " + victimName + "; attackTime: " + attackTime +
 			"; attackerName: " + attackerName + "; attackPosition: " + attackPosition
 		);
-		playerByName[victimName].OnBeingAttacked();
+		playerBeingAttackedEvent?.Invoke(victimName);
 	}
 	
 	private void OnPlayerAttackResponse(EzyAppProxy proxy, EzyObject data)
 	{
 		var attackerName = data.get<string>("a");
 		logger.debug("OnPlayerAttackResponse - attackerName = " + attackerName);
-		playerByName[attackerName].OnServerAttack();
-	}
-	
-	private void SpawnPlayers(List<PlayerSpawnInfoModel> playerSpawnInfos)
-	{
-		foreach (var playerSpawnData in playerSpawnInfos)
-		{
-			SpawnPlayer(playerSpawnData);
-		}
-	}
-	
-	private void SpawnPlayer(PlayerSpawnInfoModel playerSpawnData)
-	{
-		bool isMyPlayer = playerSpawnData.PlayerName == GameManager.getInstance().MyPlayer.PlayerName;
-		GameObject go = Instantiate(playerPrefab);
-		go.tag = "Player";
-		go.name = playerSpawnData.PlayerName;
-		ClientPlayer clientPlayer = go.GetComponent<ClientPlayer>();
-		clientPlayer.Initialize(playerSpawnData, isMyPlayer);
-		playerByName.Add(playerSpawnData.PlayerName, clientPlayer);
-		if (isMyPlayer)
-		{
-			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;
-		}
+		otherPlayerAttackEvent?.Invoke(attackerName);
 	}
 	
 	#region Public Methods
@@ -94,15 +69,9 @@ public class GamePlayController : DefaultMonoBehaviour
 		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
 	}
 	
-	public void OnPlayerInputChange(PlayerInputData inputData, Quaternion nextRotation)
+	public void OnPlayerInputChange(PlayerInputModel playerInput, Quaternion nextRotation)
 	{
-		SocketRequest.getInstance().SendPlayerInputData(inputData, nextRotation.eulerAngles);
-	}
-	
-	public void OnMyPlayerDead()
-	{
-		Debug.Log("OnMyPlayerDead");
-		gameOverUIUpdateEvent?.Invoke();
+		SocketRequest.getInstance().SendPlayerInputData(playerInput, nextRotation.eulerAngles);
 	}
 	
 	public void OnPlayerHit(PlayerHitModel playerHit)
