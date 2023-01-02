@@ -21,7 +21,7 @@ public class GamePlayController : DefaultMonoBehaviour
 		AddHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
 		AddHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayersBeingAttacked);
 		AddHandler<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
-		SpawnPlayers(GameManager.getInstance().PlayersSpawnData);
+		SpawnPlayers(GameManager.getInstance().PlayersSpawnInfo);
 	}
 
 	private void OnPlayerSyncPosition(EzyAppProxy proxy, EzyArray data)
@@ -64,23 +64,23 @@ public class GamePlayController : DefaultMonoBehaviour
 		playerByName[attackerName].OnServerAttack();
 	}
 	
-	private void SpawnPlayers(List<PlayerSpawnData> playersSpawnData)
+	private void SpawnPlayers(List<PlayerSpawnInfoModel> playerSpawnInfos)
 	{
-		foreach (var playerSpawnData in playersSpawnData)
+		foreach (var playerSpawnData in playerSpawnInfos)
 		{
 			SpawnPlayer(playerSpawnData);
 		}
 	}
 	
-	private void SpawnPlayer(PlayerSpawnData playerSpawnData)
+	private void SpawnPlayer(PlayerSpawnInfoModel playerSpawnData)
 	{
-		bool isMyPlayer = playerSpawnData.playerName == GameManager.getInstance().MyPlayer.PlayerName;
+		bool isMyPlayer = playerSpawnData.PlayerName == GameManager.getInstance().MyPlayer.PlayerName;
 		GameObject go = Instantiate(playerPrefab);
 		go.tag = "Player";
-		go.name = playerSpawnData.playerName;
+		go.name = playerSpawnData.PlayerName;
 		ClientPlayer clientPlayer = go.GetComponent<ClientPlayer>();
 		clientPlayer.Initialize(playerSpawnData, isMyPlayer);
-		playerByName.Add(playerSpawnData.playerName, clientPlayer);
+		playerByName.Add(playerSpawnData.PlayerName, clientPlayer);
 		if (isMyPlayer)
 		{
 			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;

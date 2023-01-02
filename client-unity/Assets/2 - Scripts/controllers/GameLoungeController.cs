@@ -60,7 +60,7 @@ public class GameLoungeController : DefaultMonoBehaviour
     private void OnGameStarted(EzyAppProxy proxy, EzyArray data)
     { 
         logger.debug("OnGameStart");
-        List<PlayerSpawnData> spawnData = new List<PlayerSpawnData>();
+        List<PlayerSpawnInfoModel> spawnData = new List<PlayerSpawnInfoModel>();
 
         for (int i = 0; i < data.size(); i++)
         {
@@ -69,14 +69,14 @@ public class GameLoungeController : DefaultMonoBehaviour
             List<float> position = item.get<EzyArray>("position").toList<float>();
             List<float> color = item.get<EzyArray>("color").toList<float>();
             spawnData.Add(
-                new PlayerSpawnData(
+                new PlayerSpawnInfoModel(
                     playerName,
                     new Vector3(position[0], position[1], position[2]),
                     new Vector3(color[0], color[1], color[2])
                 )
             );
         }
-        GameManager.getInstance().PlayersSpawnData = spawnData;
+        GameManager.getInstance().PlayersSpawnInfo = spawnData;
         SceneManager.LoadScene("MainScene");
     }
 

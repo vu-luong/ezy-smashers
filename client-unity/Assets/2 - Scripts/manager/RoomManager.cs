@@ -7,7 +7,7 @@ public class RoomManager : EzyLoggable
     private long currentRoomId;
 
     public long CurrentRoomId { get => currentRoomId; set => currentRoomId = value; }
-    public List<Player> CurrentRoomPlayers { get; private set; }
+    public List<PlayerModel> CurrentRoomPlayers { get; private set; }
 
     public RoomManager()
     {
@@ -21,16 +21,16 @@ public class RoomManager : EzyLoggable
     public void SetCurrentRoomPlayers(List<string> playerNames, string master)
     {
         logger.debug("SetCurrentRoomPlayers");
-        CurrentRoomPlayers = new List<Player>();
+        CurrentRoomPlayers = new List<PlayerModel>();
         foreach (string playerName in playerNames)
         {
-            Player player;
+            PlayerModel player;
             if (playerName.Equals(GameManager.getInstance().MyPlayer.PlayerName))
             {
                 player = GameManager.getInstance().MyPlayer;
             } else
             { 
-                player = new Player(playerName);
+                player = new PlayerModel(playerName);
             }
             player.IsMaster = (playerName.Equals(master));
             CurrentRoomPlayers.Add(player);

@@ -5,22 +5,22 @@ public class PlayerInterpolation : MonoBehaviour
 	private float lastInputTime;
 	private ClientPlayer clientPlayer;
 
-	public PlayerStateData CurrentData { get; set; }
-	public PlayerStateData PreviousData { get; set; }
+	public PlayerStateModel CurrentPlayerState { get; set; }
+	public PlayerStateModel PreviousPlayerState { get; set; }
 
 	private void Start()
 	{
 		clientPlayer = GetComponent<ClientPlayer>();
 	}
 
-	public void SetFramePosition(PlayerStateData data)
+	public void SetFramePosition(PlayerStateModel playerState)
 	{
-		RefreshToPosition(data, CurrentData);
+		RefreshToPosition(playerState, CurrentPlayerState);
 	}
-	private void RefreshToPosition(PlayerStateData data, PlayerStateData prevData)
+	private void RefreshToPosition(PlayerStateModel playerState, PlayerStateModel prevPlayerState)
 	{
-		PreviousData = prevData;
-		CurrentData = data;
+		PreviousPlayerState = prevPlayerState;
+		CurrentPlayerState = playerState;
 		lastInputTime = Time.fixedTime;
 	}
 
@@ -28,7 +28,7 @@ public class PlayerInterpolation : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.L))
 		{
-			SetFramePosition(new PlayerStateData(new Vector3(10f, 10f, 10f), Quaternion.identity));
+			SetFramePosition(new PlayerStateModel(new Vector3(10f, 10f, 10f), Quaternion.identity));
 		}
 
 		float timeSinceLastInput = Time.time - lastInputTime;
@@ -37,7 +37,7 @@ public class PlayerInterpolation : MonoBehaviour
 
 		if (!clientPlayer.IsMyPlayer)
 		{
-			Vector3 movement = CurrentData.Position - transform.position;
+			Vector3 movement = CurrentPlayerState.Position - transform.position;
 			movement.x = movement.x != 0f ? 1f : 0f;
 			movement.z = movement.z != 0f ? 1f : 0f;
 			var moveInputMagnitude = new Vector2(movement.x, movement.z).sqrMagnitude;
@@ -54,7 +54,7 @@ public class PlayerInterpolation : MonoBehaviour
 			// Debug.Log("PlayerInterpolation.Update + others + " + clientPlayer.ClientTick + ", t = " + t);
 		}
 
-		transform.position = Vector3.Lerp(PreviousData.Position, CurrentData.Position, t);
-		transform.rotation = Quaternion.Lerp(PreviousData.Rotation, CurrentData.Rotation, t);
+		transform.position = Vector3.Lerp(PreviousPlayerState.Position, CurrentPlayerState.Position, t);
+		transform.rotation = Quaternion.Lerp(PreviousPlayerState.Rotation, CurrentPlayerState.Rotation, t);
 	}
 }

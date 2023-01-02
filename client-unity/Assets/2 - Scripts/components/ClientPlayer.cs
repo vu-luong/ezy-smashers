@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerInterpolation))]
 public class ClientPlayer : MonoBehaviour
@@ -51,7 +49,7 @@ public class ClientPlayer : MonoBehaviour
 
 	[SerializeField]
 	private UnityEvent<Vector3, int> playerAttackEvent;
-	
+
 	[SerializeField]
 	private UnityEvent<PlayerInputData, Quaternion> playerInputEvent;
 
@@ -140,11 +138,11 @@ public class ClientPlayer : MonoBehaviour
 			Anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
 
 			PlayerInputData inputData = new PlayerInputData(inputs, ClientTick);
-			PlayerStateData nextStateData = PlayerLogic.GetNextFrameData(inputData, playerInterpolation.CurrentData);
-			playerInterpolation.SetFramePosition(nextStateData);
-			playerInputEvent?.Invoke(inputData, nextStateData.Rotation);
-			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextStateData.Position.ToString("F8"));
-			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextStateData, inputData));
+			PlayerStateModel nextPlayerState = PlayerLogic.GetPlayerStateOfNextFrame(inputData, playerInterpolation.CurrentPlayerState);
+			playerInterpolation.SetFramePosition(nextPlayerState);
+			playerInputEvent?.Invoke(inputData, nextPlayerState.Rotation);
+			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextPlayerState.Position.ToString("F8"));
+			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextPlayerState, inputData));
 		}
 		else
 		{
@@ -164,19 +162,20 @@ public class ClientPlayer : MonoBehaviour
 			if (reconciliationHistory.Any() && reconciliationHistory.Peek().TimeTick == time)
 			{
 				var info = reconciliationHistory.Dequeue();
-				if (Vector3.Distance(info.StateData.Position, position) > 0.05f)
+				if (Vector3.Distance(info.PlayerState.Position, position) > 0.05f)
 				{
-					Debug.Log("SERVER RECONCILIATION! server position = " + position + ", client position = " + info.StateData.Position);
+					Debug.Log("SERVER RECONCILIATION! server position = " + position + ", client position = " + info.PlayerState.Position);
 					List<ReconciliationInfo> infos = reconciliationHistory.ToList();
-					playerInterpolation.CurrentData.Position = position;
-					playerInterpolation.CurrentData.Rotation = info.StateData.Rotation;
-					transform.position = playerInterpolation.CurrentData.Position;
-					transform.rotation = playerInterpolation.CurrentData.Rotation;
+					playerInterpolation.CurrentPlayerState.Position = position;
+					playerInterpolation.CurrentPlayerState.Rotation = info.PlayerState.Rotation;
+					transform.position = playerInterpolation.CurrentPlayerState.Position;
+					transform.rotation = playerInterpolation.CurrentPlayerState.Rotation;
 
 					for (int i = 0; i < infos.Count; i++)
 					{
-						PlayerStateData u = PlayerLogic.GetNextFrameData(infos[i].InputData, playerInterpolation.CurrentData);
-						playerInterpolation.SetFramePosition(u);
+						PlayerStateModel playerState =
+							PlayerLogic.GetPlayerStateOfNextFrame(infos[i].InputData, playerInterpolation.CurrentPlayerState);
+						playerInterpolation.SetFramePosition(playerState);
 					}
 				}
 			}
@@ -185,7 +184,7 @@ public class ClientPlayer : MonoBehaviour
 		{
 			allowedOtherPlayerTick = true;
 			StartCoroutine(OtherPlayerUpdateTimeTick(time));
-			playerInterpolation.SetFramePosition(new PlayerStateData(position, Quaternion.Euler(rotation)));
+			playerInterpolation.SetFramePosition(new PlayerStateModel(position, Quaternion.Euler(rotation)));
 			// Debug.Log("OnServerDataUpdate" + ClientTick + ", time = " + time);
 		}
 	}
@@ -202,19 +201,19 @@ public class ClientPlayer : MonoBehaviour
 		// Debug.Log("OtherPlayerUpdateTimeTick " + ClientTick);
 	}
 
-	public void Initialize(PlayerSpawnData playerSpawnData, bool isMyPlayer)
+	public void Initialize(PlayerSpawnInfoModel playerSpawnData, bool isMyPlayer)
 	{
-		playerName = playerSpawnData.playerName;
+		playerName = playerSpawnData.PlayerName;
 		this.isMyPlayer = isMyPlayer;
 		ClientTick = 0;
-		playerInterpolation.CurrentData = new PlayerStateData(playerSpawnData.position, transform.rotation);
-		playerInterpolation.PreviousData = new PlayerStateData(playerSpawnData.position, transform.rotation);
+		playerInterpolation.CurrentPlayerState = new PlayerStateModel(playerSpawnData.Position, transform.rotation);
+		playerInterpolation.PreviousPlayerState = new PlayerStateModel(playerSpawnData.Position, transform.rotation);
 
 		characterMaterials = GetComponentsInChildren<Renderer>();
 		Color mainColor = new Color(
-			playerSpawnData.color.x,
-			playerSpawnData.color.y,
-			playerSpawnData.color.z,
+			playerSpawnData.PlayerColor.x,
+			playerSpawnData.PlayerColor.y,
+			playerSpawnData.PlayerColor.z,
 			1.0f
 		);
 		for (int i = 0; i < characterMaterials.Length; i++)

@@ -1,13 +1,13 @@
 public class ReconciliationInfo
 {
-	public ReconciliationInfo(int timeTick, PlayerStateData stateData, PlayerInputData inputData)
+	public int TimeTick { get; }
+	public PlayerStateModel PlayerState { get; }
+	public PlayerInputData InputData { get; }
+	
+	public ReconciliationInfo(int timeTick, PlayerStateModel playerState, PlayerInputData inputData)
 	{
 		TimeTick = timeTick;
-		StateData = stateData;
+		PlayerState = playerState;
 		InputData = inputData;
 	}
-
-	public int TimeTick { get; set; }
-	public PlayerStateData StateData { get; set; }
-	public PlayerInputData InputData { get; set; }
 }

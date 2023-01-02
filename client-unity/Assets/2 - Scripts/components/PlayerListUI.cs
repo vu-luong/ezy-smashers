@@ -9,10 +9,10 @@ public class PlayerListUI : MonoBehaviour
 
 	public void UpdateRoomPlayers()
 	{
-		List<Player> players = RoomManager.GetInstance().CurrentRoomPlayers;
+		List<PlayerModel> players = RoomManager.GetInstance().CurrentRoomPlayers;
 		Debug.Log("PlayerList.UpdateRoomPlayers: " + string.Join(",", players));
 		gameObject.GetComponent<ListUI>().RemoveAllItems();
-		foreach (Player player in players)
+		foreach (PlayerModel player in players)
 
 		{
 			GameObject go = gameObject.GetComponent<ListUI>().AddItem(playerButtonPrefab);
