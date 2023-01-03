@@ -7,17 +7,14 @@ public class PlayerListUI : MonoBehaviour
 	[SerializeField]
 	private GameObject playerButtonPrefab;
 
-	public void UpdateRoomPlayers()
+	public void UpdateRoomPlayers(List<PlayerModel> models)
 	{
-		List<PlayerModel> players = RoomManager.GetInstance().CurrentRoomPlayers;
-		Debug.Log("PlayerList.UpdateRoomPlayers: " + string.Join(",", players));
+		Debug.Log("PlayerList.UpdateRoomPlayers: " + string.Join(",", models));
 		gameObject.GetComponent<ListUI>().RemoveAllItems();
-		foreach (PlayerModel player in players)
-
+		foreach (PlayerModel player in models)
 		{
 			GameObject go = gameObject.GetComponent<ListUI>().AddItem(playerButtonPrefab);
-			string displayName = player.IsMaster ?
-				player.PlayerName + "(Master)" : player.PlayerName;
+			string displayName = player.IsMaster ? player.PlayerName + "(Master)" : player.PlayerName;
 			go.GetComponentInChildren<Text>().text = displayName;
 		}
 	}

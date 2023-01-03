@@ -27,7 +27,7 @@ public class EzyDefaultController : MonoBehaviour
 		);
 	}
 
-	private void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		logger.debug("OnDestroy");
 		foreach (Tuple<String, Object> tuple in handlers)

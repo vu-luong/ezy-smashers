@@ -49,6 +49,21 @@ MonoBehaviour:
   password: {fileID: 11400000, guid: dabf48e587a0e4c879e2d970571da004, type: 2}
   host: 127.0.0.1
   udpPort: 2611
+  myPlayerJoinedLobbyEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 9a4e95eb68d72dc429347b4bd216d4db, type: 2}
+        m_TargetAssemblyTypeName: GameEvent`1[[System.String, mscorlib
+        m_MethodName: Raise
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5816738457312733126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65edee7a3f14a4148b6069ff5269afdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 83a088d4e6da245269b50756d7c16d49, type: 2}
-  Response:
+  gameEvent: {fileID: 11400000, guid: 83a088d4e6da245269b50756d7c16d49, type: 2}
+  response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8219859992849512279}

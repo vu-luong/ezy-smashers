@@ -1,6 +1,6 @@
 ﻿using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using Object = System.Object;
 
 public class LoginController : EzyDefaultController
@@ -16,6 +16,9 @@ public class LoginController : EzyDefaultController
 	
 	[SerializeField]
 	private int udpPort;
+
+	[SerializeField]
+	private UnityEvent<string> myPlayerJoinedLobbyEvent;
 
 	private void Awake()
 	{
@@ -43,7 +46,6 @@ public class LoginController : EzyDefaultController
 
 	void OnJoinedLobby(EzyAppProxy appProxy, Object data)
 	{
-		GameManager.GetInstance().SetUpMyPlayer(username.Value);
-		SceneManager.LoadScene("LobbyScene");
+		myPlayerJoinedLobbyEvent?.Invoke(username.Value);
 	}
 }

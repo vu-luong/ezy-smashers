@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1174caa6a194e0ba9001d8776e49e3e, type: 3}
-  m_Name: UpdateRoomPlayersEvent
+  m_Script: {fileID: 11500000, guid: 86b8cb20b48324ee6995c90e2b5e5c7b, type: 3}
+  m_Name: OnPlayerJoinedMmoRoomEvent
   m_EditorClassIdentifier: 

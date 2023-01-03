@@ -3,13 +3,15 @@ using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class LobbyController : EzyDefaultController
 {
 	[SerializeField]
 	private UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 
+	[SerializeField]
+	private UnityEvent<int> playerJoinedMmoRoomEvent;
+	
 	private void Awake()
 	{
 		AddHandler<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
@@ -26,8 +28,7 @@ public class LobbyController : EzyDefaultController
 	{
 		int roomId = data.get<int>("roomId");
 		logger.debug("JoinRoom roomId = " + roomId);
-		RoomManager.GetInstance().CurrentRoomId = roomId;
-		SceneManager.LoadScene("GameLoungeScene");
+		playerJoinedMmoRoomEvent?.Invoke(roomId);
 	}
 
 	private void OnMMORoomIdListResponse(EzyAppProxy appProxy, EzyArray data)

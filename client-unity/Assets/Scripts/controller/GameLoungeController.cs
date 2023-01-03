@@ -3,15 +3,14 @@ using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class GameLoungeController : EzyDefaultController
 {
     [SerializeField]
-    private UnityEvent<string> setRoomTitleEvent;
+    private UnityEvent<List<PlayerModel>> updateRoomPlayersEvent;
     
     [SerializeField]
-    private UnityEvent updateRoomPlayersEvent;
+    private UnityEvent<List<PlayerSpawnInfoModel>> gameStartedEvent;
 
     private void Awake()
     {
@@ -19,7 +18,6 @@ public class GameLoungeController : EzyDefaultController
         AddHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
         AddHandler<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
         AddHandler<EzyArray>(Commands.START_GAME, OnGameStarted);
-        SetRoomTitle();
         GetMMORoomPlayers();
     }
 
@@ -29,12 +27,6 @@ public class GameLoungeController : EzyDefaultController
             .SendGetMMORoomPlayersRequest();
     }
 
-    private void SetRoomTitle()
-    {
-        long currentRoomId = RoomManager.GetInstance().CurrentRoomId;
-        setRoomTitleEvent?.Invoke("Room #" + currentRoomId);
-    }
-
     private void OnGetMMORoomPlayersResponse(EzyAppProxy proxy, EzyObject data) 
     {
         List<string> playerNames = data.get<EzyArray>("players").toList<string>();
@@ -42,8 +34,13 @@ public class GameLoungeController : EzyDefaultController
         logger.debug("OnGetMMORoomPlayersResponse");
         logger.debug("Player Names: " + string.Join(",", playerNames));
         logger.debug("Master Name: " + masterName);
-        RoomManager.GetInstance().SetCurrentRoomPlayers(playerNames, masterName);
-        updateRoomPlayersEvent.Invoke();
+        List<PlayerModel> players = new();
+        foreach (string playerName in playerNames)
+        {
+            bool isMaster = playerName.Equals(masterName);
+            players.Add(new PlayerModel(playerName, isMaster));
+        }
+        updateRoomPlayersEvent?.Invoke(players);
     }
 
     private void OnAnotherJoinMMORoom(EzyAppProxy proxy, EzyObject data) 
@@ -63,7 +60,7 @@ public class GameLoungeController : EzyDefaultController
     private void OnGameStarted(EzyAppProxy proxy, EzyArray data)
     { 
         logger.debug("OnGameStart");
-        List<PlayerSpawnInfoModel> spawnData = new List<PlayerSpawnInfoModel>();
+        List<PlayerSpawnInfoModel> spawnInfos = new List<PlayerSpawnInfoModel>();
 
         for (int i = 0; i < data.size(); i++)
         {
@@ -71,7 +68,7 @@ public class GameLoungeController : EzyDefaultController
             string playerName = item.get<string>("playerName");
             List<float> position = item.get<EzyArray>("position").toList<float>();
             List<float> color = item.get<EzyArray>("color").toList<float>();
-            spawnData.Add(
+            spawnInfos.Add(
                 new PlayerSpawnInfoModel(
                     playerName,
                     new Vector3(position[0], position[1], position[2]),
@@ -79,8 +76,7 @@ public class GameLoungeController : EzyDefaultController
                 )
             );
         }
-        GameManager.GetInstance().PlayersSpawnInfo = spawnData;
-        SceneManager.LoadScene("MainScene");
+        gameStartedEvent?.Invoke(spawnInfos);
     }
 
     #region public methods

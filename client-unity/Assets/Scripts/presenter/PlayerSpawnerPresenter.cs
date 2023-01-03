@@ -10,8 +10,7 @@ public class PlayerSpawnerPresenter : MonoBehaviour
 
 	public void Start()
 	{
-		// todo vu: get from GameService
-		SpawnPlayers(GameManager.GetInstance().PlayersSpawnInfo);
+		SpawnPlayers(PlayerService.GetInstance().GetPlayerSpawnInfos());
 	}
 	
 	private void SpawnPlayers(List<PlayerSpawnInfoModel> playerSpawnInfos)
@@ -24,7 +23,7 @@ public class PlayerSpawnerPresenter : MonoBehaviour
 	
 	private void SpawnPlayer(PlayerSpawnInfoModel playerSpawnInfo)
 	{
-		bool isMyPlayer = playerSpawnInfo.PlayerName == GameManager.GetInstance().MyPlayer.PlayerName;
+		bool isMyPlayer = playerSpawnInfo.PlayerName == PlayerService.GetInstance().GetMyPlayerName();
 		GameObject go = Instantiate(playerPrefab);
 		go.tag = "Player";
 		go.name = playerSpawnInfo.PlayerName;
@@ -36,5 +35,10 @@ public class PlayerSpawnerPresenter : MonoBehaviour
 			Debug.Log("myClientPlayer.lookPoint = " + clientPlayer.LookPoint);
 			myPlayerSpawnedEvent?.Invoke(clientPlayer);
 		}
+	}
+
+	private void OnDestroy()
+	{
+		PlayerService.GetInstance().ClearPlayerByName();
 	}
 }
