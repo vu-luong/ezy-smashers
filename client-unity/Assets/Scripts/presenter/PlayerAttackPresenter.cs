@@ -4,14 +4,14 @@ public class PlayerAttackPresenter : MonoBehaviour
 {
 	public void PlayerBeingAttacked(string victimName)
 	{
-		PlayerService.GetInstance()
+		PlayerRepository.GetInstance()
 			.GetPlayerByName(victimName)
 			.OnBeingAttacked();
 	}
 
 	public void OtherPlayerAttack(string attackerName)
 	{
-		PlayerService.GetInstance()
+		PlayerRepository.GetInstance()
 			.GetPlayerByName(attackerName)
 			.OnServerAttack();
 	}

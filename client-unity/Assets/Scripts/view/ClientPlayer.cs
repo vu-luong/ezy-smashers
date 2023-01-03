@@ -8,8 +8,10 @@ using UnityEngine.Events;
 public class ClientPlayer : MonoBehaviour
 {
 	private bool isMyPlayer;
+
 	[SerializeField]
 	private Transform lookPoint;
+
 	[SerializeField]
 	private Transform attackPoint;
 
@@ -20,8 +22,7 @@ public class ClientPlayer : MonoBehaviour
 	private Hammer hammer;
 
 	[SerializeField]
-	// private SkinnedMeshRenderer renderer;
-	Renderer[] characterMaterials;
+	private Renderer[] characterMaterials;
 
 	[Space]
 	[Header("Animation Smoothing")]
@@ -33,7 +34,7 @@ public class ClientPlayer : MonoBehaviour
 	private Animator anim;
 	private PlayerInterpolation playerInterpolation;
 
-	private Queue<ReconciliationInfo> reconciliationHistory = new();
+	private Queue<ReconciliationModel> reconciliationHistory = new();
 	private Color eyeColor;
 
 	public int ClientTick { get; set; }
@@ -102,20 +103,13 @@ public class ClientPlayer : MonoBehaviour
 
 		bool attackInput = Input.GetKey(KeyCode.Space);
 
-		if (attackInput) // Slash/smash attack
+		if (attackInput)
 		{
 			// Only allow new attack when finishing previous attack
 			if (!Anim.IsInTransition(0))
 			{
 				Anim.SetTrigger("slash");
 				playerAttackEvent?.Invoke(attackPoint.transform.position, ClientTick);
-			}
-			else
-			{
-				Debug.Log("Den day roi!!!!!" + Time.time);
-				Debug.Log(Anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
-				Debug.Log(Anim.IsInTransition(0));
-				Debug.Log("isSlash = " + Anim.GetCurrentAnimatorStateInfo(0).IsName("Slash"));
 			}
 		}
 
@@ -131,11 +125,14 @@ public class ClientPlayer : MonoBehaviour
 			Anim.SetFloat("Blend", moveInputMagnitude, startAnimTime, Time.deltaTime);
 
 			PlayerInputModel playerInput = new PlayerInputModel(inputs, ClientTick);
-			PlayerStateModel nextPlayerState = PlayerLogic.GetPlayerStateOfNextFrame(playerInput, playerInterpolation.CurrentPlayerState);
+			PlayerStateModel nextPlayerState = PlayerMovingUtils.GetPlayerStateOfNextFrame(
+				playerInput,
+				playerInterpolation.CurrentPlayerState
+			);
 			playerInterpolation.SetFramePosition(nextPlayerState);
 			playerInputEvent?.Invoke(playerInput, nextPlayerState.Rotation);
 			Debug.Log("TimeTick: " + ClientTick + ", StateData: " + nextPlayerState.Position.ToString("F8"));
-			reconciliationHistory.Enqueue(new ReconciliationInfo(ClientTick, nextPlayerState, playerInput));
+			reconciliationHistory.Enqueue(new ReconciliationModel(ClientTick, nextPlayerState, playerInput));
 		}
 		else
 		{
@@ -158,16 +155,16 @@ public class ClientPlayer : MonoBehaviour
 				if (Vector3.Distance(info.PlayerState.Position, position) > 0.05f)
 				{
 					Debug.Log("SERVER RECONCILIATION! server position = " + position + ", client position = " + info.PlayerState.Position);
-					List<ReconciliationInfo> infos = reconciliationHistory.ToList();
+					List<ReconciliationModel> models = reconciliationHistory.ToList();
 					playerInterpolation.CurrentPlayerState.Position = position;
 					playerInterpolation.CurrentPlayerState.Rotation = info.PlayerState.Rotation;
 					transform.position = playerInterpolation.CurrentPlayerState.Position;
 					transform.rotation = playerInterpolation.CurrentPlayerState.Rotation;
 
-					for (int i = 0; i < infos.Count; i++)
+					for (int i = 0; i < models.Count; i++)
 					{
 						PlayerStateModel playerState =
-							PlayerLogic.GetPlayerStateOfNextFrame(infos[i].PlayerInput, playerInterpolation.CurrentPlayerState);
+							PlayerMovingUtils.GetPlayerStateOfNextFrame(models[i].PlayerInput, playerInterpolation.CurrentPlayerState);
 						playerInterpolation.SetFramePosition(playerState);
 					}
 				}

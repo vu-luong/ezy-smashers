@@ -21,20 +21,20 @@ public class GameLoungePresenter : MonoBehaviour
 	
 	private void SetRoomTitle()
 	{
-		long currentRoomId = RoomService.GetInstance().GetPlayingRoomId();
+		long currentRoomId = RoomRepository.GetInstance().GetPlayingRoomId();
 		setRoomTitleEvent?.Invoke("Room #" + currentRoomId);
 	}
 
 	public void UpdateMmoRoomPlayers(List<PlayerModel> models)
 	{
-		PlayerService.GetInstance().AddAllRoomPlayers(models);
-		myPlayerIsMasterCheckedEvent?.Invoke(PlayerService.GetInstance().GetMyPlayer().IsMaster);
+		PlayerRepository.GetInstance().UpdateRoomPlayers(models);
+		myPlayerIsMasterCheckedEvent?.Invoke(PlayerRepository.GetInstance().GetMyPlayer().IsMaster);
 		roomPlayersUpdatedEvent?.Invoke();
 	}
 
 	public void GameStarted(List<PlayerSpawnInfoModel> models)
 	{
-		PlayerService.GetInstance().AddAllPlayerSpawnInfos(models);
+		PlayerRepository.GetInstance().UpdatePlayerSpawnInfos(models);
 		SceneManager.LoadScene("MainScene");
 	}
 }

@@ -5,7 +5,7 @@ public class LobbyPresenter : MonoBehaviour
 {
 	public void PlayerJoinedMmoRoom(int roomId)
 	{
-		RoomService.GetInstance().SetPlayingRoomId(roomId);
+		RoomRepository.GetInstance().UpdatePlayingRoomId(roomId);
 		SceneManager.LoadScene("GameLoungeScene");
 	}
 }

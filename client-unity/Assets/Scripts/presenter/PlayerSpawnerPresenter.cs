@@ -5,12 +5,13 @@ using UnityEngine.Events;
 public class PlayerSpawnerPresenter : MonoBehaviour
 {
 	public GameObject playerPrefab;
+	
 	[SerializeField]
 	private UnityEvent<ClientPlayer> myPlayerSpawnedEvent;
 
 	public void Start()
 	{
-		SpawnPlayers(PlayerService.GetInstance().GetPlayerSpawnInfos());
+		SpawnPlayers(PlayerRepository.GetInstance().GetPlayerSpawnInfos());
 	}
 	
 	private void SpawnPlayers(List<PlayerSpawnInfoModel> playerSpawnInfos)
@@ -23,22 +24,21 @@ public class PlayerSpawnerPresenter : MonoBehaviour
 	
 	private void SpawnPlayer(PlayerSpawnInfoModel playerSpawnInfo)
 	{
-		bool isMyPlayer = playerSpawnInfo.PlayerName == PlayerService.GetInstance().GetMyPlayerName();
+		bool isMyPlayer = playerSpawnInfo.PlayerName == PlayerRepository.GetInstance().GetMyPlayerName();
 		GameObject go = Instantiate(playerPrefab);
 		go.tag = "Player";
 		go.name = playerSpawnInfo.PlayerName;
 		ClientPlayer clientPlayer = go.GetComponent<ClientPlayer>();
 		clientPlayer.Initialize(playerSpawnInfo, isMyPlayer);
-		PlayerService.GetInstance().AddPlayer(playerSpawnInfo.PlayerName, clientPlayer);
+		PlayerRepository.GetInstance().AddPlayer(playerSpawnInfo.PlayerName, clientPlayer);
 		if (isMyPlayer)
 		{
-			Debug.Log("myClientPlayer.lookPoint = " + clientPlayer.LookPoint);
 			myPlayerSpawnedEvent?.Invoke(clientPlayer);
 		}
 	}
 
 	private void OnDestroy()
 	{
-		PlayerService.GetInstance().ClearPlayerByName();
+		PlayerRepository.GetInstance().ClearPlayerByName();
 	}
 }

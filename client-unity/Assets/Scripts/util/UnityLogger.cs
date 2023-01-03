@@ -2,61 +2,60 @@
 using com.tvd12.ezyfoxserver.client.logger;
 using UnityEngine;
 
-public class UnityLogger : EzyLogger
+public class UnityLogger : EzySimpleLogger
 {
     private readonly object type;
-
-    public UnityLogger(object type)
+    
+    public UnityLogger(object name) : base(name)
     {
-        this.type = type;
     }
 
-    public void debug(string format, params object[] args)
+    protected override void debug0(string format, params object[] args)
     {
         Debug.Log(type + " - " + format);
     }
 
-    public void debug(string message, Exception e)
+    protected override void debug0(string message, Exception e)
     {
         Debug.Log(type + " - " + message + "\n" + e);
     }
 
-    public void error(string format, params object[] args)
+    protected override void error0(string format, params object[] args)
     {
         Debug.LogError(type + " - " + format);
     }
 
-    public void error(string message, Exception e)
+    protected override void error0(string message, Exception e)
     {
         Debug.LogError(type + " - " + message + "\n" + e);
     }
 
-    public void info(string format, params object[] args)
+    protected override void info0(string format, params object[] args)
     {
         Debug.Log(type + " - " + format);
     }
 
-    public void info(string message, Exception e)
+    protected override void info0(string message, Exception e)
     {
         Debug.Log(type + " - " + message + "\n" + e);
     }
 
-    public void trace(string format, params object[] args)
+    protected override void trace0(string format, params object[] args)
     {
         Debug.Log(type + " - " + format);
     }
 
-    public void trace(string message, Exception e)
+    protected override void trace0(string message, Exception e)
     {
         Debug.Log(type + " - " + message + "\n" + e);
     }
 
-    public void warn(string format, params object[] args)
+    protected override void warn0(string format, params object[] args)
     {
         Debug.LogWarning(type + " - " + format);
     }
 
-    public void warn(string message, Exception e)
+    protected override void warn0(string message, Exception e)
     {
         Debug.LogWarning(type + " - " + message + "\n" + e);
     }

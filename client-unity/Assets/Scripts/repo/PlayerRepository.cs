@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 
-public class PlayerService
+public class PlayerRepository
 {
-	private static readonly PlayerService INSTANCE = new();
+	private static readonly PlayerRepository INSTANCE = new();
 	private readonly Dictionary<string, ClientPlayer> playerByName = new();
 	private readonly PlayerEntity myPlayer = new();
 	private readonly List<PlayerEntity> currentRoomPlayers = new();
 	private readonly List<PlayerSpawnEntity> playerSpawnInfos = new();
 
-	public static PlayerService GetInstance()
+	public static PlayerRepository GetInstance()
 	{
 		return INSTANCE;
 	}
@@ -49,8 +49,9 @@ public class PlayerService
 		return new PlayerModel(myPlayer.PlayerName, myPlayer.IsMaster);
 	}
 	
-	public void AddAllRoomPlayers(List<PlayerModel> models)
+	public void UpdateRoomPlayers(List<PlayerModel> models)
 	{
+		currentRoomPlayers.Clear();
 		foreach (PlayerModel model in models)
 		{
 			PlayerEntity entity;
@@ -77,7 +78,7 @@ public class PlayerService
 		return models;
 	}
 	
-	public void AddAllPlayerSpawnInfos(List<PlayerSpawnInfoModel> models)
+	public void UpdatePlayerSpawnInfos(List<PlayerSpawnInfoModel> models)
 	{
 		foreach (PlayerSpawnInfoModel model in models)
 		{

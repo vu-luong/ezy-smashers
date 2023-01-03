@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class PlayerLogic
+public class PlayerMovingUtils
 {
-	public static float velocity = 6f;
-	public static float desiredRotationSpeed = 0.2f;
+	// todo vu: Convert these fields to configs
+	private static float velocity = 6f;
+	private static float desiredRotationSpeed = 0.2f;
 
 	public static PlayerStateModel GetPlayerStateOfNextFrame(
 		PlayerInputModel playerInput,
@@ -24,11 +25,10 @@ public class PlayerLogic
 		var currentPosition = currentPlayerState.Position;
 		var nextRotation = Quaternion.Slerp(currentRotation, Quaternion.LookRotation(desiredMoveDirection), desiredRotationSpeed);
 
-		// Move transform and send info the the server
+		// Move transform
 		var moveVector = desiredMoveDirection * Time.fixedDeltaTime * velocity;
 		var nextPosition = currentPosition + moveVector;
 
 		return new PlayerStateModel(nextPosition, nextRotation);
 	}
-
 }

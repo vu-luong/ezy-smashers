@@ -5,7 +5,7 @@ public class LoginPresenter : MonoBehaviour
 {
 	public void MyPlayerJoinedLobby(string playerName)
 	{
-		PlayerService.GetInstance()
+		PlayerRepository.GetInstance()
 			.UpdateMyPlayer(new PlayerModel(playerName, false));
 		SceneManager.LoadScene("LobbyScene");
 	}

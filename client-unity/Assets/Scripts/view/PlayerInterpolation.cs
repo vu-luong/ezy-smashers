@@ -17,6 +17,7 @@ public class PlayerInterpolation : MonoBehaviour
 	{
 		RefreshToPosition(playerState, CurrentPlayerState);
 	}
+	
 	private void RefreshToPosition(PlayerStateModel playerState, PlayerStateModel prevPlayerState)
 	{
 		PreviousPlayerState = prevPlayerState;
@@ -33,7 +34,7 @@ public class PlayerInterpolation : MonoBehaviour
 
 		float timeSinceLastInput = Time.time - lastInputTime;
 		float duration = clientPlayer.IsMyPlayer ? Time.fixedDeltaTime : GameConstants.SERVER_FIXED_DELTA_TIME;
-		float t = timeSinceLastInput / duration;
+		float interpolationValue = timeSinceLastInput / duration;
 
 		if (!clientPlayer.IsMyPlayer)
 		{
@@ -54,7 +55,7 @@ public class PlayerInterpolation : MonoBehaviour
 			// Debug.Log("PlayerInterpolation.Update + others + " + clientPlayer.ClientTick + ", t = " + t);
 		}
 
-		transform.position = Vector3.Lerp(PreviousPlayerState.Position, CurrentPlayerState.Position, t);
-		transform.rotation = Quaternion.Lerp(PreviousPlayerState.Rotation, CurrentPlayerState.Rotation, t);
+		transform.position = Vector3.Lerp(PreviousPlayerState.Position, CurrentPlayerState.Position, interpolationValue);
+		transform.rotation = Quaternion.Lerp(PreviousPlayerState.Rotation, CurrentPlayerState.Rotation, interpolationValue);
 	}
 }

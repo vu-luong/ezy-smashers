@@ -28,6 +28,7 @@ public class EzyDefaultSocketManager
     void Init()
     {
         // Enable EzyLogger
+        EzyLoggerFactory.setLoggerLevel(EzyLoggerLevel.INFO);
         EzyLoggerFactory.setLoggerSupply(type => new UnityLogger(type));
         logger = EzyLoggerFactory.getLogger<EzyDefaultSocketManager>();
 
