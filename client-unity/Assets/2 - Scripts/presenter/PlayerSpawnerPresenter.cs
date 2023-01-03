@@ -1,13 +1,14 @@
 using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerSpawnerPresenter : MonoBehaviour
 {
 	public GameObject playerPrefab;
-	public CinemachineVirtualCamera cinemachineVirtualCamera;
+	[SerializeField]
+	private UnityEvent<ClientPlayer> myPlayerSpawnedEvent;
 
-	public void Awake()
+	public void Start()
 	{
 		// todo vu: get from GameService
 		SpawnPlayers(GameManager.GetInstance().PlayersSpawnInfo);
@@ -32,7 +33,8 @@ public class PlayerSpawnerPresenter : MonoBehaviour
 		PlayerService.GetInstance().AddPlayer(playerSpawnInfo.PlayerName, clientPlayer);
 		if (isMyPlayer)
 		{
-			cinemachineVirtualCamera.Follow = clientPlayer.LookPoint;
+			Debug.Log("myClientPlayer.lookPoint = " + clientPlayer.LookPoint);
+			myPlayerSpawnedEvent?.Invoke(clientPlayer);
 		}
 	}
 }

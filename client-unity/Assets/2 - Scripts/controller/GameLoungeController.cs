@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class GameLoungeController : BaseController
+public class GameLoungeController : EzyDefaultController
 {
     public UnityEvent<string> setRoomTitleEvent;
     public UnityEvent updateRoomPlayersEvent;

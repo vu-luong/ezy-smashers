@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class GamePlayController : BaseController
+public class GamePlayController : EzyDefaultController
 {
 	[SerializeField]
 	private UnityEvent<PlayerSyncPositionModel> playerSyncPositionEvent;

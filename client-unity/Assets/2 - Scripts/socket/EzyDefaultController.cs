@@ -5,12 +5,12 @@ using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
 using Object = System.Object;
 
-public class BaseController : MonoBehaviour
+public class EzyDefaultController : MonoBehaviour
 {
 	private readonly List<Tuple<String, Object>> handlers = new();
 	protected readonly EzyLogger logger;
 
-	public BaseController()
+	public EzyDefaultController()
 	{
 		logger = EzyLoggerFactory.getLogger(GetType());
 	}
@@ -20,7 +20,7 @@ public class BaseController : MonoBehaviour
 		handlers.Add(
 			new Tuple<String, Object>(
 				cmd,
-				DefaultSocketManager.GetInstance()
+				EzyDefaultSocketManager.GetInstance()
 					.AppProxy
 					.on(cmd, handler)
 			)
@@ -32,7 +32,7 @@ public class BaseController : MonoBehaviour
 		logger.debug("OnDestroy");
 		foreach (Tuple<String, Object> tuple in handlers)
 		{
-			DefaultSocketManager.GetInstance()
+			EzyDefaultSocketManager.GetInstance()
 				.AppProxy.unbind(tuple.Item1, tuple.Item2);
 		}
 	}

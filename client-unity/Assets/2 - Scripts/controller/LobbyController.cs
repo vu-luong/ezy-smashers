@@ -4,7 +4,7 @@ using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class LobbyController : BaseController
+public class LobbyController : EzyDefaultController
 {
 	public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 

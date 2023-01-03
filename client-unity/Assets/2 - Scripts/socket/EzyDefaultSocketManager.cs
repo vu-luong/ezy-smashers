@@ -3,23 +3,24 @@ using com.tvd12.ezyfoxserver.client.logger;
 using com.tvd12.ezyfoxserver.client.support;
 using UnityEngine;
 
-public class DefaultSocketManager
+public class EzyDefaultSocketManager
 {
-    private static DefaultSocketManager INSTANCE = new();
+    private static EzyDefaultSocketManager INSTANCE = new();
     private readonly SocketConfigVariable socketConfig
         = (SocketConfigVariable)Resources.Load("SocketConfig");
     private EzyLogger logger;
     private EzySocketProxy socketProxy;
     private EzyAppProxy appProxy;
 
+    public EzySocketProxy SocketProxy => socketProxy;
     public EzyAppProxy AppProxy => appProxy;
 
-    public static DefaultSocketManager GetInstance()
+    public static EzyDefaultSocketManager GetInstance()
     {
         return INSTANCE;
     }
     
-    private DefaultSocketManager()
+    private EzyDefaultSocketManager()
     {
         Init();
     }
@@ -28,9 +29,9 @@ public class DefaultSocketManager
     {
         // Enable EzyLogger
         EzyLoggerFactory.setLoggerSupply(type => new UnityLogger(type));
-        logger = EzyLoggerFactory.getLogger<DefaultSocketManager>();
+        logger = EzyLoggerFactory.getLogger<EzyDefaultSocketManager>();
 
-        // Set up socket client
+        // Set up socket proxy and app proxy
         SetupSocketProxy();
     }
     
@@ -45,29 +46,22 @@ public class DefaultSocketManager
             .setTransportType(EzyTransportType.UDP)
             .setDefaultAppName(socketConfig.Value.AppName);
 
-        socketProxy.onLoginSuccess<object>(HandleLoginSuccess);
-        socketProxy.onAppAccessed<object>(HandleAppAccessed);
-
         appProxy = socketProxy.getDefaultAppProxy();
     }
     
-    private void HandleLoginSuccess(EzySocketProxy proxy, object data)
+    public void Login(
+        string host,
+        string username,
+        string password,
+        EzySocketProxyDataHandler<object> loginSuccessHandler,
+        EzyAppProxyDataHandler<object> appAccessedHandler)
     {
-        logger.debug("Log in successfully");
-        socketProxy.getClient().udpConnect(socketConfig.Value.UdpPort);
-    }
-    
-    private void HandleAppAccessed(EzyAppProxy proxy, object data)
-    {
-        logger.debug("App access successfully");
-        SocketRequest.getInstance().SendJoinLobbyRequest();
-    }
-
-    public void Login(string username, string password)
-    {
+        socketProxy.onLoginSuccess(loginSuccessHandler);
+        socketProxy.onAppAccessed(appAccessedHandler);
+        
         SocketProxyManager.getInstance()
             .getDefaultSocketProxy()
-            .setHost(socketConfig.Value.Host)
+            .setHost(host)
             .setLoginUsername(username)
             .setLoginPassword(password)
             .connect();

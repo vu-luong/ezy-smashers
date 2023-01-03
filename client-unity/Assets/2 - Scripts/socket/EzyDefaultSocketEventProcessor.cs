@@ -1,9 +1,8 @@
-﻿using com.tvd12.ezyfoxserver.client.support;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SocketEventProcessor : MonoBehaviour
+public class EzyDefaultSocketEventProcessor : MonoBehaviour
 {
-    private static SocketEventProcessor _instance;
+    private static EzyDefaultSocketEventProcessor _instance;
 
     private void Awake()
     {
@@ -22,8 +21,8 @@ public class SocketEventProcessor : MonoBehaviour
     void Update()
     {
         // Main thread pulls data from socket
-        SocketProxyManager.getInstance()
-            .getDefaultSocketProxy()
+        EzyDefaultSocketManager.GetInstance()
+            .SocketProxy
             .getClient()
             .processEvents();
     }

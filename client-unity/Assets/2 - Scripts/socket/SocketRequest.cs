@@ -16,7 +16,7 @@ public sealed class SocketRequest : EzyLoggable
 
 	public SocketRequest()
 	{
-		appProxy = DefaultSocketManager.GetInstance()
+		appProxy = EzyDefaultSocketManager.GetInstance()
 			.AppProxy;
 	}
 

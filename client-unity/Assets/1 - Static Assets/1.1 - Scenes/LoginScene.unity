@@ -359,8 +359,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2498367297786329985, guid: a86dd843ddf6a42ceb340020da5970b3, type: 3}
       propertyPath: host
-      value: 
-      objectReference: {fileID: 11400000, guid: d008f4f7d1211113a8a067d99489f142, type: 2}
+      value: 127.0.0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2498367297786329985, guid: a86dd843ddf6a42ceb340020da5970b3, type: 3}
+      propertyPath: udpPort
+      value: 2611
+      objectReference: {fileID: 0}
     - target: {fileID: 2498367297786329985, guid: a86dd843ddf6a42ceb340020da5970b3, type: 3}
       propertyPath: password
       value: 
