@@ -5,10 +5,17 @@ using Object = System.Object;
 
 public class LoginController : EzyDefaultController
 {
-	public StringVariable username;
-	public StringVariable password;
-	[SerializeField] private string host;
-	[SerializeField] private int udpPort;
+	[SerializeField]
+	private StringVariable username;
+	
+	[SerializeField]
+	private StringVariable password;
+	
+	[SerializeField]
+	private string host;
+	
+	[SerializeField]
+	private int udpPort;
 
 	private void Awake()
 	{

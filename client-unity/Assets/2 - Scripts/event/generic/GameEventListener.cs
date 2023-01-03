@@ -4,71 +4,77 @@ using UnityEngine.Events;
 public class GameEventListener : MonoBehaviour
 {
     [Tooltip("Event to register with.")]
-    public GameEvent Event;
+    [SerializeField]
+    private GameEvent gameEvent;
 
     [Tooltip("Response to invoke when Event is raised")]
-    public UnityEvent Response;
+    [SerializeField]
+    private UnityEvent response;
 
     private void OnEnable()
     {
-        Event.RegisterListener(this);
+        gameEvent.RegisterListener(this);
     }
 
     private void OnDisable()
     {
-        Event.UnregisterListener(this);
+        gameEvent.UnregisterListener(this);
     }
 
     public void OnEventRaised()
     {
-        Response.Invoke();
+        response.Invoke();
     }
 }
 
 public class GameEventListener<T> : MonoBehaviour
 {
     [Tooltip("Event to register with.")]
-    public GameEvent<T> Event;
+    [SerializeField]
+    private GameEvent<T> gameEvent;
 
     [Tooltip("Response to invoke when Event is raised")]
-    public UnityEvent<T> Response;
+    [SerializeField]
+    private UnityEvent<T> response;
 
     private void OnEnable()
     {
-        Event.RegisterListener(this);
+        gameEvent.RegisterListener(this);
     }
 
     private void OnDisable()
     {
-        Event.UnregisterListener(this);
+        gameEvent.UnregisterListener(this);
     }
 
     public void OnEventRaised(T item)
     {
-        Response.Invoke(item);
+        response.Invoke(item);
     }
 }
 
 public class GameEventListener<T0, T1> : MonoBehaviour
 {
     [Tooltip("Event to register with.")]
-    public GameEvent<T0, T1> Event;
+    [SerializeField]
+    private GameEvent<T0, T1> gameEvent;
 
     [Tooltip("Response to invoke when Event is raised")]
-    public UnityEvent<T0, T1> Response;
+    [SerializeField]
+    private UnityEvent<T0, T1> response;
 
     private void OnEnable()
     {
-        Event.RegisterListener(this);
+        gameEvent.RegisterListener(this);
     }
 
     private void OnDisable()
     {
-        Event.UnregisterListener(this);
+        gameEvent.UnregisterListener(this);
     }
 
     public void OnEventRaised(T0 item0, T1 item1)
     {
-        Response.Invoke(item0, item1);
+        response.Invoke(item0, item1);
     }
 }

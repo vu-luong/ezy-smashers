@@ -32,8 +32,7 @@ public abstract class GameEvent : ScriptableObject
 
 public abstract class GameEvent<T> : ScriptableObject
 {
-    private readonly List<GameEventListener<T>> eventListeners =
-        new List<GameEventListener<T>>();
+    private readonly List<GameEventListener<T>> eventListeners = new();
 
     public void Raise(T item)
     {
@@ -62,8 +61,7 @@ public abstract class GameEvent<T> : ScriptableObject
 
 public abstract class GameEvent<T0, T1> : ScriptableObject
 {
-    private readonly List<GameEventListener<T0, T1>> eventListeners =
-        new();
+    private readonly List<GameEventListener<T0, T1>> eventListeners = new();
 
     public void Raise(T0 item0, T1 item1)
     {

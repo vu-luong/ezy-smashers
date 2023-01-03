@@ -7,8 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class GameLoungeController : EzyDefaultController
 {
-    public UnityEvent<string> setRoomTitleEvent;
-    public UnityEvent updateRoomPlayersEvent;
+    [SerializeField]
+    private UnityEvent<string> setRoomTitleEvent;
+    
+    [SerializeField]
+    private UnityEvent updateRoomPlayersEvent;
 
     private void Awake()
     {

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.support;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class LobbyController : EzyDefaultController
 {
-	public UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
+	[SerializeField]
+	private UnityEvent<List<int>> mmoRoomIdListUpdateEvent;
 
 	private void Awake()
 	{
