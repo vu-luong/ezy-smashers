@@ -1,6 +1,7 @@
 ﻿using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.factory;
 using com.tvd12.ezyfoxserver.client.support;
+using com.tvd12.ezyfoxserver.client.unity;
 using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
 

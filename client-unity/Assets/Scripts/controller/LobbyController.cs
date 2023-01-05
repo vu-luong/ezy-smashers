@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.support;
+using com.tvd12.ezyfoxserver.client.unity;
 using UnityEngine;
 using UnityEngine.Events;
 
