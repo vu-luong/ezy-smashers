@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GenericVariable<T> : ScriptableObject
 {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && !UNITY_WEBGL
     [Multiline]
     public string DeveloperDescription = "";
 #endif

@@ -21,6 +21,9 @@ public class LoginController : EzyDefaultController
 	[SerializeField]
 	private UnityEvent<string> myPlayerJoinedLobbyEvent;
 
+	[SerializeField]
+	private SocketConfigVariable socketConfig;
+
 	private void Awake()
 	{
 		AddHandler<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);

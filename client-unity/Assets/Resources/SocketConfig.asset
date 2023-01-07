@@ -16,5 +16,3 @@ MonoBehaviour:
   Value:
     zoneName: EzySmashers
     appName: EzySmashers
-    host: 127.0.0.1
-    udpPort: 2611

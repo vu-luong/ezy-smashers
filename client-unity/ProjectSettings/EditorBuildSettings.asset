@@ -6,21 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/StaticAssets/Scenes/LoginScene.unity
+    path: Assets/_Project/Scenes/LoginScene.unity
     guid: fa948d1b2ce6c4ae895b00beff834ac2
-  - enabled: 0
-    path: Assets/StaticAssets/Scenes/LobbyScene.unity
+  - enabled: 1
+    path: Assets/_Project/Scenes/LoginScene_WebGL.unity
+    guid: 3f2c4770024e732f4b8b50fe0cd52453
+  - enabled: 1
+    path: Assets/_Project/Scenes/LobbyScene.unity
     guid: cf9e5385526d245d582e620fef64bb3f
   - enabled: 0
-    path: Assets/StaticAssets/Scenes/MainScene.unity
+    path: Assets/_Project/Scenes/MainScene.unity
     guid: 402eb1a88861c4cb4bec1520fbac1c62
   - enabled: 0
-    path: Assets/StaticAssets/Scenes/GameLoungeScene.unity
+    path: Assets/_Project/Scenes/GameLoungeScene.unity
     guid: 7a215aad1cbab447db252b576352bec0
   - enabled: 0
-    path: Assets/StaticAssets/Scenes/JSCallerTestScene.unity
+    path: Assets/_Project/Scenes/JSCallerTestScene.unity
     guid: e045aee7db6f67093b3fb99724abb1c0
-  - enabled: 1
-    path: Assets/StaticAssets/Scenes/LoginScene_WebGL.unity
-    guid: 3f2c4770024e732f4b8b50fe0cd52453
   m_configObjects: {}
