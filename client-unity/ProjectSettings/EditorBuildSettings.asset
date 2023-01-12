@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/LobbyScene.unity
     guid: cf9e5385526d245d582e620fef64bb3f
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Project/Scenes/MainScene.unity
     guid: 402eb1a88861c4cb4bec1520fbac1c62
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Project/Scenes/GameLoungeScene.unity
     guid: 7a215aad1cbab447db252b576352bec0
   - enabled: 0

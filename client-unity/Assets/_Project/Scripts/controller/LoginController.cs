@@ -21,19 +21,21 @@ public class LoginController : EzyDefaultController
 	[SerializeField]
 	private UnityEvent<string> myPlayerJoinedLobbyEvent;
 
-	[SerializeField]
-	private SocketConfigVariable socketConfig;
-
 	private void Awake()
 	{
+		base.Awake();
 		AddHandler<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);
 	}
 
 	public void Login()
 	{
 		// Login to socket server
-		EzyDefaultSocketManager.GetInstance()
-			.Login(host, username.Value, password.Value, HandleLoginSuccess, HandleAppAccessed);
+		EzySingletonSocketManager.GetInstance()
+			.SetLoginSuccessHandler(HandleLoginSuccess);
+		EzySingletonSocketManager.GetInstance()
+			.SetAppAccessedHandler(HandleAppAccessed);
+		EzySingletonSocketManager.GetInstance()
+			.Login(host, username.Value, password.Value);
 	}
 	
 	private void HandleLoginSuccess(EzySocketProxy proxy, object data)
@@ -45,7 +47,7 @@ public class LoginController : EzyDefaultController
 	private void HandleAppAccessed(EzyAppProxy proxy, object data)
 	{
 		logger.debug("App access successfully");
-		SocketRequest.getInstance().SendJoinLobbyRequest();
+		SocketRequest.GetInstance().SendJoinLobbyRequest();
 	}
 
 	void OnJoinedLobby(EzyAppProxy appProxy, Object data)

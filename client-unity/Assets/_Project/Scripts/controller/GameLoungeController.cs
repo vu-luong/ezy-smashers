@@ -15,6 +15,7 @@ public class GameLoungeController : EzyDefaultController
 
     private void Awake()
     {
+        base.Awake();
         AddHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
         AddHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
         AddHandler<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
@@ -24,7 +25,7 @@ public class GameLoungeController : EzyDefaultController
 
     private void GetMMORoomPlayers()
     {
-        SocketRequest.getInstance()
+        SocketRequest.GetInstance()
             .SendGetMMORoomPlayersRequest();
     }
 
@@ -83,7 +84,7 @@ public class GameLoungeController : EzyDefaultController
     #region public methods
 
     public void StartGame() {
-        SocketRequest.getInstance()
+        SocketRequest.GetInstance()
             .SendStartGameRequest();
     }
 

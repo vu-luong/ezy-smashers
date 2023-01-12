@@ -18,6 +18,7 @@ public class GamePlayController : EzyDefaultController
 	
 	private void Awake()
 	{
+		base.Awake();
 		AddHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
 		AddHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
 		AddHandler<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
@@ -67,12 +68,12 @@ public class GamePlayController : EzyDefaultController
 	
 	public void OnPlayerAttack(Vector3 attackPosition, int clientTick)
 	{
-		SocketRequest.getInstance().SendPlayerAttackData(attackPosition, clientTick);
+		SocketRequest.GetInstance().SendPlayerAttackData(attackPosition, clientTick);
 	}
 	
 	public void OnPlayerInputChange(PlayerInputModel playerInput, Quaternion nextRotation)
 	{
-		SocketRequest.getInstance().SendPlayerInputData(playerInput, nextRotation.eulerAngles);
+		SocketRequest.GetInstance().SendPlayerInputData(playerInput, nextRotation.eulerAngles);
 	}
 	
 	public void OnPlayerHit(PlayerHitModel playerHit)
@@ -82,7 +83,7 @@ public class GamePlayController : EzyDefaultController
 		int myClientTick = playerHit.AttackerTick;
 		int otherClientTick = playerHit.VictimTick;
 		// todo vu: should convert to PlayerHitRequest
-		SocketRequest.getInstance().SendPlayerHit(victimName, attackPosition, myClientTick, otherClientTick);
+		SocketRequest.GetInstance().SendPlayerHit(victimName, attackPosition, myClientTick, otherClientTick);
 	}
 
 	public void ExitGameRoom()
