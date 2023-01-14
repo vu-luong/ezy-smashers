@@ -9,7 +9,7 @@ An MMO socket game using Ezyfox server and Unity client
 1. Set up repository:
     - Clone this repo:
       ```
-      git clone https://github.com/vu-luong/EzySmashers.git && cd EzySmashers
+      git clone https://github.com/vu-luong/ezy-smashers.git && cd ezy-smashers
       ````
     - Clone submodules `ezyfox-server-csharp-client`:
       ```
@@ -24,7 +24,7 @@ An MMO socket game using Ezyfox server and Unity client
         > db.createUser({user: "root", pwd: "123456", roles:[{role: "readWrite", db: "ezy-smashers"}]})
       ```
     - Import ```server``` folder into an IDE (Eclipse, Intellij, Netbean)
-    - Run file [ApplicationStartup.java](https://github.com/vu-luong/EzySmashers/blob/master/server/EzySmashers-startup/src/main/java/com/youngmonkeys/ApplicationStartup.java)
+    - Run file [ApplicationStartup.java](https://github.com/vu-luong/ezy-smashers/blob/master/server/EzySmashers-startup/src/main/java/org/youngmonkeys/ezysmashers/ApplicationStartup.java)
 3. Run Unity client:
   - Add ```client-unity``` folder to Unity Hub and open it.
   - Open LoginScene: `Assets/1 - Static Assets/1.1 - Scenes/LoginScene.unity`
