@@ -68,13 +68,13 @@ public class GameLoungeController : EzyDefaultController
         {
             EzyObject item = data.get<EzyObject>(i);
             string playerName = item.get<string>("playerName");
-            List<float> position = item.get<EzyArray>("position").toList<float>();
-            List<float> color = item.get<EzyArray>("color").toList<float>();
+            EzyArray position = item.get<EzyArray>("position");
+            EzyArray color = item.get<EzyArray>("color");
             spawnInfos.Add(
                 new PlayerSpawnInfoModel(
                     playerName,
-                    new Vector3(position[0], position[1], position[2]),
-                    new Vector3(color[0], color[1], color[2])
+                    new Vector3(position.get<float>(0), position.get<float>(1), position.get<float>(2)),
+                    new Vector3(color.get<float>(0), color.get<float>(1), color.get<float>(2))
                 )
             );
         }
