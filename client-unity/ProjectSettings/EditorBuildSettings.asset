@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Project/Scenes/JSCallerTestScene.unity
     guid: e045aee7db6f67093b3fb99724abb1c0
+  - enabled: 0
+    path: Assets/_Project/Scenes/TestScene2.unity
+    guid: 59492626543bfcb5287c49963b83b11d
   m_configObjects: {}

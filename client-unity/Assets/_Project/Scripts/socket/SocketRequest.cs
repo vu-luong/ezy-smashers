@@ -8,7 +8,7 @@ public sealed class SocketRequest : EzyLoggable
 {
 	private static readonly SocketRequest INSTANCE = new();
 
-	private AbstractEzySocketManager SocketManager => EzySingletonSocketManager.GetInstance();
+	private AbstractEzySocketManager SocketManager => EzySingletonSocketManager.getInstance();
 
 	public static SocketRequest GetInstance()
 	{
@@ -17,22 +17,22 @@ public sealed class SocketRequest : EzyLoggable
 
 	public void SendJoinLobbyRequest()
 	{
-		SocketManager.Send(Commands.JOIN_LOBBY);
+		SocketManager.send(Commands.JOIN_LOBBY);
 	}
 
 	public void SendCreateMMORoomRequest()
 	{
-		SocketManager.Send(Commands.CREATE_MMO_ROOM);
+		SocketManager.send(Commands.CREATE_MMO_ROOM);
 	}
 
 	public void SendGetMMORoomIdListRequest()
 	{
-		SocketManager.Send(Commands.GET_MMO_ROOM_ID_LIST);
+		SocketManager.send(Commands.GET_MMO_ROOM_ID_LIST);
 	}
 
 	public void SendGetMMORoomPlayersRequest()
 	{
-		SocketManager.Send(Commands.GET_MMO_ROOM_PLAYERS);
+		SocketManager.send(Commands.GET_MMO_ROOM_PLAYERS);
 	}
 
 	public void SendJoinMMORoomRequest(int roomId)
@@ -40,12 +40,12 @@ public sealed class SocketRequest : EzyLoggable
 		EzyObject data = EzyEntityFactory.newObjectBuilder()
 			.append("roomId", roomId)
 			.build();
-		SocketManager.Send(Commands.JOIN_MMO_ROOM, data);
+		SocketManager.send(Commands.JOIN_MMO_ROOM, data);
 	}
 
 	public void SendStartGameRequest()
 	{
-		SocketManager.Send(Commands.START_GAME);
+		SocketManager.send(Commands.START_GAME);
 	}
 
 	public void SendPlayerInputData(PlayerInputModel playerInput, Vector3 nextRotation)
@@ -63,7 +63,7 @@ public sealed class SocketRequest : EzyLoggable
 					.build()
 			)
 			.build();
-		SocketManager.Send(Commands.PLAYER_INPUT_DATA, data);
+		SocketManager.send(Commands.PLAYER_INPUT_DATA, data);
 	}
 
 	public void SendPlayerHit(string victimName, Vector3 attackPosition, int myClientTick, int otherClientTick)
@@ -82,10 +82,10 @@ public sealed class SocketRequest : EzyLoggable
 					.build()
 			)
 			.build();
-		SocketManager.Send(Commands.PLAYER_HIT, data);
+		SocketManager.send(Commands.PLAYER_HIT, data);
 	}
 	public void SendPlayerAttackData(Vector3 attackPosition, int clientTick)
 	{
-		SocketManager.Send(Commands.PLAYER_ATTACK_DATA);
+		SocketManager.send(Commands.PLAYER_ATTACK_DATA);
 	}
 }

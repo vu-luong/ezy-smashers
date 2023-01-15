@@ -24,18 +24,18 @@ public class LoginController : EzyDefaultController
 	private void Awake()
 	{
 		base.Awake();
-		AddHandler<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);
+		addHandler<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);
 	}
 
 	public void Login()
 	{
 		// Login to socket server
-		EzySingletonSocketManager.GetInstance()
-			.SetLoginSuccessHandler(HandleLoginSuccess);
-		EzySingletonSocketManager.GetInstance()
-			.SetAppAccessedHandler(HandleAppAccessed);
-		EzySingletonSocketManager.GetInstance()
-			.Login(host, username.Value, password.Value);
+		EzySingletonSocketManager.getInstance()
+			.setLoginSuccessHandler(HandleLoginSuccess);
+		EzySingletonSocketManager.getInstance()
+			.setAppAccessedHandler(HandleAppAccessed);
+		EzySingletonSocketManager.getInstance()
+			.login(host, username.Value, password.Value);
 	}
 	
 	private void HandleLoginSuccess(EzySocketProxy proxy, object data)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e2bcc9c3344c77b1fbc1eb657efece, type: 3}
   m_Name: SocketConfig
   m_EditorClassIdentifier: 
-  DeveloperDescription: 
   Value:
     zoneName: EzySmashers
     appName: EzySmashers
+    loggerLevel: 2

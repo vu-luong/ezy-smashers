@@ -16,9 +16,9 @@ public class LobbyController : EzyDefaultController
 	private void Awake()
 	{
 		base.Awake();
-		AddHandler<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
-		AddHandler<EzyArray>(Commands.GET_MMO_ROOM_ID_LIST, OnMMORoomIdListResponse);
-		AddHandler<EzyObject>(Commands.JOIN_MMO_ROOM, JoinRoom);
+		addHandler<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
+		addHandler<EzyArray>(Commands.GET_MMO_ROOM_ID_LIST, OnMMORoomIdListResponse);
+		addHandler<EzyObject>(Commands.JOIN_MMO_ROOM, JoinRoom);
 	}
 
 	private void Start()
@@ -36,9 +36,14 @@ public class LobbyController : EzyDefaultController
 	private void OnMMORoomIdListResponse(EzyAppProxy appProxy, EzyArray data)
 	{
 		logger.debug("OnMMORoomIdListResponse " + data);
-		List<int> roomIdList = data.get<EzyArray>(0).toList<int>();
-		logger.debug("OnMMORoomIdListResponse roomIdList = " + string.Join(", ", roomIdList));
-		mmoRoomIdListUpdateEvent?.Invoke(roomIdList);
+		EzyArray roomIdArray = data.get<EzyArray>(0);
+		List<int> roomIds = new List<int>();
+		for (int i = 0; i < roomIdArray.size(); ++i)
+		{
+			roomIds.Add(roomIdArray.get<int>(i));
+		}
+		logger.debug("OnMMORoomIdListResponse roomIds = " + string.Join(", ", roomIds));
+		mmoRoomIdListUpdateEvent?.Invoke(roomIds);
 	}
 
 	#region public methods
@@ -57,6 +62,7 @@ public class LobbyController : EzyDefaultController
 
 	public void RequestJoinMMORoom(int roomId)
 	{
+		logger.debug("RequestJoinMMORoom: roomId = " + roomId);
 		SocketRequest.GetInstance().SendJoinMMORoomRequest(roomId);
 	}
 

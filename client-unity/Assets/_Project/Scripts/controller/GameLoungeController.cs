@@ -16,10 +16,10 @@ public class GameLoungeController : EzyDefaultController
     private void Awake()
     {
         base.Awake();
-        AddHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
-        AddHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
-        AddHandler<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
-        AddHandler<EzyArray>(Commands.START_GAME, OnGameStarted);
+        addHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
+        addHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
+        addHandler<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
+        addHandler<EzyArray>(Commands.START_GAME, OnGameStarted);
         GetMMORoomPlayers();
     }
 

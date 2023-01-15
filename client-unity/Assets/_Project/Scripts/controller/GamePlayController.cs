@@ -19,9 +19,9 @@ public class GamePlayController : EzyDefaultController
 	private void Awake()
 	{
 		base.Awake();
-		AddHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
-		AddHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
-		AddHandler<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
+		addHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
+		addHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
+		addHandler<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
 	}
 
 	private void OnPlayerSyncPosition(EzyAppProxy proxy, EzyArray data)
