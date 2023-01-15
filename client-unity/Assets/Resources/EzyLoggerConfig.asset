@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e2bcc9c3344c77b1fbc1eb657efece, type: 3}
-  m_Name: SocketConfig
+  m_Script: {fileID: 11500000, guid: c911382585304c238a9e1c52bbf16388, type: 3}
+  m_Name: EzyLoggerConfig
   m_EditorClassIdentifier: 
-  Value:
-    zoneName: EzySmashers
-    appName: EzySmashers
-    loggerLevel: 2
+  value: 4

@@ -327,6 +327,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8219859992849512279, guid: 54ec45d6a8dec23f7845a8bbee431827, type: 3}
+      propertyPath: stringReference1.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: dabf48e587a0e4c879e2d970571da004, type: 2}
+    - target: {fileID: 8219859992849512279, guid: 54ec45d6a8dec23f7845a8bbee431827, type: 3}
+      propertyPath: stringReference.useConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8219859992849512279, guid: 54ec45d6a8dec23f7845a8bbee431827, type: 3}
+      propertyPath: stringReference1.useConstant
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54ec45d6a8dec23f7845a8bbee431827, type: 3}
 --- !u!1001 &2008424175
@@ -416,6 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -547,6 +560,36 @@ PrefabInstance:
     - target: {fileID: 2375642340711035485, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004647241733411895, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004647242182512692, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004647242182512693, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_Value
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004647242182512693, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: com.tvd12.ezyfoxserver.client.unity.GenericVariable`1[[System.String,
+        mscorlib
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004647242704958462, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004647243150991677, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_Value
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004647243150991677, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: com.tvd12.ezyfoxserver.client.unity.GenericVariable`1[[System.String,
+        mscorlib
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d45be679a07e99ac49a4ff35784e8904, type: 3}
