@@ -12,30 +12,31 @@ public class GameLoungeController : EzyDefaultController
     
     [SerializeField]
     private UnityEvent<List<PlayerSpawnInfoModel>> gameStartedEvent;
+    
+    
 
-    private void Awake()
+    private void Start()
     {
-        base.Awake();
-        addHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
-        addHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
-        addHandler<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
-        addHandler<EzyArray>(Commands.START_GAME, OnGameStarted);
+        base.Start();
+        appProxy.on<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
+        appProxy.on<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
+        appProxy.on<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
+        appProxy.on<EzyArray>(Commands.START_GAME, OnGameStarted);
         GetMMORoomPlayers();
     }
 
     private void GetMMORoomPlayers()
     {
-        SocketRequest.GetInstance()
-            .SendGetMMORoomPlayersRequest();
+        appProxy.send(Commands.GET_MMO_ROOM_PLAYERS);
     }
 
     private void OnGetMMORoomPlayersResponse(EzyAppProxy proxy, EzyObject data) 
     {
         List<string> playerNames = data.get<EzyArray>("players").toList<string>();
         string masterName = data.get<string>("master");
-        logger.debug("OnGetMMORoomPlayersResponse");
-        logger.debug("Player Names: " + string.Join(",", playerNames));
-        logger.debug("Master Name: " + masterName);
+        LOGGER.debug("OnGetMMORoomPlayersResponse");
+        LOGGER.debug("Player Names: " + string.Join(",", playerNames));
+        LOGGER.debug("Master Name: " + masterName);
         List<PlayerModel> players = new();
         foreach (string playerName in playerNames)
         {
@@ -48,20 +49,20 @@ public class GameLoungeController : EzyDefaultController
     private void OnAnotherJoinMMORoom(EzyAppProxy proxy, EzyObject data) 
     {
         string anotherPlayerName = data.get<string>("playerName");
-        logger.debug("OnAnotherJoinMMORoom anotherPlayerName = " + anotherPlayerName);
+        LOGGER.debug("OnAnotherJoinMMORoom anotherPlayerName = " + anotherPlayerName);
         GetMMORoomPlayers();
     }
 
     private void OnAnotherExitMMORoom(EzyAppProxy proxy, EzyObject data) 
     {
         string anotherName = data.get<string>("playerName");
-        logger.debug("OnAnotherExitMMORoom anotherPlayerName = " + anotherName);
+        LOGGER.debug("OnAnotherExitMMORoom anotherPlayerName = " + anotherName);
         GetMMORoomPlayers();
     }
 
     private void OnGameStarted(EzyAppProxy proxy, EzyArray data)
     { 
-        logger.debug("OnGameStart");
+        LOGGER.debug("OnGameStart");
         List<PlayerSpawnInfoModel> spawnInfos = new List<PlayerSpawnInfoModel>();
 
         for (int i = 0; i < data.size(); i++)
@@ -84,8 +85,7 @@ public class GameLoungeController : EzyDefaultController
     #region public methods
 
     public void StartGame() {
-        SocketRequest.GetInstance()
-            .SendStartGameRequest();
+        appProxy.send(Commands.START_GAME);
     }
 
     #endregion

@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -359,11 +360,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 692008061727866864, guid: 761334f4c34e292abba4f8b6552f7248, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 954.0653
+      value: 827.1974
       objectReference: {fileID: 0}
     - target: {fileID: 692008061727866864, guid: 761334f4c34e292abba4f8b6552f7248, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 487.03265
+      value: 423.5987
       objectReference: {fileID: 0}
     - target: {fileID: 692008061727866864, guid: 761334f4c34e292abba4f8b6552f7248, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -658,54 +659,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: gameStartedEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: gameStartedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: gameStartedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: 3df03d4fe17257212a2273d6101eff0a, type: 2}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: gameStartedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: gameStartedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Raise
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: updateRoomPlayersEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: updateRoomPlayersEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: ea2541021fff98e2da5a6fb568dd2f9b, type: 2}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: updateRoomPlayersEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Raise
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: gameStartedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameEvent`1[[System.Collections.Generic.List`1[[PlayerSpawnInfoModel,
-        Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: updateRoomPlayersEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameEvent`1[[System.Collections.Generic.List`1[[PlayerModel, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3575746198287571914, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
-      propertyPath: gameStartedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3575746198287571915, guid: f02870c9870967d98a70ce0482540c5b, type: 3}
       propertyPath: m_Name
-      value: GameLoungeSocketControllers
+      value: GameLoungeSocketController
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f02870c9870967d98a70ce0482540c5b, type: 3}

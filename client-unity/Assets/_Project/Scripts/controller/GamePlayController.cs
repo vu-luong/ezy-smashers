@@ -1,4 +1,5 @@
 ﻿using com.tvd12.ezyfoxserver.client.entity;
+using com.tvd12.ezyfoxserver.client.factory;
 using com.tvd12.ezyfoxserver.client.support;
 using com.tvd12.ezyfoxserver.client.unity;
 using UnityEngine;
@@ -16,17 +17,17 @@ public class GamePlayController : EzyDefaultController
 	[SerializeField]
 	private UnityEvent<string> otherPlayerAttackEvent;
 	
-	private void Awake()
+	private void Start()
 	{
-		base.Awake();
-		addHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
-		addHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
-		addHandler<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
+		base.Start();
+		appProxy.on<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
+		appProxy.on<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
+		appProxy.on<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
 	}
 
 	private void OnPlayerSyncPosition(EzyAppProxy proxy, EzyArray data)
 	{
-		logger.debug("OnPlayerSyncPosition: " + data);
+		LOGGER.debug("OnPlayerSyncPosition: " + data);
 		string playerName = data.get<string>(0);
 		EzyArray positionArray = data.get<EzyArray>(1);
 		EzyArray rotationArray = data.get<EzyArray>(2);
@@ -50,7 +51,7 @@ public class GamePlayController : EzyDefaultController
 		var attackTime = data.get<float>("t");
 		var attackerName = data.get<string>("a");
 		var attackPosition = data.get<EzyArray>("p");
-		logger.debug(
+		LOGGER.debug(
 			"victimName: " + victimName + "; attackTime: " + attackTime +
 			"; attackerName: " + attackerName + "; attackPosition: " + attackPosition
 		);
@@ -60,7 +61,7 @@ public class GamePlayController : EzyDefaultController
 	private void OnPlayerAttackResponse(EzyAppProxy proxy, EzyObject data)
 	{
 		var attackerName = data.get<string>("a");
-		logger.debug("OnPlayerAttackResponse - attackerName = " + attackerName);
+		LOGGER.debug("OnPlayerAttackResponse - attackerName = " + attackerName);
 		otherPlayerAttackEvent?.Invoke(attackerName);
 	}
 	
@@ -68,12 +69,25 @@ public class GamePlayController : EzyDefaultController
 	
 	public void OnPlayerAttack(Vector3 attackPosition, int clientTick)
 	{
-		SocketRequest.GetInstance().SendPlayerAttackData(attackPosition, clientTick);
+		appProxy.send(Commands.PLAYER_ATTACK_DATA);
 	}
 	
 	public void OnPlayerInputChange(PlayerInputModel playerInput, Quaternion nextRotation)
 	{
-		SocketRequest.GetInstance().SendPlayerInputData(playerInput, nextRotation.eulerAngles);
+		EzyObject data = EzyEntityFactory
+			.newObjectBuilder()
+			.append("t", playerInput.Time)
+			.append("k", playerInput.KeyInputs)
+			.append(
+				"r",
+				EzyEntityFactory.newArrayBuilder()
+					.append(nextRotation.x)
+					.append(nextRotation.y)
+					.append(nextRotation.z)
+					.build()
+			)
+			.build();
+		appProxy.send(Commands.PLAYER_INPUT_DATA, data);
 	}
 	
 	public void OnPlayerHit(PlayerHitModel playerHit)
@@ -83,7 +97,21 @@ public class GamePlayController : EzyDefaultController
 		int myClientTick = playerHit.AttackerTick;
 		int otherClientTick = playerHit.VictimTick;
 		// todo vu: should convert to PlayerHitRequest
-		SocketRequest.GetInstance().SendPlayerHit(victimName, attackPosition, myClientTick, otherClientTick);
+		EzyObject data = EzyEntityFactory
+			.newObjectBuilder()
+			.append("m", myClientTick)
+			.append("o", otherClientTick)
+			.append("v", victimName)
+			.append(
+				"p",
+				EzyEntityFactory.newArrayBuilder()
+					.append(attackPosition.x)
+					.append(attackPosition.y)
+					.append(attackPosition.z)
+					.build()
+			)
+			.build();
+		appProxy.send(Commands.PLAYER_HIT, data);
 	}
 
 	public void ExitGameRoom()
