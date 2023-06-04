@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1763167421581650147}
-  - component: {fileID: 1763167421581650146}
+  - component: {fileID: 1763167421251195545}
   m_Layer: 0
   m_Name: LoggerConfig
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1763167421581650146
+--- !u!114 &1763167421251195545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1763167421581650149}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860eb2bf777545d7aa4195bab873a46f, type: 3}
+  m_Script: {fileID: 11500000, guid: 024b088db0cc1613494e71ca9e075318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loggerLevel: 3
+  loggerLevel: 2

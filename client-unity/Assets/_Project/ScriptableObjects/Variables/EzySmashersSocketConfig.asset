@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e2bcc9c3344c77b1fbc1eb657efece, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a3fa13678dfa7c96bf1a506611ea20f, type: 3}
   m_Name: EzySmashersSocketConfig
   m_EditorClassIdentifier: 
+  DeveloperDescription: 
   <Value>k__BackingField:
     zoneName: EzySmashers
     appName: EzySmashers
     webSocketUrl: ws://127.0.0.1:2208/ws
     tcpUrl: 127.0.0.1:3005
     udpPort: 2611
-    loggerLevel: 3

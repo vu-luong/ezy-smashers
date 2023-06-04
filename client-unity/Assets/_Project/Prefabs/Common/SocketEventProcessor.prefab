@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893236290384292798}
-  - component: {fileID: 2517219858463062004}
+  - component: {fileID: 747647749}
   m_Layer: 0
   m_Name: SocketEventProcessor
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2517219858463062004
+--- !u!114 &747647749
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,6 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1893236290384292796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 376311f459f94038ab7feeb44e53f7d8, type: 3}
+  m_Script: {fileID: 11500000, guid: b8e20a1fb608f38309acbf0713d3ea65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  socketConfig: {fileID: 11400000, guid: 97d47b154fe7779b6823a009b3eb081c, type: 2}
