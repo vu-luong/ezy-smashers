@@ -81,9 +81,9 @@ public class GamePlayController : EzyDefaultController
 			.append(
 				"r",
 				EzyEntityFactory.newArrayBuilder()
-					.append(nextRotation.x)
-					.append(nextRotation.y)
-					.append(nextRotation.z)
+					.append(nextRotation.eulerAngles.x)
+					.append(nextRotation.eulerAngles.y)
+					.append(nextRotation.eulerAngles.z)
 					.build()
 			)
 			.build();
