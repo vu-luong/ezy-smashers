@@ -40,6 +40,7 @@ App Name: `EzySmashers`
 Web Socket Url: `ws://127.0.0.1:2208/ws`
 Tcp Url: `127.0.0.1:3005`
 Udp Port: `2611`
+Udp Usage: `True`
 ```
 - Double click on `_Project/Prefabs/Common/SocketEventProcessor` and add `EzyEventProcessor.cs` script. Then sellect the above `EzySmashersSocketConfig` scriptable object for `Socket Config` field
 - Double click on `_Project/Prefabs/LoginScene/LoggerConfig` and add `EzyUnityLoggerFactory.cs` script. Then select `DEBUG` for `Logger Level` field.
