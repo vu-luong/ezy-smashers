@@ -14,12 +14,12 @@ public class LobbyController : EzyDefaultController
 	[SerializeField]
 	private UnityEvent<int> playerJoinedMmoRoomEvent;
 	
-	private void Start()
+	protected new void OnEnable()
 	{
-		base.Start();
-		on<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
-		on<EzyArray>(Commands.GET_MMO_ROOM_ID_LIST, OnMMORoomIdListResponse);
-		on<EzyObject>(Commands.JOIN_MMO_ROOM, JoinRoom);
+		base.OnEnable();
+		AddHandler<EzyObject>(Commands.CREATE_MMO_ROOM, JoinRoom);
+		AddHandler<EzyArray>(Commands.GET_MMO_ROOM_ID_LIST, OnMMORoomIdListResponse);
+		AddHandler<EzyObject>(Commands.JOIN_MMO_ROOM, JoinRoom);
 		RefreshRoomIdList();
 	}
 

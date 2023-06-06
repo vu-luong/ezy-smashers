@@ -17,12 +17,12 @@ public class GamePlayController : EzyDefaultController
 	[SerializeField]
 	private UnityEvent<string> otherPlayerAttackEvent;
 	
-	private void Start()
+	private new void OnEnable()
 	{
-		base.Start();
-		appProxy.on<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
-		appProxy.on<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
-		appProxy.on<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
+		base.OnEnable();
+		AddHandler<EzyArray>(Commands.SYNC_POSITION, OnPlayerSyncPosition);
+		AddHandler<EzyObject>(Commands.PLAYER_BEING_ATTACKED, OnPlayerBeingAttacked);
+		AddHandler<EzyObject>(Commands.PLAYER_ATTACK_DATA, OnPlayerAttackResponse);
 	}
 
 	private void OnPlayerSyncPosition(EzyAppProxy proxy, EzyArray data)

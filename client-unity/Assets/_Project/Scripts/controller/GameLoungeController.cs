@@ -13,15 +13,13 @@ public class GameLoungeController : EzyDefaultController
     [SerializeField]
     private UnityEvent<List<PlayerSpawnInfoModel>> gameStartedEvent;
     
-    
-
-    private void Start()
+    private new void OnEnable()
     {
-        base.Start();
-        appProxy.on<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
-        appProxy.on<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
-        appProxy.on<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
-        appProxy.on<EzyArray>(Commands.START_GAME, OnGameStarted);
+        base.OnEnable();
+        AddHandler<EzyObject>(Commands.GET_MMO_ROOM_PLAYERS, OnGetMMORoomPlayersResponse);
+        AddHandler<EzyObject>(Commands.ANOTHER_JOIN_MMO_ROOM, OnAnotherJoinMMORoom);
+        AddHandler<EzyObject>(Commands.ANOTHER_EXIT_MMO_ROOM, OnAnotherExitMMORoom);
+        AddHandler<EzyArray>(Commands.START_GAME, OnGameStarted);
         GetMMORoomPlayers();
     }
 

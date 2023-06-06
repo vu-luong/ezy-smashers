@@ -18,10 +18,10 @@ public class LoginController : EzyDefaultController
 	[SerializeField]
 	private UnityEvent<string> myPlayerJoinedLobbyEvent;
 
-	private new void Start()
+	private new void OnEnable()
 	{
-		base.Start();
-		on<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);
+		base.OnEnable();
+		AddHandler<Object>(Commands.JOIN_LOBBY, OnJoinedLobby);
 	}
 
 	public void Login()

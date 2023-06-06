@@ -2,20 +2,21 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a3fa13678dfa7c96bf1a506611ea20f, type: 3}
+  m_Script: {fileID: 11500000, guid: c970b7815f76d311a91de4f5587659b5, type: 3}
   m_Name: EzySmashersSocketConfig
   m_EditorClassIdentifier: 
-  DeveloperDescription: 
+  developerDescription: 
   <Value>k__BackingField:
     zoneName: EzySmashers
     appName: EzySmashers
     webSocketUrl: ws://127.0.0.1:2208/ws
     tcpUrl: 127.0.0.1:3005
     udpPort: 2611
+    udpUsage: 1

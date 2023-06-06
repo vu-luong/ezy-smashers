@@ -21,8 +21,8 @@
         <directory.apps>apps</directory.apps>
         <directory.entries>entries</directory.entries>
         <directory.common>common</directory.common>
-        <ezy.version>1.2.5</ezy.version>
-        <ezy.boot.version>1.0.5</ezy.boot.version>
+        <ezy.version>1.2.8</ezy.version>
+        <ezy.boot.version>1.1.0</ezy.boot.version>
     </properties>
 
     <build>
