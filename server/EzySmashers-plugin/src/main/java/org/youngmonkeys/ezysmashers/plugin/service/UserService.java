@@ -14,7 +14,6 @@ import java.util.List;
 public class UserService {
 
     private final UserRepo userRepo;
-    private final MaxIdService maxIdService;
 
     public void saveUser(User user) {
         userRepo.save(user);
@@ -22,7 +21,6 @@ public class UserService {
 
     public User createUser(String username, String password) {
         User user = new User();
-        user.setId(maxIdService.incrementAndGet("user"));
         user.setUsername(username);
         user.setPassword(password);
         userRepo.save(user);
