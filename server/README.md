@@ -53,6 +53,12 @@ To run by `ezyfox-server` you need follow by steps:
 6. Run `console.sh` in `EZYFOX_SERVER_HOME` on your termial, if you want to run `ezyfox-server` in backgroud you will
    need run `start-server.sh` on your terminal
 
+**How to export external libraries to ezyfox server**
+
+1. Move to `EzySmashers-startup` module
+2. Run `mvn clean install -Denv.EZYFOX_SERVER_HOME=deploy -Pezyfox-deploy`
+3. Run class `org.youngmonkeys.ezysmashers.tools.ExternalLibrariesExporter` in `EzySmashers-startup/src/test/java`
+
 ## Run without ezyfox-server
 
 To run without `ezyfox-server` you need follow by steps:
@@ -128,12 +134,6 @@ On your IDE, you need:
 1. Move to `EzySmashers-startup` module
 2. Run `ApplicationStartup` in `src/main/java`
 3. Run `ClientTest` in `src/test/java`
-
-# How to export external libraries to ezyfox server?
-
-1. Move to `EzySmashers-startup` module
-2. Run `mvn clean install -Denv.EZYFOX_SERVER_HOME=deploy -Pezyfox-deploy`
-3. Run class `org.youngmonkeys.ezysmashers.tools.ExternalLibrariesExporter` in `EzySmashers-startup/src/test/java`
 
 # Documentation
 
