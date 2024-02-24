@@ -53,7 +53,7 @@ To run by `ezyfox-server` you need follow by steps:
 6. Run `console.sh` in `EZYFOX_SERVER_HOME` on your termial, if you want to run `ezyfox-server` in backgroud you will
    need run `start-server.sh` on your terminal
 
-**How to export external libraries to ezyfox server**
+If you are using libraries other than those provided by EzyFox Server, you will need to export these libraries to EzyFox Server using the following steps before proceeding to step 6:
 
 1. Move to `EzySmashers-startup` module
 2. Run `mvn clean install -Denv.EZYFOX_SERVER_HOME=deploy -Pezyfox-deploy`
@@ -61,7 +61,7 @@ To run by `ezyfox-server` you need follow by steps:
 
 ## Run without ezyfox-server
 
-To run without `ezyfox-server` you need follow by steps:
+To run without `ezyfox-server`, you can follow the steps outlined below:
 
 1. Run `bash export.sh` command (or `\\.export.bat` on Windows)
 2. Move to `EzySmashers-startup/deploy` folder
@@ -72,9 +72,9 @@ You just need run `console.bat`
 
 ### On Linux
 
-1. To run to debug, you just need run `bash console.sh` on your terminal
-2. To run in background, you just need run `bash start-service.sh` on your terminal
-3. To stop your service, you just need run `bash stop-service.sh` on your terminal
+1. For debugging purposes, run `bash console.sh` in your terminal
+2. To run in background, execute `bash start-service.sh` in your terminal
+3. To stop the service, execute the script `bash stop-service.sh` in your terminal
 
 ## Run with specific configuration profile
 
@@ -83,7 +83,7 @@ run `ezyfox-server` or your application with a specific profile
 
 # How to deploy?
 
-You can take a look this guide: [Deploy EzyFox Server](https://youngmonkeys.org/deploy-ezyfox-server/)
+You can take a look at this guide: [Deploy EzyFox Server](https://youngmonkeys.org/deploy-ezyfox-server/)
 
 # Deploy mapping
 
@@ -96,7 +96,7 @@ Modules after will deploy to `ezyfox-server` will be mapped like this:
 
 ## Deploy with tools
 
-You can use bellow tools to copy jar files (follow by above mapping)
+You can use bellow tools to copy jar files (refer to the above mapping)
 
 1. [filezilla](https://filezilla-project.org/)
 2. [transmit](https://panic.com/transmit/)
@@ -137,7 +137,7 @@ On your IDE, you need:
 
 # Documentation
 
-You can find a lot of documents on [youngmonkeys.org](https://youngmonkeys.org/ezyfox-sever/)
+Additional documentation is available at [youngmonkeys.org](https://youngmonkeys.org/ezyfox-sever/)
 
 # Contact us
 
