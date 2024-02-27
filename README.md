@@ -30,22 +30,6 @@ An MMO socket game using Ezyfox server and Unity client
   - Open LoginScene: `Assets/1 - Static Assets/1.1 - Scenes/LoginScene.unity`
   - Run LoginScene
 
-# Resolve missing scripts
-If you find that some prefabs are missing scripts from `ezyfox-server-csharp-client`, you can resolve the issues as follows:
-
-- Open `_Project/ScriptableObjects/Variables/EzySmashersSocketConfig` and add `EzySocketConfigVariable.cs` script. Then, fill in the following values:
-```
-Zone Name: `EzySmashers`
-App Name: `EzySmashers`
-Web Socket Url: `ws://127.0.0.1:2208/ws`
-Tcp Url: `127.0.0.1:3005`
-Udp Port: `2611`
-Udp Usage: `True`
-```
-- Double click on `_Project/Prefabs/Common/SocketEventProcessor` and add `EzyEventProcessor.cs` script. Then sellect the above `EzySmashersSocketConfig` scriptable object for `Socket Config` field
-- Double click on `_Project/Prefabs/LoginScene/LoggerConfig` and add `EzyUnityLoggerFactory.cs` script. Then select `DEBUG` for `Logger Level` field.
-- Rerun Login Scene
-
 # Documentation
 
 1. [ezyfox-server](https://youngmonkeys.org/project/ezyfox-sever/)
