@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c970b7815f76d311a91de4f5587659b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ce30589c3354cea998da55efc248f01, type: 3}
   m_Name: EzySmashersSocketConfig
   m_EditorClassIdentifier: 
   developerDescription: 
