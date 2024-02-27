@@ -37,7 +37,7 @@ if [ "x$MAX_HEAP_SIZE" != "x" ]; then
 	JAVA_OPTS="$JAVA_OPTS -Xmx${MAX_HEAP_SIZE}"
 fi
 
-CLASSPATH="lib/*:settings/*:common/*:apps/common/*:apps/resources/*"
+CLASSPATH="lib/*:settings/:common/*:apps/common/*:apps/resources/*"
 
 echo "########################################"
 echo "# RUN_JAVA=$RUN_JAVA"
