@@ -55,7 +55,7 @@ fi
 if [ -z "${PID}" ]; then
     echo "Process id for ezyfox server instance is written to file: $PID_FILE"
     java $1 -cp $CLASSPATH org.youngmonkeys.ezysmashers.ApplicationStartup > /dev/null 2>&1 &
-    echo $ > ${PID_FILE}
+    echo $! > ${PID_FILE}
 else
     echo "Another ezyfox server instance is already started in this folder. To start a new instance, please run in a new folder."
     exit 0
