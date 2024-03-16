@@ -1,5 +1,11 @@
 # EzySmashers
 
+A simple version of EzySmashers MMO game. 
+
+# Full version
+
+Purchase the complete version at: https://ezyplatform.com/market/items/ezysmashers
+
 # Require
 
 1. Java 8 or higher
