@@ -4,7 +4,7 @@ A simple version of EzySmashers MMO game.
 
 # Full version
 
-You can buy it here: https://ezyplatform.com/market/items/ezysmashers
+Purchase the complete version at: https://ezyplatform.com/market/items/ezysmashers
 
 # Require
 
