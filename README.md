@@ -1,6 +1,12 @@
 # EzySmashers
 
-An MMO socket game using Ezyfox server and Unity client
+A simple MMO socket game using Ezyfox server and Unity client
+
+# Full version
+
+Purchase the complete version at: https://ezyplatform.com/market/items/ezysmashers
+
+# Demo
 
 ![demo2](https://user-images.githubusercontent.com/8142030/138592739-6fa73afd-69a0-492e-82f0-d1917506e1d9.gif)
 
