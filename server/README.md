@@ -149,6 +149,7 @@ Additional documentation is available at [youngmonkeys.org](https://youngmonkeys
 
 - Email us [contact@youngmonkeys.org](contact@youngmonkeys.org)
 - Ask us on [stackask.com](https://stackask.com)
+- Chat with us on [Discord](https://discord.gg/hKV2cbaT5h)
 
 # Help us by donation
 
