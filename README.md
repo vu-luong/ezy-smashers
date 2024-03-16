@@ -46,6 +46,7 @@ Purchase the complete version at: https://ezyplatform.com/market/items/ezysmashe
 - Touch us on [Facebook](https://www.facebook.com/youngmonkeys.org)
 - Ask us on [stackask.com](https://stackask.com)
 - Email to me [Vu Luong](mailto:vubinhcht@gmail.com)
+- Chat with us on [Discord](https://discord.gg/hKV2cbaT5h)
 
 # Help us by donation
 
